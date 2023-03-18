@@ -10,6 +10,11 @@
 \usepackage{thm-restate}
 \usepackage{mathtools}
 
+\usepackage{bbm}
+
+
+\newcommand\cauchyschwarz{\stackrel{\mathclap{\normalfont\mbox{Cauchy-Schwarz}}}{\leq}}
+
 \newenvironment{proofsketch}{%
 	\renewcommand{\proofname}{Proof Sketch}\proof}{\endproof}
 
@@ -27,10 +32,12 @@
 \setlength{\abovedisplayshortskip}{0pt}
 \setlength{\belowdisplayshortskip}{0pt}
 
-\declaretheorem[name=Theorem,numberwithin=section]{thm}
-\declaretheorem[name=Lemma,numberwithin=thm]{lemma}
-\declaretheorem[name=Definition,numberwithin=section]{definition}
-\declaretheorem[name=Assumption,numberwithin=section]{assumption}
+\declaretheorem[name=Theorem]{thm}
+\declaretheorem[name=Lemma,numberwithin=section]{lemma}
+\declaretheorem[name=Definition]{definition}
+\declaretheorem[name=Assumption]{assumption}
+\declaretheorem[name=Interpretation]{interpretation}
+\declaretheorem[name=Proposition]{proposition}
 
 \usepackage{xcolor}
 \usepackage[linesnumbered,ruled]{algorithm2e}
@@ -51,7 +58,11 @@
 \usepackage{appendix}
 \usepackage{titletoc}
 
-\title{Robust Linear Regression by Super-Quantile Optimization}
+\usepackage{booktabs,caption,dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{4}}% column type for figures with 4 decimals
+\newcommand{\subhead}[1]{\multicolumn{1}{c}{#1}}% to format sub-headings of d-type columns
+
+\title{Robust Linear Regression by Sub-Quantile Optimization}
 
 % Authors must not appear in the submitted version. They should be hidden
 % as long as the \iclrfinalcopy macro remains commented out below.
@@ -102,21 +113,6 @@
 	Linear Regression is one of the most widely used statistical estimators throughout Science. Although robustness is only a somewhat recent topic in machine learning, it has been a topic in statistics for many decades. Several popular methods have been very popular due to their simplicity and high effectiveness including quantile regression \cite{quantile-regression}, Theil-Sen Estimator \cite{thiel-sen}, and Huber Regression \cite{Huber2009}.
 	
 	Our goal is to provide a theoretic analysis and convergence conditions for sub-quantile optimization and offer practioners a method for robust linear regression.
-
-	In this section we quantify the effect of corruption on the desired model. To introduce notation, let $\mP$ represent the data from distribution $\mathbb{P}$ and let $\mQ$ represent the training data for $\mathbb{Q}$. Let $\vy_P$ represent the target data for $\mathbb{P}$ and let $\vy_Q$ represent the target data for $\mathbb{Q}$.\\
-	It is know the least squares optimal solution for $\mX$ is equal to $(\mX^T\mX)^{-1}\mX^T\vy$\\
-	Note $\displaystyle \mX = \begin{pmatrix}\mP \\ \mQ \end{pmatrix}$ so $\mX^T = \begin{pmatrix}\mP^T & \mQ^T \end{pmatrix}$
-	\begin{align}
-		\mX^T\mX &= \begin{pmatrix}\mP^T & \mQ^T \end{pmatrix} \begin{pmatrix}\mP \\ \mQ \end{pmatrix} &&\\
-		&= \mP^T\mP + \mQ^T \mQ &&\\
-		(\mX^T\mX)^{-1}\mX^T &= (\mP^T\mP+ \mQ^T\mQ)^{-1}\begin{pmatrix}\mP^T &\mQ^T \end{pmatrix}&&\\
-		&= \begin{pmatrix}(\mP^T\mP + \mQ^T\mQ)^{-1} \mP^T & (\mP^T\mP  + \mQ^T\mQ)^{-1} \mQ^T \end{pmatrix} &&\\
-		\mX^{\dagger}\vy &= \begin{pmatrix}(\mP^T\mP + \mQ^T\mQ)^{-1} \mP^T & (\mP^T\mP  + \mQ^T\mQ)^{-1} \mQ^T \end{pmatrix} \begin{pmatrix}\vy_P \\ \vy_Q \end{pmatrix} &&\\
-			&= (\mP^T\mP + \mQ^T\mQ)^{-1} \mP^T \vy_P + (\mP^T\mP + \mQ^T \mQ)^{-1} \mQ^T \vy_Q &&
-	\end{align}
-
-	Note the optimal solution for a linear regression model on $\mathbb{P}$ is $\displaystyle (\mP^T\mP)^{-1}\mP^T \vy_P$\\
-	Often times in the case of corrupted data we have $\mP$ and $\mQ$ are sampled similarly however $\vy_P$ and $\vy_Q$ are very different. Thus $\displaystyle (\mP^T\mP + \mQ^T\mQ)^{-1}\mQ^T\vy_Q$ could have a large effect on the optimal solution. This is why we propose Sub-Quantile Optimization, we seek to reduce the impact of $\mQ^T\mQ$ and $\vy_Q$ by reducing the number of rows in $\mQ$. Thus we reduce the condition number of $\mQ^T \mQ$ and the overall effect on the optimal solution for $\mP$.
 	
 	In this paper we will show how Sub-Quantile Optimization can address the shortcomings of ERM in the case of corrupted data or imbalanced data, where there exists a majority class and a minority class.
 	
@@ -126,21 +122,66 @@
 	
 	Tilted Empirical Risk Minimization (TERM) \cite{li2020tilted} is a framework built to similarly handle the shortcomings of ERM with respect to robustness. The TERM framework instead minimizes the following quantity, where $t$ is a hyperparameter
 	\begin{equation}
-		\tilde{R}(t;\theta) \coloneqq \frac{1}{t} \log\left(\frac{1}{N}\sum_{i \in \left[N\right]}e^{tf(x_i;\theta)} \right)
+		\tilde{R}(t;\vtheta) \coloneqq \frac{1}{t} \log\left(\frac{1}{N}\sum_{i \in \left[N\right]}e^{tf(\vx_i;\vtheta)} \right)
 	\end{equation}
 	
-	SMART \cite{https://doi.org/10.48550/arxiv.2206.04777}
+	SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} proposes the \textit{iterative trimmed maximum likelihood estimator} against adversarially corrupted samples in General Linear Models (GLM). The estimator is defined as follows, where $S = \{(\vx_i,y_i)\}_{i=1}^n$ represents the training data. \vspace{1em}
+	\begin{equation}
+		\hat{\vtheta}(S) = \min_{\vtheta} \min_{\hat{S} \subset S, |\hat{S}| = (1-\eps)n} \sum_{(\vx_i,y_i) \in S} -\log f(y_i|\vtheta^T\vx_i)
+	\end{equation}
 	
-	SEVER \cite{DiakonikolasKKLSS19}
-	
-	Gradient Filtering Approaches (Need Source)
+	SEVER \cite{DiakonikolasKKLSS19} is a gradient filtering algorithm which removes elements whose gradients have the furthest distance from the average gradient of all points
+	\begin{equation}
+		\tau_i = \left((\nabla f_i(\vw) - \hat{\nabla})\cdot \vv\right)^2
+	\end{equation}
 	
 	Super-Quantile Optimization \cite{ROCKAFELLAR2014140}
+	
+	Robust Risk Minimization \cite{RRM}
 			
 	\section{Sub-quantile Optimization}
 	\label{headings}
 	
-	The two-step optimization for Sub-Quantile optimization is given as follows 
+	\begin{definition}
+		Let $F_X$ represent the Cumulative Distribution Function (CDF) of the random variable $X$. The \textbf{$\mathbf{p}$-Quantile} of a Random Variable $X$ is defined as follows \vspace{1em}
+		\begin{equation}
+			Q_p(p) = \inf\{x\in\mathbb{R}: p \leq F(x)\} 
+		\end{equation}
+	\end{definition}
+
+	Note $Q_p(0.5)$ represents the median of the random variable.
+	
+	\begin{definition}
+		The \textbf{Empirical Distribution Function} is defined as follows
+		\begin{equation}
+			\hat{F}_n(t) = \frac{1}{n} \sum_{i=1}^n\mathbbm{1}_{X_i \leq t} 			
+		\end{equation}
+	\end{definition}
+	
+	\begin{definition}
+		Let $\ell$ be the loss function. \textbf{Risk} is defined as follows
+		\begin{equation}
+			U = \mathbb{E}\left[\ell \left( f(\vx;\vtheta,\vy)\right)\right]
+		\end{equation}
+	\end{definition}
+	
+	The $p$-Quantile of the Empirical Risk is given
+	\begin{equation}
+		\mathbb{L}_p(U) = \frac{1}{p}\int_0^p Q_q(U)\,dq
+	\end{equation}
+	
+	The Sub-Quantile Optimization problem is posed as follows
+	\begin{equation}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{p}\mathbb{E}(t - \ell(f(\vx;\vtheta),y))^+\right\}
+	\end{equation}
+	
+	For the linear regression case, this equation becomes 
+	\begin{equation}
+		\label{eqn:theta_sm}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vtheta^T\vx_i - y_i)^2)^+\right\}
+	\end{equation}
+		
+	The two-step optimization for Sub-Quantile optimization is given as follows \vspace{1em}
 	\begin{equation}
 		\label{eqn:t-update}
 		t_{k+1} = \argmax_t g(t,\vtheta_k) 
@@ -150,21 +191,19 @@
 		\vtheta_{k+1} = \vtheta_k + \alpha \nabla_{\vtheta_k} g(t,\vtheta_k)
 	\end{equation}
 		
-	This algorithm is adopted from \cite{Razaviyayn}
-		
-	\begin{restatable}{thm}{Convergence}
-		\label{thm:convergence}
-		Sub-Quantile Optimization Converges Almost Surely
-	\end{restatable}
+	This algorithm is adopted from \cite{Razaviyayn}. 
 	
-	\begin{restatable}{lemma}{gfermat}\label{lem:gfermat}
-		$g(t,\vtheta)$ is maximized when $t = Q_p(U)$
+	\section{Theoretical Analysis}
+	
+	\begin{restatable}{lemma}{gfermat}
+		\label{lem:gfermat}
+		The maximizing value of $t$ in $g(t,\vtheta)$ in $t$-update step of optimization as described by Equation \ref{eqn:t-update} is maximized when $t = Q_p(U)$
 	\end{restatable}
 		\begin{proof}
-		Since $\displaystyle g(t,\vtheta)$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
+		Since $\displaystyle g(t,\vtheta)$ with respect to $t$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
 		Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^T\mX - \vy)^2\right)$ and note $\displaystyle 0 < p < 1$
 		\begin{align}
-			\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) &= \partial{\left(-t + \frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)} &&\\
+			\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) 
 			&= -1 + \frac{1}{np}\sum_{i=1}^{n}
 			\left\{
 			\begin{array}{lr}
@@ -175,19 +214,160 @@
 			\right\}&&\\
 			&= 0 \text{ when }\displaystyle t = \hat{\vnu}_{np}&&
 		\end{align}
-		This is the $p$-quantile of $\displaystyle \vnu$. Not necesarily the $p$-quantile of $Q_p(U)$
+		This is the $p$-quantile of $U$. A full proof is provided in Appendix \ref{app:gfermat}.
 	\end{proof}
 	
 	\begin{restatable}{lemma}{gthetaderiv}\label{lem:gthetaderiv}
-		Let $t = \hat{\vnu}_{np}$. The second step in the optimization is the derivative with respect to the first $np$ elements in the sorted squared losses, $\hat{\vnu}$. The derivative of $g(t,\vtheta)$ w.r.t $\displaystyle \nabla_{\vtheta}g(t_{k+1},\vtheta_k) = \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T\vx_i - y_i)$
+		Let $t = \hat{\vnu}_{np}$. The $\vtheta$-update step described in Equation \ref{eqn:theta_sm} is equivalent to minimizing the least squares loss of the $np$ elements with the lowest squared loss.
+	   \begin{equation}
+			\nabla_{\vtheta}g(t_{k+1},\vtheta_k) = \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T\vx_i - y_i)
+		\end{equation}
 	\end{restatable}
-	We provide a proof in Appendix \ref{app:gthetaderiv}. By our choice of $t_{k+1}$ what we find is the terms cancel out and we are left minimizing the terms within the $np$ lowest squared losses.
+	We provide a proof in Appendix \ref{app:gthetaderiv}. However, this result is quite intuitive as it shows we are optimizing over the $p$ Sub-Quantile of the Risk.
+	\begin{interpretation}
+		Sub-Quantile Minimization continously minimizes the risk over the $p$-quantile of the error. In each iteration, this means we reduce the error of the points within the lowest $np$ errors.
+	\end{interpretation}
 
-	\section{Theoretical Analysis}
+		We are solving a min-max convex-concave problem, thus we are looking for a Nash Equilibrium Point. 
+	
+	\begin{restatable}{definition}{nash-equilibrium}
+		\label{def:nash-equilibrium}
+		$(t^*,\vtheta^*)$ is a \textbf{Nash Equilibrium} of $g$ if for any $(t,\vtheta) \in \mathbb{R}\times\mathbb{R}^d$\vspace{1em}
+		\begin{equation}
+			g(t^*,\vtheta) \leq g(t^*,\vtheta^*) \leq g(t,\vtheta^*)
+		\end{equation}
+	\end{restatable}	
+	\begin{restatable}{definition}{local-nash-equilibrium}
+		\label{def:local-nash-equilibrium}
+		$(t^*,\vtheta^*)$ is a \textbf{Local Nash Equilibrium} of $g$ if there exists $\delta > 0$ such that for any $t,\vtheta$ $(t,\vtheta)$ satsifying $\norm{t - t^*} \leq \delta$ and $\norm{\vtheta -\vtheta^*} \leq \delta$ then: 
+		\vspace{1em}
+		\begin{equation}
+			g(t^*,\vtheta) \leq g(t^*,\vtheta^*) \leq g(t,\vtheta^*)
+		\end{equation}
+	\end{restatable}
+	\begin{proposition}\label{prop:first-order-nash}
+		As $g$ is first-order differentiable, thus any local Nash Equilibrium satisfies $\nabla_\vtheta g(t,\vtheta) = \mathbf{0}$ and $\nabla_t g(t,\vtheta) = 0$
+	\end{proposition}
+	
+	We are now interested in what it means to be at a Local Nash Equilibrium. 
+	
+	\begin{restatable}{lemma}{gthetaconvexlemma}
+		\label{lem:gthetaconvex}
+		$g(t_{k+1},\vtheta_k)$ is convex with respect to $\vtheta_k$.
+	\end{restatable}
+	
+	Lemma \ref{lem:gthetaconvex} tells us we are solving a min-max concave-convex optimization problem. In \cite{Jin_2019}, the researchers examined the problem where they are given a max-oracle which is correct up to some value $\eps$. In our case, we can set $\eps = 0$.
+	
+	\begin{restatable}{lemma}{gtconcavelemma}
+		\label{lem:gtcomcavelemma}
+		$g(t_{k+1},\vtheta_k)$ is concave with respect to $t$.
+	\end{restatable}
+	\begin{proof}
+		We provide a simple argument for concavity. Note $t$ is a concave and convex function. Also $(\cdot)^+$ is a convex strictly non-negative function. Therefore we have a concave function minus the non-negative multiple of a summation of an affine function composed with a convex function. Therefore this is a concave function with respect to $t$. 
+	\end{proof}	
+	\begin{restatable}{lemma}{g-lsmooth}
+		\label{lem:g-lsmooth}
+		$g(t,\vtheta)$ is $L$-smooth with respect to $\vtheta$ with $\displaystyle L = \norm{\frac{2}{np}\sum_{i=1}^{np}\norm{\vx_i}^2}$ 
+	\end{restatable}
+	
+	\begin{restatable}{lemma}{g-monotonic}
+		\label{lem:g-monotonic}
+		Since $g(t,\vtheta)$ is $L$-smooth by Lemma \ref{lem:g-lsmooth} $g(t,\vtheta)$ is a monotonically decreasing function. 
+	\end{restatable}
+	\begin{proofsketch}
+		We are looking to prove $g(t_{k+1},\vtheta_{k+1}) \leq g(t_k,\vtheta_k)$. This is equivalent to proving \vspace{1em}
+		\begin{equation}
+			g(t_{k+1},\vtheta_k) - g(t_{k+1},\vtheta_{k+1}) \geq g(t_{k+1},\vtheta_k) - g(t_k,\vtheta_k)
+		\end{equation} 
+		This is due to the ordering of our two-step optimization.
+	\end{proofsketch}
+	
+	\begin{restatable}{lemma}{g-bounded}
+		\label{lem:g-bounded}
+		$g(t,\vtheta)$ is bounded above by $\displaystyle \sum_{i=1}^{np}\vnu_i$ and below by $0$.
+	\end{restatable}
+	
+	\begin{restatable}{thm}{g-converges}
+		\label{thm:g-converges}
+		By Lemma \ref{lem:g-monotonic} and \ref{lem:g-bounded}, $g(t,\vtheta)$ converges to a local minimum.
+	\end{restatable}
+	\begin{proofsketch}
+		We need to prove $\displaystyle \lim_{k\to\infty} \norm{\nabla_{\vtheta_k}g(t,\vtheta_k)} = 0$ . By Lemma \ref{lem:g-lsmooth}, $g(t,\vtheta)$ is $L$-smooth with respect to $\vtheta$, thus if $t$ is greater than the same $np$ elements, then $\norm{\nabla_{\vtheta_k}g(t,\vtheta_k)} \to 0$. 
+	\end{proofsketch}
+
 	\subsection{Robustness}
-	\begin{assumption}\label{asm:sym-0}
+	\begin{assumption}\label{asm:symmetric}
 		The parameters of $\vtheta$ are sampled from a symmetrical continuous distribution around 0. Inspired by \cite{Lu_2020}. 
 	\end{assumption}
+	\begin{assumption}\label{asm:normal-corruption}
+		To provide theoretical bounds on the effectiveness of Sub-Quantile Minimization, we assume the error of data from $Q$ on a trained model over $\mP$ is normally distributed. Let $\vtheta_P^* = (\mP^T\mP)^{-1}\mP^T \vy_P$ be the optimal linear regression model for $\mP$. Then $\vtheta_P^{*T}\mQ - \vy_q \sim \mathcal{N}(\mu,\sigma^2)$ where $\mu \neq 0$.
+	\end{assumption}
+	We will provide experimental results in Section \ref{app:experimental-details} that show in most real-world datasets, the corruption follows this assumption. We want to clarify the corruption is not adversarially chosen. \\
+	In this section we quantify the effect of corruption on the desired model. To introduce notation, let $\mP$ represent the data from distribution $\mathbb{P}$ and let $\mQ$ represent the training data for $\mathbb{Q}$. Let $\vy_P$ represent the target data for $\mathbb{P}$ and let $\vy_Q$ represent the target data for $\mathbb{Q}$.\\
+	\begin{assumption}\label{asm:p-q-sample}
+		We assume $\mP$ and $\mQ$ are sampled from the same normal distribution. \vspace{1em}
+		\begin{equation}
+			\mP_i,\mQ_j \sim \mathcal{N}_p(\mathbf{0},\mSigma)
+		\end{equation}
+	\end{assumption}
+	
+	We will use our assumptions to quantify the effect of the corrupted data on an optimal least squares regression model. We are interested in $\displaystyle (\mX^T\mX)^{-1}\mX^T\vy - (\mP^T\mP)^{-1}\mP^T\vy$
+	It is know the least squares optimal solution for $\mX$ is equal to $(\mX^T\mX)^{-1}\mX^T\vy$\\
+	Note $\displaystyle \mX = \begin{pmatrix}\mP \\ \mQ \end{pmatrix}$ so $\mX^T = \begin{pmatrix}\mP^T & \mQ^T \end{pmatrix}$\\
+	\begin{align}
+		\intertext{We will first calculate the pseudo-inverse}
+		\mX^T\mX &= \begin{pmatrix}\mP^T & \mQ^T \end{pmatrix}
+	    \begin{pmatrix}\mP \\ \mQ \end{pmatrix} \\
+		&= \mP^T\mP + \mQ^T \mQ &&
+		\intertext{Now we can calculate the Moore-Penrose Inverse\vspace{1em}}
+		(\mX^T\mX)^{-1}\mX^T &= (\mP^T\mP+ \mQ^T\mQ)^{-1}\begin{pmatrix}\mP^T &\mQ^T \end{pmatrix}\\
+		&= \begin{pmatrix}(\mP^T\mP + \mQ^T\mQ)^{-1} \mP^T & (\mP^T\mP  + \mQ^T\mQ)^{-1} \mQ^T \end{pmatrix}
+		\intertext{Now we solve for the optimal model}
+		\mX^{\dagger}\vy &= \begin{pmatrix}(\mP^T\mP + \mQ^T\mQ)^{-1} \mP^T & (\mP^T\mP  + \mQ^T\mQ)^{-1} \mQ^T \end{pmatrix} \begin{pmatrix}\vy_P \\ \vy_Q \end{pmatrix} \\
+		&= (\mP^T\mP + \mQ^T\mQ)^{-1} \mP^T \vy_P + (\mP^T\mP + \mQ^T \mQ)^{-1} \mQ^T \vy_Q \label{eqn:OLS-optimal} &&
+	\end{align}\\
+	By assumption \ref{asm:p-q-sample}, all rows of $\mP$ and $\mQ$ are sampled from a common Normal Distribution. Thus we are able to utilize properties of the Wishart Distribution, \cite{nydick2012wishart}.
+	\begin{equation}
+		\mP^T\mP = \sum_{i=1}^{n*(1-\eps)}\mP_i\mP_i^T
+	\end{equation}
+	\begin{equation}
+		\mQ^T\mQ = \sum_{j=1}^{n\eps}\mQ_i\mQ_i^T
+	\end{equation}\vspace{1em}
+	Thus we can say $\mP^T\mP$ and $\mQ^T\mQ$ are sampled from the Wishart distribution.
+	\begin{equation}
+		\mP^T\mP \sim \mathcal{W}(n(1-\eps),\mSigma)
+	\end{equation}
+	\begin{equation}\vspace{1em}
+		\mQ^T\mQ \sim \mathcal{W}(n\eps,\mSigma)
+	\end{equation}
+	We can now use the Expected Value of the Wishart Distribution.\vspace{1em}
+	\begin{equation}
+		\mathbb{E}(\mP^T\mP) = n(1-\eps)\mSigma
+	\end{equation}
+	\begin{equation}\vspace{1em}
+		\mathbb{E}(\mQ^T\mQ) = n\eps\mSigma
+	\end{equation}
+	It thus follows
+	\begin{equation}\vspace{1em}
+		\mP^T\mP + \mQ^T\mQ = n\mSigma
+	\end{equation}
+	Since we are interested in the pseudo-inverse, we will utilize the Inverse Wishart Distribution. 
+	\begin{equation}
+		\left(\mP^T\mP + \mQ^T\mQ\right)^{-1} \sim \mathcal{W}^{-1}(n, \mSigma)
+	\end{equation}
+	It thus follows by the expectation of the Inverse Wishart Distribution 
+	\begin{equation}
+		\mathbb{E}\left[\left(\mP^T\mP + \mQ^T\mQ\right)^{-1}\right] = n\mSigma^{-1}
+	\end{equation}
+	Now we will plug this into Equation \ref{eqn:OLS-optimal}:\vspace{1em}
+	\begin{equation}\vspace{1em}
+		\mathbb{E}\left[\mX^{\dagger}\vy\right] = \left(n\mSigma^{-1}\right)\left(n(1-\eps)\mSigma\right)^T\vy_P + \left(n\mSigma^{-1}\right)\left(n\eps\mSigma\right)^T\vy_Q
+	\end{equation}
+	Note the optimal solution for a linear regression model on $\mathbb{P}$ is $\displaystyle (\mP^T\mP)^{-1}\mP^T \vy_P$\\
+	Often times in the case of corrupted data we have $\mP$ and $\mQ$ are sampled similarly however $\vy_P$ and $\vy_Q$ are very different. Thus $\displaystyle (\mP^T\mP + \mQ^T\mQ)^{-1}\mQ^T\vy_Q$ could have a large effect on the optimal solution. This is why we propose Sub-Quantile Optimization, we seek to reduce the impact of $\mQ^T\mQ$ and $\vy_Q$ by reducing the number of rows in $\mQ$. Thus we reduce the condition number of $\mQ^T \mQ$ and the overall effect on the optimal solution for $\mP$.
+	
+	Here we utilize the idea of \textit{influence} from \cite{McWilliams2014}.
+
 	By Lemma \ref{lem:gthetaderiv}, $\vtheta$ is updated only on the $np$ points with the smallest squared loss. To quantify how ''Robust'' our linear regressor is, we want to know how many data points from $\mathbb{Q}$ are within the lowest $np$ squared losses as the number of iterations, $k \to \infty$. To do this, we will model the data sampled from $\mathbb{P}$ and $\mathbb{Q}$ as random variables. Let $\vp_1,\vp_2,\ldots,\vp_{(1-\eps)n}$ be the $(1-\epsilon)n$ points sampled i.i.d from $\mathbb{P}$. Let $P_1,P_2,\dots,P_m$ be random variables that represent the data sampled from $\mathbb{P}$,  $\vp_1,\vp_2,\dots,\vp_{1-(\eps)n}$ such that
 	
 	\begin{equation}
@@ -253,52 +433,7 @@
 		\begin{equation}
 			\nabla_{\vtheta_0}\phi(\vtheta_0) > \nabla_{\vtheta_0}\psi(\vtheta_0)
 		\end{equation}
-	\end{restatable}
-	
-	
-
-	\subsection{Convergence}	
-	\begin{restatable}{lemma}{gthetaconvexlemma}
-		\label{lem:gthetaconvex}
-		$g(t_{k+1},\vtheta_k)$ is convex with respect to $\vtheta_k$.
-	\end{restatable}
-	
-	Lemma \ref{lem:gthetaconvex} tells us we are solving a min-max concave-convex optimization problem. In \cite{Jin_2019}, the researchers examined the problem where they are given a max-oracle which is correct up to some value $\eps$. In our case, we can set $\eps = 0$.
-	
-	
-	\begin{lemma} $g(t,\vtheta)$ is Lipschitz Continuous with respect to $t$
-		
-	\end{lemma}
-	
-	\begin{restatable}{lemma}{g-lsmooth}
-		\label{lem:g-lsmooth}
-		$g(t,\vtheta)$ is $L$-smooth with respect to $\vtheta$ with $\displaystyle L = \norm{\frac{2}{np}\sum_{i=1}^{np}\norm{\vx_i}^2}$ 
-	\end{restatable}
-
-	\begin{restatable}{lemma}{g-monotonic}
-		\label{lem:g-monotonic}
-		Since $g(t,\vtheta)$ is $L$-smooth by Lemma \ref{lem:g-lsmooth} $g(t,\vtheta)$ is a monotonically decreasing function. 
-	\end{restatable}
-	\begin{proofsketch}
-		We are looking to prove $g(t_{k+1},\vtheta_{k+1}) \leq g(t_k,\vtheta_k)$. This is equivalent to proving 
-		\begin{equation}
-			g(t_{k+1},\vtheta_k) - g(t_{k+1},\vtheta_{k+1}) \geq g(t_{k+1},\vtheta_k) - g(t_k,\vtheta_k)
-		\end{equation}
-		This is due to the ordering of our two-step optimization.
-	\end{proofsketch}
-
-	\begin{restatable}{lemma}{g-bounded}
-		\label{lem:g-bounded}
-		$g(t,\vtheta)$ is bounded above by $\displaystyle \sum_{i=1}^{np}\vnu_i$ and below by $0$.
-	\end{restatable}
-
-	\begin{restatable}{thm}{g-converges}
-		\label{thm:g-converges}
-		By Lemma \ref{lem:g-monotonic} and \ref{lem:g-bounded}, $g(t,\vtheta)$ converges to a local minimum.
-	\end{restatable}
-	\begin{proofsketch}
-		Note after the $t$-update and $\vtheta$-update as described in equations \ref{eqn:t-update} and \ref{eqn:theta-update}, respectively, lemma \ref{lem:g-monotonic} tells us $g(t_{k+1},\vtheta_{k+1}) \leq g(t_k,\vtheta_k)$
-	\end{proofsketch}
+	\end{restatable}	
 	
 	\subsubsection{Point Change Conditions}
 	
@@ -307,21 +442,24 @@
 	Let us take two data points $\vx$ and $\vx'$ such that $\vx \leq t_0$ and $\vx' > t_0$
 	\begin{restatable}{thm}{faster-loss-condition}
 		\label{thm:faster-loss-condition}
-		The rate of decrease of $\vx'$ is greater than $\vx$ iff \begin{equation}|| \vx' || |\vtheta_0^T\vx' - y| \cos(\omega') > ||\vx|| |\vtheta_0^T\vx' - y| \cos(\omega) \end{equation}
+		The rate of decrease of $\vx'$ is greater than $\vx$ iff \vspace{1em} 
+		\begin{equation}
+			-2r'\norm{\vx'}\cos(\omega') + \alpha \norm{\nabla_{\vtheta_k}}\norm{\vx'}^2\cos^2(\omega')\geq -2r\norm{\vx}\cos(\omega) + \alpha \norm{\nabla_{\vtheta_k}}\norm{\vx}^2\cos^2(\omega)	
+		\end{equation}
 	\end{restatable}
 	Theorem \ref{thm:faster-loss-condition} reveals to us the importance of $\cos(\omega)$ which represents the angle between $\nabla f_\vx(\vtheta_0)$ and $\nabla g(\vtheta_0)$. By our initial assumption $|\vtheta_0^T\vx' - y'| > |\vtheta_0^T\vx - y|$. Let us look at the example where $|| \vx || = || \vx' ||$, in this case, while $\cos(\omega') > \cos(\omega)$, the rate of decrease of $\vx'$ will be more than the rate of decrease of $\vx$. What this means is there will be an iteration step where $(\vtheta_k^T\vx' - y')^2 < (\vtheta_k^T\vx - y)^2$. Thus $\vx'$ will come within the lowest $np$ squared losses and $\vx$ will no longer be in the $np$ lowest square losses. We can now formulate our convergence conditions. \\
 	For all points outside the $np$ lowest squared losses. There exists no point within the $np$ lowest squared losses such that for any $k \in \mathbb{N}$, the points within the $np$ lowest squared losses do not change. 
 			
 
 	
-	\section{Optimizing for the Sub-Quantile}
+	\section{Numerical Experiments}\label{sec:numerical-experiments}
 
-	The first experiment we will run will display the difference of the following two $t$ updates \begin{equation} \label{eq:t_update1} t_{k+1} = \hat{\vnu}_{np}\end{equation}  \begin{equation} \label{eq:t_update2} t_{k+1} = \frac{1}{np}\sum_{i=1}^{np}\hat{\vnu}_i \end{equation}In general, if the $\hat{\vnu}_1, \hat{\vnu}_2, \dots, \hat{\vnu}_{np}$ are closely distributed, then $\displaystyle \frac{1}{np}\sum_{i=1}^{np}\hat{\vnu}_{i} \approx \hat{\vnu}_{np}$. In Algorithm \ref{alg:sqo1}, we display our training method for Sub-quantile Optimization with the $t$ update as described in equation \ref{eq:t_update1}. In Algorithm \ref{alg:sqo2}, we use the same training procedure but modify the $t$-update as described in equation \ref{eq:t_update2}. 
+	The first experiment we will run will display the difference of the following two $t$ updates \begin{equation} \label{eq:t_update1} t_{k+1} = \hat{\vnu}_{np}\end{equation}  \begin{equation} \label{eq:t_update2} t_{k+1} = \frac{1}{np}\sum_{i=1}^{np}\hat{\vnu}_i \end{equation}In general, if the $\hat{\vnu}_1, \hat{\vnu}_2, \dots, \hat{\vnu}_{np}$ are closely distributed, then $\displaystyle \frac{1}{np}\sum_{i=1}^{np}\hat{\vnu}_{i} \approx \hat{\vnu}_{np}$. In Algorithm \ref{alg:sqo1}, we display our training method for Sub-quantile Optimization with the $t$ update as described in equation \ref{eq:t_update1}. We also compare against the $t$-update as described in equation \ref{eq:t_update2}. 
 	
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
 		
-		\KwInput{Training iterations $m$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $d$}
+		\KwInput{Training iterations $T$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $m$}
 		\KwOutput{Trained Parameters, $\displaystyle \vtheta$}
 		\KwData{Inliers: $\displaystyle y|x \sim \mathcal{N}(x^2-x+2,0.01)$, Outliers: $\displaystyle y|x \sim \mathcal{N}(-x^2+x+4,0.01)$}
 		$\vtheta_1 \gets \mathcal{N}(0,\sigma)^d$\\
@@ -329,37 +467,44 @@
 		{
 			$\displaystyle \vnu = \left(\mX\vtheta_k - \vy\right)^2$\\
 			$\hat{\vnu} = sorted(\vnu)$\\
-			$\displaystyle t_{k+1} = \hat{\vnu}_{np}$\\
+			\colorbox{green}{$\displaystyle t_{k+1} = \hat{\vnu}_{np}$}\\
+			\colorbox{pink}{$t_{k+1} = \frac{1}{np}\sum_{i=1}^{np}\vnu_i$}\\
 			$L \coloneqq \sum_{i=1}^{np} \vx_i^T\vx_i$\\
 			$\alpha \coloneqq \frac{1}{2L}$\\
 			$\displaystyle \vtheta_{k+1} = \vtheta_k - \alpha \nabla_{\vtheta_k}g(t_{k+1},\vtheta_k)$
 		}
-		\KwRet{$ \frac{1}{n} \sum_{i=1}^{n}(\vtheta_m^T\vx_i - y_i)^2$}
-		\caption{Sub-Quantile Optimization where $t_{k+1} = \vnu_{np}$}
+		\KwRet{$ \vtheta_T $}
+		\caption{Sub-Quantile Minimization Optimization Algorithm}
 		\label{alg:sqo1}
 	\end{algorithm}
+
+	We also present a batch algorithm which improves training speed significantly.
 
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
 		
-		\KwInput{Training iteration, $m$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $d$}
+		\KwInput{Training iterations $T$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $d$, Batch Size $m$}
 		\KwOutput{Trained Parameters, $\displaystyle \vtheta$}
 		\KwData{Inliers: $\displaystyle y|x \sim \mathcal{N}(x^2-x+2,0.01)$, Outliers: $\displaystyle y|x \sim \mathcal{N}(-x^2+x+4,0.01)$}
 		$\vtheta_1 \gets \mathcal{N}(0,\sigma)^d$\\
-		\For{$k \in 1,2,\ldots,m$}
+		\For{$k \in 1,2,\ldots,T$}
 		{
-			$\displaystyle \vnu = \left(\mX\vtheta_k - \vy\right)^2$\\
+			$I \subseteq \left[n\right]$ of size $m$\\
+			$\displaystyle \vnu = \left(\mX_I\vtheta_k - \vy_I\right)^2$\\
 			$\hat{\vnu} = sorted(\vnu)$\\
-			$t_{k+1} = \frac{1}{np}\sum_{i=1}^{np}\hat{\vnu_{i}}$\\
+			\colorbox{green}{$\displaystyle t_{k+1} = \hat{\vnu}_{mp}$}\\
+			\colorbox{pink}{$t_{k+1} = \frac{1}{mp}\sum_{i=1}^{mp}\vnu_i$}\\
+			$L \coloneqq \sum_{i=1}^{mp} \vx_i^T\vx_i$\\
+			$\alpha \coloneqq \frac{1}{2L}$\\
 			$\displaystyle \vtheta_{k+1} = \vtheta_k - \alpha \nabla_{\vtheta_k}g(t_{k+1},\vtheta_k)$
 		}
-		\KwRet{$ \frac{1}{n} \sum_{i=1}^{n}(\vtheta_m^T\vx_i - y_i)^2$}
-		\caption{Sub-Quantile Optimization where $t_{k+1} = \frac{1}{np}\sum_{i=1}^{np}\vnu_{i}$}
-		\label{alg:sqo2}
+		\KwRet{$\vtheta_T$}
+		\caption{Stochastic Sub-Quantile Minimization Optimization Algorithm}
+		\label{alg:sqo-stochastic}
 	\end{algorithm}
 
 	\subsection{Synthetic Data}
-	\begin{figure}[hp]
+	\begin{figure}[!h]
 		\centering
 		\begin{tikzpicture}
 			\begin{axis}[
@@ -369,7 +514,7 @@
 				ylabel near ticks,
 				xlabel=$x$,ylabel=$y$
 				]
-				\addplot[mark=*,color=orange,only marks] table [x=Px, y=Py, col sep=comma] {quadratic-regression-p.csv};
+				\addplot[mark=*,color=orange,only marks] table [x=Px, y=Py, col sep=comma]{quadratic-regression-p.csv};
 				\addplot[mark=*,color=cyan,only marks] table [x=Qx,y=Qy, col sep=comma]{quadratic-regression-q.csv};
 				\addplot[
 					domain=-3:3,
@@ -377,17 +522,37 @@
 					color=green,
 					very thick
 				] {1.204*x^2-1.036*x+1.688} ;
-				\legend{$\mathbb{P}$,$\mathbb{Q}$,$\vtheta$}
+				\legend{$\mathbb{P}$,$\mathbb{Q}$,$\vtheta_{SM}$}
 			\end{axis}
 		\end{tikzpicture}
 		\label{fig:synthetic-quadratic}
-		\caption{Quadratic Regression, $p = 0.9$}
+		\caption{Quadratic Regression, $p = 0.9$, \colorbox{green}{$\displaystyle t_{k+1} = \hat{\vnu}_{np}$}}
 	\end{figure}
-	In our first synthetic experiment, we run Algorithm \ref{alg:sqo1} on synthetically generated quadratic data.
+	In our first synthetic experiment, we run Algorithm \ref{alg:sqo1} on synthetically generated quadratic data. The results of Sub-Quantile Minimization can be seen in Figure \ref{fig:synthetic-quadratic}. Our results compared with the current State of the Art and Baseline Methods can be seen in Table \ref{tab:quadratic-regression}. Note we are not interested in $\eps > 0.5$ as the concept of corruptness becomes unclear. We see in Table \ref{tab:quadratic-regression}, Sub-Quantile Minimization produces State of the Art Results in the Quadratic Regression Case. Furthermore, it performs significantly better than baseline methods in the high-noise regimes $(\eps = 0.4)$, this is confirmed in both the small data and large data datasets. Please refer to Appendix \ref{app:experimental-details} for more details on the Quadratic Regression Dataset. 
+	
+	\begin{table}[!h] \label{tab:quadratic-regression}
+		\centering
+		\caption{Quadratic Regression Synthetic Dataset. Empirical Risk over $\mathbb{P}$}
+		\begin{tabular}{ccccc}
+			\toprule 
+			\textbf{Objectives}&                       \multicolumn{2}{c}{\textbf{$n = 10^4$}}&                    \multicolumn{2}{c}{\textbf{$n = 10^6$}}\\
+			\cmidrule(rl){2-3} \cmidrule(rl){4-5} 
+			& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.4$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.4$}\\ 
+			\midrule
+			OLS \ref{eqn:OLS}  &$60.06_{(3.472)}$& $107.78_{(4.87)}$& $621.46_{(4.32)}$& $1076.3_{(2.9)}$\\
+			Huber \cite{Huber2009} &$0.942_{(0.008)}$& $26.27_{(7.50)}$&$9.419_{(0.005)}$&$261.48_{(3.96)}$\\
+			TERM \cite{li2020tilted} &$\infty$&$\infty$&$\infty$&$\infty$\\
+			SubQuantile &$\mathbf{0.896_{(0.007)}}$&$\mathbf{0.777_{(0.007)}}$&  $\mathbf{8.946_{(0.005)}}$& $\mathbf{7.75_{(0.009)}}$\\
+			\bottomrule
+		\end{tabular}
+	\end{table}
 
 	\subsection{Real Data}
 	
 	We provide results on the \textit{Drug Discovery} Dataset in \cite{DiakonikolasKKLSS19}
+	
+	\section{Conclusion}
+	In this work we provide a theoretical analysis for robust linear regression by minimizing \textit{Sub-Quantile} of the Empirical Risk. Furthermore, we run various numerical experiments and compare against the current State of the Art in Robust Linear Regression.
 	
 %	\begin{table}[t]
 %		\caption{Sample table title}
@@ -403,9 +568,12 @@
 %		\end{center}
 %	\end{table}
 	
+	
 	\subsubsection*{Author Contributions}
 	
 	\subsubsection*{Acknowledgments}	
+	
+	\newpage
 
 	\bibliographystyle{iclr2023_conference}
 	\bibliography{iclr2023_conference}
@@ -418,7 +586,7 @@
 	\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
 	\newpage
 	\section{Assumptions}
-	\section{General Properties of Sub-Quantile Linear Regression}
+	\section{General Properties of Sub-Quantile Linear Regression}\label{app:general-proofs}
 	\subsection{Proof of Lemma~\ref{lem:gfermat}}
 	\label{app:gfermat}
 	\begin{proof}
@@ -557,19 +725,61 @@
 
 	\section{Proofs for Convergence}
 	\subsection{Proof of Lemma~\ref{lem:g-lsmooth}}
-	This is a standard proof in Optimization Theory. The objective function 
+	The objective function 
 	$\displaystyle g(\vtheta,t)$ is $L$-smooth w.r.t $\vtheta$ iff
 	\begin{equation}
 		||  \nabla_\vtheta g(\vtheta',t) - \nabla_\vtheta g(\vtheta,t) || \leq L|| \vtheta' - \vtheta || 
 	\end{equation}
 	\begin{align}
-		\norm{ \nabla_{\vtheta} g(\vtheta^{'},t) - \nabla_{\vtheta} g(\vtheta,t) } &= \norm{ \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'T} \vx_i - y_i) - \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T \vx_i - y_i) } &&\\
-		&= \norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'T}\vx_i - \vtheta_k^T\vx_i)}&&\\
-		&= \norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i^T\vx_i(\vtheta_k^{'T} - \vtheta_k^T)} &&\\
-		&\leq \norm{\frac{2}{np}\sum_{i=1}^{np}\norm{\vx_i}^2}\norm{\vtheta_k^{'T} - \vtheta_k^T} &&\\
-		&= L\norm{\vtheta_k^{'T} - \vtheta_k^T} &&
+		\norm{ \nabla_{\vtheta} g(\vtheta^{'},t) - \nabla_{\vtheta} g(\vtheta,t) } = &\norm{ \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'T} \vx_i - y_i) - \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T \vx_i - y_i) } &&\\
+		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'T}\vx_i - \vtheta_k^T\vx_i)}&&\\
+		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i^T\vx_i(\vtheta_k^{'T} - \vtheta_k^T)} &&\\
+		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\frac{2}{np}\sum_{i=1}^{np}\norm{\vx_i}^2}\norm{\vtheta_k^{'T} - \vtheta_k^T} &&\\
+		= &L\norm{\vtheta_k^{'T} - \vtheta_k^T} &&
 	\end{align}
 	where $\displaystyle L = \norm{\frac{2}{np}\sum_{i=1}^{np}\norm{\vx_i}^2}$\\
 	This concludes the proof.
+	
+	\subsection{Proof of Lemma~\ref{lem:g-monotonic}}
+	As we noted in the proof sketch, proving $g(t_{k+1}, \vtheta_{k+1}) < g(t_k, \vtheta_k)$ is equivalent to proving 
+	\vspace{1em}
+	\begin{equation}
+		g(t_{k+1},\vtheta_k) - g(t_{k+1},\vtheta_{k+1}) \geq g(t_{k+1},\vtheta_{k+1}) - g(t_k,\vtheta_k)
+	\end{equation}
+	By equation \ref{eqn:theta-update} and lemma \ref{lem:g-lsmooth}
+	\begin{equation}
+		g(t_{k+1},\vtheta_{k+1}) \leq g(t_{k+1},\vtheta) + \frac{1}{2L} \norm{\nabla_{\vtheta_k}g(t_{k+1},\vtheta_k) }^2
+	\end{equation}
+	\textbf{Upper bound on the RHS}
+	\begin{align}
+		g(t_{k+1},\vtheta_k) - g(t_k,\vtheta_k) &= t_{k+1} - t_k - \frac{1}{np}\sum_{i=1}^{n}(t_{k+1} - \vnu_i)^+ + (t_k - \vnu_i)^+ &&\\
+		&= -t_k + \frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=1}^{n}(t_k - \vnu_i)^+ &&\\
+		&\leq \frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=1}^n(t_k - \vnu_i)^+ &&
+	\end{align}
+	\textbf{Lower bound on the LHS}
+	\begin{align}
+		g &&
+	\end{align}
+	
+	\section{Proofs for Convergence Rate}
+	
+	\section{Experimental Details}\label{app:experimental-details}
+	\subsection{Experiments in Section~\ref{sec:numerical-experiments}}
+	Here we will describe the objective functions used in the synthetic data experiments.
+	
+	\textbf{Ordinary Least Squares (OLS)} can be solved utilizing the Moore Penrose Inverse.\\
+	\begin{equation}\label{eqn:OLS}
+		\mX^* = (\mX^T \mX)^{-1}\mX^T \vy
+	\end{equation}
+	
+	\textbf{Huber Regression} is solved with the following objective function.\\
+	\begin{equation}\label{eqn:Huber}
+		L_\delta (y,f(\vx)) = 
+		\begin{cases*}
+			\frac{1}{2}(y-f(\vx))^2 & \\
+			\delta \cdot \left(|y-f(\vx)| - \frac{1}{2}\delta\right) & \text{ otherwise}\\
+		\end{cases*}
+	\end{equation}	
+	
 	\end{appendices}
 \end{document}

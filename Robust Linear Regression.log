@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  14 MAR 2023 00:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  18 MAR 2023 14:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -273,6 +273,14 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \l_MT_below_shortintertext_sep=\dimen158
 \xmathstrut@box=\box53
 \xmathstrut@dim=\dimen159
+)
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/bbm\bbm.st
+y
+Package: bbm 1999/03/15 V 1.2 provides fonts for set symbols - TH
+LaTeX Font Info:    Overwriting math alphabet `\mathbbm' in version `bold'
+(Font)                  U/bbm/m/n --> U/bbm/bx/n on input line 33.
+LaTeX Font Info:    Overwriting math alphabet `\mathbbmss' in version `bold'
+(Font)                  U/bbmss/m/n --> U/bbmss/bx/n on input line 35.
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\h
 yperref.sty
@@ -946,11 +954,13 @@ File: pgflibrarydatavisualization.formats.functions.code.tex 2021/05/15 v3.1.9a
 \c@lemma=\count322
 \c@definition=\count323
 \c@assumption=\count324
+\c@interpretation=\count325
+\c@proposition=\count326
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/algorithm2
 e\algorithm2e.sty
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count325
+\c@AlgoLine=\count327
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthe
 n.sty
@@ -961,7 +971,7 @@ Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/ifoddpage\
 ifoddpage.sty
 Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
-\c@checkoddpage=\count326
+\c@checkoddpage=\count328
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/tools\xspa
 ce.sty
@@ -1001,26 +1011,83 @@ Package: relsize 2013/03/29 ver 4.1
 \algoheightrule=\skip87
 \algotitleheightruledefault=\skip88
 \algotitleheightrule=\skip89
-\c@algocfline=\count327
-\c@algocfproc=\count328
-\c@algocf=\count329
+\c@algocfline=\count329
+\c@algocfproc=\count330
+\c@algocf=\count331
 \algocf@algoframe=\box74
 \algocf@algobox=\box75
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/appendix\a
 ppendix.sty
 Package: appendix 2020/02/08 v1.2c extra appendix facilities
-\c@@pps=\count330
-\c@@ppsavesec=\count331
-\c@@ppsaveapp=\count332
+\c@@pps=\count332
+\c@@ppsavesec=\count333
+\c@@ppsaveapp=\count334
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\t
 itletoc.sty
 Package: titletoc 2021/07/05 v2.14 TOC entries
 \ttl@leftsep=\dimen292
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 9
-2.
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\b
+ooktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen293
+\lightrulewidth=\dimen294
+\cmidrulewidth=\dimen295
+\belowrulesep=\dimen296
+\belowbottomsep=\dimen297
+\aboverulesep=\dimen298
+\abovetopsep=\dimen299
+\cmidrulesep=\dimen300
+\cmidrulekern=\dimen301
+\defaultaddspace=\dimen302
+\@cmidla=\count335
+\@cmidlb=\count336
+\@aboverulesep=\dimen303
+\@belowrulesep=\dimen304
+\@thisruleclass=\count337
+\@lastruleclass=\count338
+\@thisrulewidth=\dimen305
+)
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/caption\ca
+ption.sty
+Package: caption 2022/03/01 v3.6b Customizing captions (AR)
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/caption\ca
+ption3.sty
+Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
+\caption@tempdima=\dimen306
+\captionmargin=\dimen307
+\caption@leftmargin=\dimen308
+\caption@rightmargin=\dimen309
+\caption@width=\dimen310
+\caption@indent=\dimen311
+\caption@parindent=\dimen312
+\caption@hangindent=\dimen313
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count339
+\c@continuedfloat=\count340
+Package caption Info: hyperref package is loaded.
+)
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/tools\dcol
+umn.sty
+Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/tools\arra
+y.sty
+Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
+\col@sep=\dimen314
+\ar@mcellbox=\box76
+\extrarowheight=\dimen315
+\NC@list=\toks48
+\extratabsurround=\skip90
+\backup@length=\skip91
+\ar@cellbox=\box77
+))
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 1
+03.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 ptm.fd
@@ -1029,44 +1096,44 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\
 l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count333
-\l__pdf_internal_box=\box76
+\l__color_backend_stack_int=\count341
+\l__pdf_internal_box=\box78
 ) (Robust Linear Regression.aux)
 \openout1 = `"Robust Linear Regression.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 92.
-LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/context/base/mki
 i\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count334
-\scratchdimen=\dimen293
-\scratchbox=\box77
-\nofMPsegments=\count335
-\nofMParguments=\count336
-\everyMPshowfont=\toks48
-\MPscratchCnt=\count337
-\MPscratchDim=\dimen294
-\MPnumerator=\count338
-\makeMPintoPDFobject=\count339
-\everyMPtoPDFconversion=\toks49
+\scratchcounter=\count342
+\scratchdimen=\dimen316
+\scratchbox=\box79
+\nofMPsegments=\count343
+\nofMParguments=\count344
+\everyMPshowfont=\toks49
+\MPscratchCnt=\count345
+\MPscratchDim=\dimen317
+\MPnumerator=\count346
+\makeMPintoPDFobject=\count347
+\everyMPtoPDFconversion=\toks50
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-p
 kg\epstopdf-base.sty
@@ -1078,7 +1145,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 pstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 92.
+Package hyperref Info: Link coloring OFF on input line 103.
  (Robust Linear Regression.out) (Robust Linear Regression.out)
 \@outlinefile=\write4
 \openout4 = `"Robust Linear Regression.out"'.
@@ -1087,112 +1154,195 @@ Package hyperref Info: Link coloring OFF on input line 92.
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 92.
+ on input line 103.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 96.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 
+Underfull \hbox (badness 1881) in paragraph at lines 107--107
+[]\OT1/ptm/m/sc/17.28 Robust Lin-ear Re-gres-sion by Sub-Quantile
+ []
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 107
+.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
 msa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 96.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 107
+.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
 msb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1{C:/Users/Arvind Rathnashyam/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.m
-ap}
+)
+Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
+nput line 146.
+ [1{C:/Users/Arvind Rathnashyam/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.ma
+p}
 
 ]
-Package hyperref Info: bookmark level for unknown thm defaults to 0 on input li
-ne 158.
+LaTeX Font Info:    Trying to load font information for U+bbm on input line 157
+.
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/bbm\ubbm.f
+d
+File: ubbm.fd 1999/03/15 V 1.2 Font definition for bbm font - TH
+)
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
-line 162.
+line 201.
+Package hyperref Info: bookmark level for unknown interpretation defaults to 0 
+on input line 228.
+ [2]
+Package hyperref Info: bookmark level for unknown proposition defaults to 0 on 
+input line 248.
+Package hyperref Info: bookmark level for unknown thm defaults to 0 on input li
+ne 293.
 Package hyperref Info: bookmark level for unknown assumption defaults to 0 on i
-nput line 188.
- [2] [3]
+nput line 299.
+ [3]
+Underfull \hbox (badness 10000) in paragraph at lines 314--317
+
+ []
+
+[4] [5]
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 327.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 465.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 337.
-
-[4]
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 348.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 476.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 489.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 501.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 501.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 356.
+(relsize)                Using 7.0pt instead on input line 501.
 
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 501.
+
+
+Underfull \vbox (badness 3209) has occurred while \output is active []
+
+ [6]
 PGFPlots: reading {quadratic-regression-p.csv}
 PGFPlots: reading {quadratic-regression-q.csv}
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5]
-(Robust Linear Regression.bbl
+Package caption Warning: \label without proper reference on input line 528.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:synthetic-quadratic' on page 7 undefined on input
+ line 531.
+
+
+Package caption Warning: \label without proper reference on input line 533.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `tab:quadratic-regression' on page 7 undefined on inpu
+t line 531.
+
+
+Package caption Warning: \label without proper reference on input line 533.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `tab:quadratic-regression' on page 7 undefined on inpu
+t line 531.
+
+
+Overfull \hbox (3.76006pt too wide) in paragraph at lines 536--548
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \vbox (badness 2111) has occurred while \output is active []
+
+ [7]
+[8] (Robust Linear Regression.bbl
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
 3.
 
@@ -1205,68 +1355,82 @@ Underfull \hbox (badness 1728) in paragraph at lines 31--35
 /n/10 https : / / arxiv . org / abs / 1902 .
  []
 
-) [6]
-\c@ttl@toc@sections=\count340
+) [9]
+\c@ttl@toc@sections=\count348
  (Robust Linear Regression.ptc
 
-LaTeX Warning: Reference `lem:P-iequals1' on page 7 undefined on input line 16.
-
-
-) [7]
-
-LaTeX Warning: Reference `lem:P-iequals1' on page 8 undefined on input line 465
+LaTeX Warning: Reference `lem:P-iequals1' on page 10 undefined on input line 16
 .
 
-[8] [9]
+) [10]
+
+LaTeX Warning: Reference `lem:P-iequals1' on page 11 undefined on input line 63
+3.
+
+[11] [12]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [10]
+ [13]
+Underfull \hbox (badness 10000) in paragraph at lines 770--771
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 775--776
+
+ []
+
 \tf@ptc=\write5
 \openout5 = `"Robust Linear Regression.ptc"'.
 
-
-[11] (Robust Linear Regression.aux)
+[14] (Robust Linear Regression.aux)
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 493C748BC000F1EFC5E284DE1367D7DC;2950.
+(rerunfilecheck)             Checksum: 4CB871F95454FD7C115E044334CCB76F;3508.
  ) 
 Here is how much of TeX's memory you used:
- 37410 strings out of 478338
- 904032 string characters out of 2830528
- 1400563 words of memory out of 3000000
- 55072 multiletter control sequences out of 15000+600000
- 490617 words of font info for 68 fonts, out of 8000000 for 9000
+ 39081 strings out of 478338
+ 937176 string characters out of 2830528
+ 1419882 words of memory out of 3000000
+ 56655 multiletter control sequences out of 15000+600000
+ 492641 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,19n,104p,820b,2257s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 100i,19n,104p,914b,2286s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/ba
-se/8r.enc}<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmex10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Arvind Rathnash
-yam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/
+se/8r.enc} <C:\Users\Arvind Rathnashyam\AppData\Local\MiKTeX\fonts/pk/ljfour/pu
+blic/bbm/dpi600\bbm10.pk><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Arvind Rathnashyam/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Users/A
+rvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmex10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Users/Arvind Rathnash
+yam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/
 Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmmi7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Arvind Rathnashyam/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/Ar
+nts/cm/cmmib10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Users/Arvind Rathnashyam/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Ar
 vind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
-mr10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmr5.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Program
-s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/Arvind Rathnashyam/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/User
+mr5.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmr7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Arvind Rathnashyam/
+AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/User
 s/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
-cm/cmsy5.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/amsfonts/cm/cmsy7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Pr
-ograms/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Arvind R
-athnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:
-/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/u
-tmb8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
-1/urw/times/utmr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKT
-eX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "Robust Linear Regression.pdf" (11 pages, 309314 bytes).
+cm/cmsy7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Arvind Rathnashyam/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Users/Arv
+ind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pf
+b><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/ti
+mes/utmb8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
+/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Program
+s/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/
+Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on "Robust Linear Regression.pdf" (14 pages, 390783 bytes).
 PDF statistics:
- 468 PDF objects out of 1000 (max. 8388607)
- 170 named destinations out of 1000 (max. 500000)
- 165 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 618 PDF objects out of 1000 (max. 8388607)
+ 231 named destinations out of 1000 (max. 500000)
+ 197 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,21 +1,25 @@
 \contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
-\contentsline {section}{\numberline {2}Related Work}{2}{section.2}%
+\contentsline {section}{\numberline {2}Related Work}{1}{section.2}%
 \contentsline {section}{\numberline {3}Sub-quantile Optimization}{2}{section.3}%
 \contentsline {section}{\numberline {4}Theoretical Analysis}{2}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Robustness}{2}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Convergence}{3}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Point Change Conditions}{4}{subsubsection.4.2.1}%
-\contentsline {section}{\numberline {5}Optimizing for the Sub-Quantile}{4}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Synthetic Data}{5}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Real Data}{6}{subsection.5.2}%
+\contentsline {subsection}{\numberline {4.1}Robustness}{3}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Point Change Conditions}{6}{subsubsection.4.1.1}%
+\contentsline {section}{\numberline {5}Numerical Experiments}{6}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Synthetic Data}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Real Data}{7}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Conclusion}{8}{section.6}%
 \ttl@starttoc {sections@1}
-\contentsline {section}{\numberline {A}Assumptions}{8}{appendix.A}%
-\contentsline {section}{\numberline {B}General Properties of Sub-Quantile Linear Regression}{8}{appendix.B}%
-\contentsline {subsection}{\numberline {B.1}Proof of Lemma\nobreakspace {}\ref {lem:gfermat}}{8}{subsection.B.1}%
-\contentsline {subsection}{\numberline {B.2}Proof of Lemma\nobreakspace {}\ref {lem:gthetaderiv}}{8}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}Proof of Lemma\nobreakspace {}\ref {lem:P-iequals1}}{9}{subsection.B.3}%
-\contentsline {subsection}{\numberline {B.4}Proof of Lemma\nobreakspace {}\ref {lem:filipschitz}}{9}{subsection.B.4}%
-\contentsline {subsection}{\numberline {B.5}Proof of Theorem\nobreakspace {}\ref {thm:faster-loss-condition}}{9}{subsection.B.5}%
-\contentsline {section}{\numberline {C}Proofs for Convergence}{10}{appendix.C}%
-\contentsline {subsection}{\numberline {C.1}Proof of Lemma\nobreakspace {}\ref {lem:g-lsmooth}}{10}{subsection.C.1}%
+\contentsline {section}{\numberline {A}Assumptions}{11}{appendix.A}%
+\contentsline {section}{\numberline {B}General Properties of Sub-Quantile Linear Regression}{11}{appendix.B}%
+\contentsline {subsection}{\numberline {B.1}Proof of Lemma\nobreakspace {}\ref {lem:gfermat}}{11}{subsection.B.1}%
+\contentsline {subsection}{\numberline {B.2}Proof of Lemma\nobreakspace {}\ref {lem:gthetaderiv}}{11}{subsection.B.2}%
+\contentsline {subsection}{\numberline {B.3}Proof of Lemma\nobreakspace {}\ref {lem:P-iequals1}}{12}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.4}Proof of Lemma\nobreakspace {}\ref {lem:filipschitz}}{12}{subsection.B.4}%
+\contentsline {subsection}{\numberline {B.5}Proof of Theorem\nobreakspace {}\ref {thm:faster-loss-condition}}{12}{subsection.B.5}%
+\contentsline {section}{\numberline {C}Proofs for Convergence}{13}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Proof of Lemma\nobreakspace {}\ref {lem:g-lsmooth}}{13}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Proof of Lemma\nobreakspace {}\ref {lem:g-monotonic}}{14}{subsection.C.2}%
+\contentsline {section}{\numberline {D}Proofs for Convergence Rate}{14}{appendix.D}%
+\contentsline {section}{\numberline {E}Experimental Details}{14}{appendix.E}%
+\contentsline {subsection}{\numberline {E.1}Experiments in Section\nobreakspace {}\ref {sec:numerical-experiments}}{14}{subsection.E.1}%
 \contentsfinish 
