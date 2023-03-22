@@ -3,44 +3,71 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.linear_model import Ridge
 import numpy as np
 
-def SEVER(X, Y, epsilon, alpha, beta):
+def SEVER(X, Y, epsilon, alpha=4, beta=3, reg=1, p=0.3, iter=8, training_num=4084):
     X = np.copy(X)
-    Y = np.copy(Y)
+    Y = np.copy(Y).flatten()
 
-    n_bad = int(epsilon*len(X))
+    idxs = np.arange(len(X))
+    np.random.shuffle(idxs)
+    X = X[idxs]
+    Y = Y[idxs]
 
-    corrupted_idx = np.random.choice(np.arange(len(X)), n_bad)
+    # n_bad = int(epsilon*len(X))
 
-    X[corrupted_idx] = np.random.normal(0, 5, X[corrupted_idx].shape) + Y[corrupted_idx]*X[corrupted_idx]/(alpha*n_bad)
-    Y[corrupted_idx] = -beta
+    # corrupted_idx = np.random.choice(np.arange(len(X)), n_bad)
 
-    x_train = X[:4084]
-    x_test = X[4084:]
+    # X[corrupted_idx] = np.random.normal(0, 5, X[corrupted_idx].shape) + Y[corrupted_idx]*X[corrupted_idx]/(alpha*n_bad)
+    # Y[corrupted_idx] = -beta
 
-    y_train = Y[:4084]
-    y_test = Y[4084:]
+    x_test = X[training_num:]
+    x_train = X[:training_num]
 
-    scaler = RobustScaler().fit(x_train)
+    y_train = Y[:training_num]
+    y_train = addNoise(y_train, epsilon)
+    y_test = Y[training_num:]
 
-    x_train = scaler.transform(x_train)
-    x_test = scaler.transform(x_test)
+    for _ in range(iter):
 
-    ridge = Ridge(1, fit_intercept=False)
+        scaler = RobustScaler().fit(x_train)
 
-    ridge.fit(x_train, y_train)
+        x_train = scaler.transform(x_train)
 
-    w = ridge.coef_
+        ridge = Ridge(reg, fit_intercept=False)
 
+        ridge.fit(x_train, y_train)
 
-    #extract gradients for each point
-    #center gradients
-    #svd to compute top vector v
-    #in each iteration simply remove the top p fraction of outliers
-    #according to the scores τi
-    #and instead of using a specific stopping condition, simply repeat the filter for r
-    #iterations in total. This is the version of Sever that we use in our experiments in Section 3
+        w = ridge.coef_
 
-    return w
+        #extract gradients for each point
+        losses = y_train - x_train @ w
+        grads = np.diag(losses) @ x_train + (reg * w)[None, :]
+        #center gradients
+        grad_avg = np.mean(grads, axis=0)
+        # print(grad_avg.shape)
+        centered_grad = grads-grad_avg[None, :]
+        #svd to compute top vector v
+        u, s, vh = np.linalg.svd(centered_grad, full_matrices=True)
+        v = vh[:, 0] #top right singular vector
+        #compute outlier score
+        tau = np.sum(centered_grad*v[None, :], axis=1)**2
+        #in each iteration simply remove the top p fraction of outliers
+        #according to the scores τi
+        n_removed = int(p*len(tau))
+        idx_kept = np.argpartition(tau, -n_removed)[:-n_removed]
+        x_train = x_train[idx_kept]
+        y_train = y_train[idx_kept]
+
+        test_data = scaler.transform(x_test)
+        rmse = np.sqrt(np.mean((test_data@w - y_test)**2))
+        print(rmse)
+
+    return rmse
+
+def addNoise(y, noise: float): 
+  #np.random.seed(42)
+  noisyY = np.copy(y)
+  noisyY[:int(len(y) * noise)] = np.random.normal(5, 5, int(len(y) * noise))
+  return noisyY
     
 
     
@@ -56,15 +83,11 @@ Y = np.concatenate([y_train, y_test])
 
 X = np.concatenate([X, np.ones(len(X)).reshape(-1, 1)], axis=1)
 
-idxs = np.arange(len(X))
-np.random.shuffle(idxs)
-X = X[idxs]
-Y = Y[idxs]
 
-epsilon = 0.1
+epsilon = 0.4
 alpha = 2
 beta = 4
 
 
-w = SEVER(X, Y, epsilon, alpha, beta)
-print(w)
+rmse = SEVER(X, Y, epsilon, alpha, beta, reg=1, p=0.3, iter=16, training_num=4084)
+print(rmse)
