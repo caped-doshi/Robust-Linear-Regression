@@ -3,7 +3,7 @@ import cvxpy as cp
 from scipy.io import loadmat
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import HuberRegressor,TheilSenRegressor,LinearRegression, RANSACRegressor
+from sklearn.linear_model import HuberRegressor,TheilSenRegressor,LinearRegression, RANSACRegressor, Ridge
 
 def calc_RMSE(y, theta, X):
   if len(y) != len(X): 
@@ -84,8 +84,48 @@ def SubQ(X, y, T, p):
         theta = theta + update
     return theta
 
+def SEVER(x_train, x_test, y_train, y_test, reg=2, p=0.01, iter=64):
+    for _ in range(iter):
+
+        ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
+
+        ridge.fit(x_train[:,:-1], y_train)
+
+        w = np.append(ridge.coef_, [ridge.intercept_])
+
+        #extract gradients for each point
+        losses = y_train - x_train @ w
+        grads = np.diag(losses) @ x_train + (reg * w)[None, :]
+
+        #center gradients
+        grad_avg = np.mean(grads, axis=0)
+        centered_grad = grads-grad_avg[None, :]
+
+        #svd to compute top vector v
+        u, s, vh = np.linalg.svd(centered_grad, full_matrices=False)
+        v = vh[:, 0] #top right singular vector
+
+        #compute outlier score
+        tau = np.sum(centered_grad*v[None, :], axis=1)**2
+
+        #in each iteration simply remove the top p fraction of outliers
+        #according to the scores τi
+        n_removed = int(p*len(tau))
+        # idx_kept = np.argpartition(tau, -n_removed)[:-n_removed]
+        idx_kept = np.argsort(tau)[:-n_removed]
+        idx_kept = np.sort(idx_kept)
+        x_train = x_train[idx_kept]
+        y_train = y_train[idx_kept]
+
+        # test_data = scaler.transform(x_test)
+        rmse = np.sqrt(np.mean((x_train@w - y_train)**2))
+        # print(rmse)
+    rmse = np.sqrt(np.mean((x_test@w - y_test)**2))
+    return rmse
+
 def LM(X, y):
     return np.matmul(np.linalg.pinv(X),y)
+    
 
 def data_loader_drug(i = 0):
     x = loadmat('qsar.mat')
@@ -117,6 +157,7 @@ if __name__ == "__main__":
 
         y_train_noisy = addNoise(y_train, eps)
 
+        rmse_sever = SEVER(X_train, X_test, y_train, y_test)
         theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 3000)
         theta_erm = LM(X_train, y_train_noisy)
         theta_subq = SubQ(X_train,y_train_noisy, 500, 0.6)
@@ -125,7 +166,8 @@ if __name__ == "__main__":
         ransac = RANSACRegressor().fit(X_train,y_train_noisy)
         
         print(f"Iteration:\t{i}")
-        print(f"SubQ Loss eps = {eps}:\t{calc_RMSE(y_test,theta_subq,X_test):.4f}")        
+        print(f"SubQ Loss eps = {eps}:\t{calc_RMSE(y_test,theta_subq,X_test):.4f}")       
+        print(f"SEVER Loss eps = {eps}:\t{rmse_sever:.4f}")  
         print(f"Huber Loss eps = {eps}:\t{calc_RMSE(y_test,theta_huber,X_test):.4f}")
         print(f"ERM Loss eps = {eps}:\t{calc_RMSE(y_test,theta_erm,X_test):.4f}")
         print(f"RANSAC Loss eps = {eps}:\t{np.sqrt(np.mean((ransac.predict(X_test) - y_test) ** 2))}")
