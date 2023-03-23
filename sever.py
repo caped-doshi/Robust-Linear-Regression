@@ -3,14 +3,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.linear_model import Ridge
 import numpy as np
 
-def SEVER(X, Y, epsilon, alpha=4, beta=3, reg=1, p=0.3, iter=8, training_num=4084):
-    X = np.copy(X)
-    Y = np.copy(Y).flatten()
-
-    idxs = np.arange(len(X))
-    np.random.shuffle(idxs)
-    X = X[idxs]
-    Y = Y[idxs]
+def SEVER(x_train, x_test, y_train, y_test, reg=1, p=0.3, iter=8):
 
     # n_bad = int(epsilon*len(X))
 
@@ -19,12 +12,7 @@ def SEVER(X, Y, epsilon, alpha=4, beta=3, reg=1, p=0.3, iter=8, training_num=408
     # X[corrupted_idx] = np.random.normal(0, 5, X[corrupted_idx].shape) + Y[corrupted_idx]*X[corrupted_idx]/(alpha*n_bad)
     # Y[corrupted_idx] = -beta
 
-    x_test = X[training_num:]
-    x_train = X[:training_num]
-
-    y_train = Y[:training_num]
-    y_train = addNoise(y_train, epsilon)
-    y_test = Y[training_num:]
+    
 
     for _ in range(iter):
 
@@ -63,9 +51,9 @@ def SEVER(X, Y, epsilon, alpha=4, beta=3, reg=1, p=0.3, iter=8, training_num=408
         y_train = y_train[idx_kept]
 
         # test_data = scaler.transform(x_test)
-        rmse = np.sqrt(np.mean((x_test@w - y_test)**2))
-        print(rmse)
-
+        rmse = np.sqrt(np.mean((x_train@w - y_train)**2))
+        # print(rmse)
+    rmse = np.sqrt(np.mean((x_test@w - y_test)**2))
     return rmse
 
 def addNoise(y, noise: float): 
@@ -88,11 +76,24 @@ Y = np.concatenate([y_train, y_test])
 
 X = np.concatenate([X, np.ones(len(X)).reshape(-1, 1)], axis=1)
 
+Y = Y.flatten()
+
+idxs = np.arange(len(X))
+np.random.shuffle(idxs)
+X = X[idxs]
+Y = Y[idxs]
+
+
 
 epsilon = 0.4
-alpha = 2
-beta = 4
 
+training_num = 4084
+x_test = X[training_num:]
+x_train = X[:training_num]
 
-rmse = SEVER(X, Y, epsilon, alpha, beta, reg=2, p=0.05, iter=16, training_num=4084)
+y_train = Y[:training_num]
+y_train = addNoise(y_train, epsilon)
+y_test = Y[training_num:]
+
+rmse = SEVER(x_train, x_test, y_train, y_test, reg=2, p=0.01, iter=64)
 print(rmse)
