@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
         y_train_noisy = addNoise(y_train, eps)
 
-        rmse_sever = SEVER(X_train, X_test, y_train, y_test)
+        rmse_sever = SEVER(X_train, X_test, y_train_noisy, y_test)
         theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 3000)
         theta_erm = LM(X_train, y_train_noisy)
         theta_subq = SubQ(X_train,y_train_noisy, 500, 0.6)
