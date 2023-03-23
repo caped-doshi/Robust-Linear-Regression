@@ -28,37 +28,42 @@ def SEVER(X, Y, epsilon, alpha=4, beta=3, reg=1, p=0.3, iter=8, training_num=408
 
     for _ in range(iter):
 
-        scaler = RobustScaler().fit(x_train)
+        # scaler = RobustScaler().fit(x_train)
 
-        x_train = scaler.transform(x_train)
+        # x_train = scaler.transform(x_train)
 
-        ridge = Ridge(reg, fit_intercept=False)
+        ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
 
-        ridge.fit(x_train, y_train)
+        ridge.fit(x_train[:,:-1], y_train)
 
-        w = ridge.coef_
+        w = np.append(ridge.coef_, [ridge.intercept_])
 
         #extract gradients for each point
         losses = y_train - x_train @ w
         grads = np.diag(losses) @ x_train + (reg * w)[None, :]
+
         #center gradients
         grad_avg = np.mean(grads, axis=0)
-        # print(grad_avg.shape)
         centered_grad = grads-grad_avg[None, :]
+
         #svd to compute top vector v
-        u, s, vh = np.linalg.svd(centered_grad, full_matrices=True)
+        u, s, vh = np.linalg.svd(centered_grad, full_matrices=False)
         v = vh[:, 0] #top right singular vector
+
         #compute outlier score
         tau = np.sum(centered_grad*v[None, :], axis=1)**2
+
         #in each iteration simply remove the top p fraction of outliers
         #according to the scores τi
         n_removed = int(p*len(tau))
-        idx_kept = np.argpartition(tau, -n_removed)[:-n_removed]
+        # idx_kept = np.argpartition(tau, -n_removed)[:-n_removed]
+        idx_kept = np.argsort(tau)[:-n_removed]
+        idx_kept = np.sort(idx_kept)
         x_train = x_train[idx_kept]
         y_train = y_train[idx_kept]
 
-        test_data = scaler.transform(x_test)
-        rmse = np.sqrt(np.mean((test_data@w - y_test)**2))
+        # test_data = scaler.transform(x_test)
+        rmse = np.sqrt(np.mean((x_test@w - y_test)**2))
         print(rmse)
 
     return rmse
@@ -89,5 +94,5 @@ alpha = 2
 beta = 4
 
 
-rmse = SEVER(X, Y, epsilon, alpha, beta, reg=1, p=0.3, iter=16, training_num=4084)
+rmse = SEVER(X, Y, epsilon, alpha, beta, reg=2, p=0.05, iter=16, training_num=4084)
 print(rmse)
