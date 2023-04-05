@@ -4,241 +4,149 @@ import sys
 np.set_printoptions(threshold=sys.maxsize)
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-#np.random.seed(13)
 from matplotlib import pyplot as plt
 import csv
-
+from sklearn.model_selection import train_test_split
 from sklearn.linear_model import HuberRegressor,TheilSenRegressor,LinearRegression, RANSACRegressor
+import tikzplotlib
+from scipy.stats.distributions import chi2
 
 def num_p_q(argsorted_arr,n,p,eps):
     m = int(n*(1-eps))
     pc = 0
     qc = 0
     for i in range(0,int(n*p)):
-        if argsorted_arr[i] < m:
+        if argsorted_arr[0,i] < m:
             pc += 1
         else:
             qc += 1
     return (pc,qc)
 
-def deriv_in_p_q(argsorted_arr, L, x, n,p,eps):
-
-    p_deriv = np.zeros((1,3))
-    q_deriv = np.zeros((1,3))
-
-    for i in range(0,int(n*p)):
-        index = argsorted_arr[i]
-        d_i = 2*x[index]*L[index]
-        if index < n*(1-eps):
-            p_deriv += d_i
-        else:
-            q_deriv += d_i
-    return p_deriv,q_deriv
-
-def avg_loss_in_p_q(argsorted_arr,L,n,p,eps):
-    p_loss = 0
-    q_loss = 0
-
-    pc = 0
-    qc = 0
-    for i in range(0,int(n*p)):
-        index = argsorted_arr[i]
-        d_i = L[index]
-        if index < n*(1-eps):
-            p_loss += d_i
-            pc += 1
-        else:
-            q_loss += d_i
-            qc += 1
-    return p_loss/(pc+qc),q_loss/(qc+pc)
-
-def avg_loss_total_p_q(argsorted_arr,L,n,p,eps):
-    p_loss = 0
-    q_loss = 0
-
-    pc = 0
-    qc = 0
-    for i in range(0,n):
-        index = argsorted_arr[i]
-        d_i = L[index]
-        if index < n*(1-eps):
-            p_loss += d_i
-            pc += 1
-        else:
-            q_loss += d_i
-            qc += 1
-    return p_loss/pc,q_loss/qc
-
-def cos_array(f_deriv, g_deriv):
-    cos = np.zeros((f_deriv.shape[0],))
-    #print(f_deriv[0])
-    for i in range(len(cos)):
-        cos[i] = np.dot(f_deriv[i],np.transpose(g_deriv))/(LA.norm(f_deriv[i],2)*LA.norm(g_deriv,2))
-    return cos
-
+def addNoise(X, y, m, b, noise: float): 
+    noisyY = np.copy(y)
+    d = 50
+    m_ = np.random.normal(4,4,d)
+    b_ = np.random.normal(4,4,1)
+    for i in range(int(y.shape[1] * (1-noise)), y.shape[1]):
+        noisyY[0,i] = np.random.normal(np.dot(np.transpose(m_),X[0:d,i]) - b_,0.1)
+    #print(f"a:\t{a}b:\t{b}")
+    return noisyY
 
 if __name__ == "__main__":
 
-    for _ in range(1):
+    meta_means = []
+    meta_std = []
+    x_ = np.linspace(0.1,0.40,15)
+    for eps in x_:
+        print(f"Initial Epsilon:\t{eps}")
+        means = []
+        for _ in range(10):
+            
+            d = 50
+            pq = 1-eps
+            n = 2000
+            x = np.random.normal(1,1,n)
+            mu = np.ones((d+1,1))
+            sigma = np.eye(d+1)
+            sigma[d,d] = 0
 
-        pq = 0.8
-        n = 10000
-        eps = 0.8
-        x = np.random.normal(0,1,n)
-        p_hat = np.zeros((n,))
-        m = int(n*(1-eps))
-        l = int(n*eps)
-        p = np.zeros((int(n*(1-eps)),))
-        q = np.zeros((int(n*(eps)),))
+            m = np.random.normal(4,4,d)
+            b = np.random.normal(4,4)
+            beta_p = np.zeros((d+1,))
+            beta_p[0:d] += m
+            beta_p[d] = b
+            beta_p = beta_p[:,np.newaxis]
+            #print(f"beta_p:\t{beta_p.transpose()}")
+            
+            X = np.zeros((d+1,n))
+            y = np.zeros((1,n))
 
-        M = int(n*pq*0.2)
+            for i in range(n):
+                x = np.random.normal(1,1,d)
+                X[0:d,i] = x
+                X[d,i] = 1
 
-        f = open('quadratic-regression-p.csv','w',newline='')
-        writer = csv.writer(f)
-        header = ['Px','Py']
-        writer.writerow(header)
+            for i in range(n):
+                t = np.random.normal(np.dot(np.transpose(m),X[0:d,i]) + b,0.1)
+                y[0,i] = t
+            eps_p = 0.1
+            eps_q = 0.1
+            
+            #print(f"X: {X.shape}")
+            #print(f"y: {y.shape}")
+            X_train, X_test, y_train, y_test = train_test_split(np.transpose(X),np.transpose(y), train_size = .80)
+            X_train = np.transpose(X_train)
+            X_test = np.transpose(X_test)
+            y_train = np.transpose(y_train)
+            y_test = np.transpose(y_test)
 
-        for i in range(int(n*(1-eps))):
-            t = np.random.normal(x[i]**2 - x[i] + 2,0.01,1)
-            p_hat[i] = t
-            p[i] = t
-            writer.writerow([x[i],t[0]])
-        f.close()
+            beta_q = np.zeros((d+1,))
+            #beta_q[0:d] += m
+            #beta_q[d] += b + 2
+            #beta_q = beta_q[:,np.newaxis]
+            #print(f"beta_q:\t{beta_q.transpose()}")
+            y_train_noisy = addNoise(X_train, y_train,m, b, eps)
 
-        f = open('quadratic-regression-q.csv','w',newline='')
-        #writer = csv.writer(f)
-        #header = ['Qx','Qy']
-        #writer.writerow(header)
-        for i in range(int(n*(1-eps)),n):
-            t = np.random.normal(-1*(x[i]**2) +x[i] + 4, 0.01, 1)
-            p_hat[i] = t
-            #q[int(i-m)] = t
-            #writer.writerow([x[i],t[0]])
-        #f.close()
-        
-
-        #plt.scatter(x[:m],p)
-        #plt.scatter(x[m:],q)
-        #initialize theta
-
-        X = np.zeros((n,3))
-        X_norm = np.zeros((n,))
-        for i in range(n):
-            X[i,0] = x[i]**2
-            X[i,1] = x[i]
-            X[i,2] = 1
-            X_norm[i] = LA.norm(X[i],2)
-        
-        P = X[:m,:]
-        Q = X[m:,:]
-
-        plt.hist(X[:,0], bins=50)
-        plt.gca().set(title='Frequency Histogram', ylabel='Frequency');
-        #plt.show()
-
-        # huber = HuberRegressor(max_iter=3000).fit(X, p_hat)
-        # h_pred = huber.predict(P)
-        # h_err = LA.norm(h_pred-p_hat[:m],2)
-
-        # print(f"Model:\t{_}\tHuber\th-error:\t{h_err}")
-        # print(f"Model:\t{_}\tHuber\th-theta:\t{huber.coef_}")
-        linear = LinearRegression().fit(X, p_hat)
-        l_pred = linear.predict(P)
-        l_err = LA.norm(l_pred-p_hat[:m],2)
-
-        # print(f"Model:\t{_}\tLinear\tl-error:\t{l_err}")
-        # print(f"Model:\t{_}\tLinear\tl-theta:\t{linear.coef_}")
-
-        # ransac = RANSACRegressor().fit(X, p_hat)
-        # r_pred = ransac.predict(P)
-        # r_err = LA.norm(r_pred-p_hat[:m],2)
-
-        # print(f"Model:\t{_}\tRANSAC\tr-error:\t{r_err}")
-        #print(f"Model:\t{_}\tRANSAC\tr-theta:\t{ransac.coef_}")
-
-        genie = LinearRegression().fit(P,p_hat[:m])
-        g_pred = genie.predict(P)
-        g_err = LA.norm(g_pred-p_hat[:m],2)
-
-        L = LA.norm(np.matmul(np.transpose(X),X),2)
-
-        #print(f"Model:\t{_}\tGenie\tg-error:\t{g_err}")
-        genie_monrose = np.matmul(np.matmul(LA.inv(np.matmul(np.transpose(P),P)), np.transpose(P)),p_hat[:m])
-        print(f"Genie Predicted:\t{genie_monrose}")
-
-        print(f"Theoretical Predicted:\t{(2/L)*(1-eps)*np.array([1,-1,1]) + (2/L)*eps*np.array([-1,1,4])}")
-        
-        corrupted_monrose = np.matmul(np.matmul(LA.inv(np.matmul(np.transpose(X),X)), np.transpose(X)),p_hat)
-        print(f"Corrupted Predicted:\t{corrupted_monrose}\n")
-
-        x_test = np.linspace(-3,3,300)
-        t = 0
-        #theta = np.random.normal(0,10,3)
-        #print(theta)
-        theta = np.zeros((3,))
-        d = np.dot(X,theta) - p_hat
-        deriv = np.sum(2 * X * d[:, np.newaxis],axis=0)
-        alpha = 1/(2*L)
-        update = -1 * alpha * deriv
-        theta = theta + update
-        
-        print(f"theta0 Predicted:\t{theta}")
-        x_test = np.linspace(-3,3,300)
-        #y = theta[0]*x_test**2 + theta[1]*x_test + theta[2]
-        for k in range(0, 200):
-            pred = np.matmul(X,theta)
-            v = (pred - p_hat)**2
-            v_abs = np.abs(pred-p_hat)
-            p_err = LA.norm(np.matmul(P,theta)-p_hat[:m],2)
-            v_hat = sorted(v)
+            theta = np.matmul(np.linalg.pinv(np.transpose(X_train)),np.transpose(y_train_noisy))
+            #theta = np.random.normal(0,4,d+1)
+            x_test = np.linspace(-3,3,300)
+            n = X_train.shape[1]
+            X_prev_np_hat = np.zeros((int(n*pq)))
+            pred = np.matmul(np.transpose(theta),X_train)
+            v = (pred - y_train_noisy) * (pred-y_train_noisy)
+            v_abs = np.abs(pred-y_train_noisy)
+            v_n_abs = pred-y_train_noisy
             v_arg_hat = np.argsort(v)
-            deriv = np.zeros((1,3))
-            L = 0
+            for k in range(0, 500):
+                pred = np.matmul(np.transpose(theta),X_train)
+                v = (pred - y_train_noisy) * (pred-y_train_noisy)
+                v_abs = np.abs(pred-y_train_noisy)
+                v_n_abs = pred-y_train_noisy
+                v_arg_hat = np.argsort(v)
+                # if k % 2 == 0:
+                #     plt.hist(v_n_abs[0,:int(n*(1-eps))],bins='auto')
+                #     plt.hist(v_n_abs[0,int(n*(1-eps)):],bins='auto')
+                #     plt.xlabel("Residual")
+                #     plt.ylabel("Frequency")
+                #     tikzplotlib.save(f"test{k}.tikz")
+                #     plt.clf()
+                X_np_hat = v_arg_hat[0,:int(n*pq)]
+                #print(f"Common Points:\t{len(np.intersect1d(X_np_hat,X_prev_np_hat))}")
+                X_prev_np_hat = X_np_hat.copy()
+                X_np = X_train[:,v_arg_hat[0,:int(n*pq)]]
+                y_np = y_train_noisy[:,v_arg_hat[0,:int(n*pq)]]
+                df = np.matmul(np.transpose(theta), X_np) - y_np
+                deriv = np.zeros((d+1,1))
+                df_temp = df[0]
+                df_temp = np.transpose(df_temp)
+                deriv = 2 * X_np.transpose() * df_temp[:,np.newaxis]
+                deriv = np.sum(deriv, axis=0)
+                deriv /= (n*pq)
             
-            X_np = X[v_arg_hat[:int(n*pq)]]
-            y_np = p_hat[v_arg_hat[:int(n*pq)]]
-            d = np.dot(X_np,theta) - y_np
-            deriv = np.sum(2 * X_np * d[:, np.newaxis],axis=0)
+                L = np.matmul(np.transpose(X_np),X_np)
+                v = np.diag(L)
+                L = np.sum(v)
+                L = L /(n*pq)
 
-            #M_set = np.random.randint(int(n*pq), size=M)
-            #X_m = X_np[M_set]
-            #y_m = y_np[M_set]
-            #d_m = np.dot(X_m,theta) - y_m
-            #deriv_m = np.sum(2 * X_m * d_m[:, np.newaxis],axis=0)
-            #print(deriv)
-            # L = L * 2 / (n*pq)
+                alpha = 1/(2*L)
+                update = -1 * alpha * deriv.transpose()
+                theta = theta + update[:,np.newaxis]
             
-            # g = 0
-            # for i in range(n):
-            #     g += max(0,t-v[i])
-            # g /= (n*pq)
-            # g = t - g
-            
-
-            L = LA.norm(np.matmul(np.transpose(X_np),X_np),2)
-            #L = LA.norm(np.matmul(np.transpose(X_m),X_m),2
-
-            alpha = 1/(2*L)
-            update = -1 * alpha * deriv
-            #update = -1 * alpha * deriv_m
-
-            theta = theta + update
-            if k % 1 == 0:
-                print(num_p_q(v_arg_hat,n,pq,eps))
-                print(f"theta:\t{theta}")
-                #print(f"Model:\t{_}\tk:{k}\tSubQ\tp-error:\t{p_err}")
-                #print(f"Model:\t{_}\tk:{k}\tSubQ\ttheta:\t{theta}")
-        #print(f"Model:\t{_}\tSubQ\tp-error:\t{p_err}")
-        #print(f"Deriv:\t{deriv}")
-
-        
-        y = theta[2]*x_test**2 + theta[1]*x_test + theta[0]
-        #plt.plot(x_test,y)
-
-        #print(theta)
-
-    
-
-
-    #plt.show()
+            n_p,n_q = num_p_q(v_arg_hat,n,1-eps,eps)
+            #print(f"p:\t{n_p}\tq:\t{n_q}")
+            #print(f"Epsilon:\t{n_q/(n_p + n_q)}")
+            means.append(n_q/(n_p+n_q))
+        mean = np.mean(means)
+        std = np.std(means)
+        print(f"mean:\t{mean}")
+        print(f"std:\t{std}")
+        meta_means.append(mean)
+        meta_std.append(std)
+    meta_means = np.float32(meta_means)
+    meta_std = np.float32(meta_std)
+    plt.plot(x_,meta_means, color='black')
+    plt.fill_between(x_,meta_means-meta_std,meta_means+meta_std,color='black',alpha=0.5)
+    plt.ylim([0, 1])
+    tikzplotlib.save("final-epsilon-random-0-symmetric.tex")
+    plt.show()
     pass

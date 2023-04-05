@@ -5,6 +5,7 @@ from sklearn import linear_model
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import HuberRegressor,TheilSenRegressor,LinearRegression, RANSACRegressor, Ridge
 from matplotlib import pyplot as plt
+import tikzplotlib
 
 from SubQuantile import SubQ
 
@@ -93,61 +94,69 @@ def SEVER(x_train, y_train, reg=2, p=0.01, iter=64):
 def LM(X, y):
     return np.matmul(np.linalg.pinv(X),y)
 
-def addNoise(X, y, noise: float): 
+def addNoise(X, y, m, b, noise: float): 
     noisyY = np.copy(y)
+    d = 100
+    #m_ = np.random.normal(4,4,d)
+    b_ = np.random.normal(4,4)
     for i in range(int(len(y) * (1-noise)), len(y)):
-        noisyY[i] = np.random.normal(-2*(X[i,0]) +4, 1)
+        noisyY[i] = np.random.normal(b_,4)
+        #noisyY[i] = np.random.normal(np.dot(np.transpose(m_),X[i,0:d]) + b_,0.01)
     return noisyY
 
 if __name__ == "__main__":
     n = 2000
+    d = 100
 
-    e_subq = []
-    ed_subq = []
-    eu_subq = []
-    e_ransac = []
-    ed_ransac = []
-    eu_ransac = []
-    e_term = []
-    ed_term = []
-    eu_term = []
-    e_genie = []
-    ed_genie = []
-    eu_genie = []
-    e_sever = []
-    ed_sever = []
-    eu_sever = []
-    for eps in np.linspace(0.1,0.9,20):
+    meta_means_sever = []
+    meta_means_term = []
+    meta_means_subq = []
+    meta_means_genie = []
+    meta_means_ransac = []
+    meta_means_huber = []
+    meta_means_erm = []
+    meta_std_sever = []
+    meta_std_term = []
+    meta_std_subq = []
+    meta_std_ransac = []
+    meta_std_genie = []
+    meta_std_huber = []
+    meta_std_erm = []
+    x_ = np.linspace(0.1,0.4,20)
+    for eps in x_:
         means_sever = []
         means_term = []
         means_subq = []
         means_genie = []
         means_ransac = []
-        for j in range(5):
-            x = np.random.normal(0,2,n)
-            X = np.zeros((n,3))
+        means_huber = []
+        means_erm = []
+        for j in range(1):
+            X = np.zeros((n,d+1))
             y = np.zeros((n))
             for i in range(n):
-                X[i,0] = x[i]
-                X[i,1] = 1
+                x = np.random.uniform(-3,3,d)
+                X[i,0:d] = x
+                X[i,d] = 1
+            
+            m = np.random.normal(4,4,d)
+            b = np.random.normal(4,4)
+
             
             for i in range(n):
-                t = np.random.normal(2*x[i] + 4,1)
+                t = np.random.normal(np.dot(np.transpose(m),X[i,0:d]) + b,0.01)
                 y[i] = t
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = .80)
 
-            y_train_noisy = addNoise(X_train, y_train, eps)
-
-            if eps > 0.5: majority = False
-            else: majority = True
+            y_train_noisy = addNoise(X_train, y_train,m,b, eps)
 
             theta_sever = SEVER(X_train, y_train_noisy,iter=64)
-            theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 3000)
+            theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 500)
             theta_erm = LM(X_train, y_train_noisy)
-            theta_subq = SubQ(X_train,y_train_noisy, 1500, max(eps,1-eps),majority)
+            theta_subq = SubQ(X_train,y_train_noisy, 600, 1-eps)
             theta_huber = HuberRegressor(max_iter=3000).fit(X_train,y_train_noisy).coef_
-            theta_genie = LM(X_train[int(y_train.shape[0] * eps):], y_train[int(y_train.shape[0] * eps):])
+            #theta_genie = LM(X_train[int(y_train.shape[0] * eps):], y_train[int(y_train.shape[0] * eps):])
             ransac = RANSACRegressor().fit(X_train,y_train_noisy)
 
             loss_subq = calc_RMSE(y_test,theta_subq,X_test)
@@ -156,7 +165,18 @@ if __name__ == "__main__":
             loss_erm = calc_RMSE(y_test,theta_erm,X_test)
             loss_ransac = np.sqrt(np.mean((ransac.predict(X_test) - y_test) ** 2))
             loss_term = calc_RMSE(y_test,theta_term,X_test)
-            loss_genie = calc_RMSE(y_test,theta_genie,X_test)
+            #loss_genie = calc_RMSE(y_test,theta_genie,X_test)
+
+            print(f"\n")
+            print(f"epsilon:\t{eps}")
+            print(f"subq loss:\t{loss_subq}")
+            print(f"term loss:\t{loss_term}")
+            print(f"sever loss:\t{loss_sever}")
+            print(f"huber loss:\t{loss_huber}")
+            print(f"ransac loss:\t{loss_ransac}")
+            print(f"erm loss:\t{loss_erm}")
+            #print(f"genie loss:\t{loss_genie}")
+
 
             # x_test = np.linspace(np.min(x),np.max(x),300)
             # y_sever = theta_sever[0]*x_test + theta_sever[1]
@@ -169,90 +189,67 @@ if __name__ == "__main__":
             means_subq.append(loss_subq)
             means_ransac.append(loss_ransac)
             means_term.append(loss_term)
-            means_genie.append(loss_genie)
+            #means_genie.append(loss_genie)
             means_sever.append(loss_sever)
+            means_huber.append(loss_huber)
+            means_erm.append(loss_erm)
         
+        a = 0.5 
+
         mean_subq = np.mean(np.float32(means_subq))
         std_subq = np.std(np.float32(means_subq))
-        e_subq.append((eps,mean_subq))
-        ed_subq.append((eps,mean_subq-std_subq))
-        eu_subq.append((eps,mean_subq+std_subq))
+        meta_means_subq.append(mean_subq)
+        meta_std_subq.append(std_subq)
 
         mean_ransac = np.mean(np.float32(means_ransac))
         std_ransac = np.std(np.float32(means_ransac))
-        e_ransac.append((eps,mean_ransac))
-        ed_ransac.append((eps,mean_ransac-std_ransac))
-        eu_ransac.append((eps,mean_ransac+std_ransac))
+        meta_means_ransac.append(mean_ransac)
+        meta_std_ransac.append(std_ransac)
 
         mean_term = np.mean(np.float32(means_term))
         std_term = np.std(np.float32(means_term))
-        e_term.append((eps,mean_term))
-        ed_term.append((eps,mean_term-std_term))
-        eu_term.append((eps,mean_term+std_term))
+        meta_means_term.append(mean_term)
+        meta_std_term.append(std_term)
 
-        mean_genie = np.mean(np.float32(means_genie))
-        std_genie = np.std(np.float32(means_genie))
-        e_genie.append((eps,mean_genie))
-        ed_genie.append((eps,mean_genie-std_genie))
-        eu_genie.append((eps,mean_genie+std_genie))
+        mean_huber = np.mean(np.float32(means_huber))
+        std_huber = np.std(np.float32(means_huber))
+        meta_means_huber.append(mean_huber)
+        meta_std_huber.append(std_huber)
+
+        mean_erm = np.mean(np.float32(means_erm))
+        std_erm = np.std(np.float32(means_erm))
+        meta_means_erm.append(mean_erm)
+        meta_std_erm.append(std_erm)
 
         mean_sever = np.mean(np.float32(means_sever))
         std_sever = np.std(np.float32(means_sever))
-        e_sever.append((eps,mean_sever))
-        ed_sever.append((eps,mean_sever-std_sever))
-        eu_sever.append((eps,mean_sever+std_sever))
+        meta_means_sever.append(mean_sever)
+        meta_std_sever.append(mean_subq)
 
-    print("SUBQUANTILE")
-    for e in e_subq:
-        print(f"{e}",end="")    
-    print("\n")
-    for e in eu_subq:
-        print(f"{e}",end="")
-    print("\n")
-    for e in ed_subq:
-        print(f"{e}",end="")   
-    print("\n")   
-
-    print("RANSAC\n")
-    for e in e_ransac:
-        print(f"{e}",end="")    
-    print("\n")
-    for e in eu_ransac:
-        print(f"{e}",end="")
-    print("\n")
-    for e in ed_ransac:
-        print(f"{e}",end="") 
-    print("\n")  
-
-    print("TERM\n")
-    for e in e_term:
-        print(f"{e}",end="")    
-    print("\n")
-    for e in eu_term:
-        print(f"{e}",end="")
-    print("\n")
-    for e in ed_term:
-        print(f"{e}",end="")   
-    print("\n")
-
-    print("GENIE\n")
-    for e in e_genie:
-        print(f"{e}",end="")    
-    print("\n")
-    for e in eu_genie:
-        print(f"{e}",end="")
-    print("\n")
-    for e in ed_genie:
-        print(f"{e}",end="")   
-    print("\n")
-
-    print("SEVER\n")
-    for e in e_sever:
-        print(f"{e}",end="")    
-    print("\n")
-    for e in eu_sever:
-        print(f"{e}",end="")
-    print("\n")
-    for e in ed_sever:
-        print(f"{e}",end="")        
-        
+    meta_means_subq = np.float32(meta_means_subq)
+    meta_means_sever = np.float32(meta_means_sever)
+    meta_means_term = np.float32(meta_means_term)
+    meta_means_ransac = np.float32(meta_means_ransac)
+    meta_means_huber = np.float32(meta_means_huber)
+    meta_means_erm = np.float32(meta_means_erm)
+    meta_std_subq = np.float32(meta_std_subq)
+    meta_std_sever = np.float32(meta_std_sever)
+    meta_std_term = np.float32(meta_std_term)
+    meta_std_ransac = np.float32(meta_std_ransac)
+    meta_std_huber = np.float32(meta_std_huber)
+    meta_std_erm = np.float32(meta_std_erm)
+    plt.plot(x_,meta_means_subq, color='black')
+    plt.plot(x_,meta_means_sever,color='green')
+    plt.plot(x_,meta_means_term,color='red')
+    plt.plot(x_,meta_means_ransac,color='orange')
+    plt.plot(x_,meta_means_huber,color='purple')
+    plt.plot(x_,meta_means_erm,color='cyan')
+    # plt.fill_between(x_,meta_means_subq-meta_std_subq,meta_means_subq+meta_std_subq,color='black',alpha=0.5)
+    # plt.fill_between(x_,meta_means_sever-meta_std_sever,meta_means_sever+meta_std_sever,color='green',alpha=0.5)
+    # plt.fill_between(x_,meta_means_term-meta_std_term,meta_means_term+meta_std_term,color='red',alpha=0.5)
+    # plt.fill_between(x_,meta_means_ransac-meta_std_ransac,meta_means_ransac+meta_std_ransac,color='orange',alpha=0.5)
+    # plt.fill_between(x_,meta_means_huber-meta_std_huber,meta_means_huber+meta_std_huber,color='purple',alpha=0.5)
+    # plt.fill_between(x_,meta_means_erm-meta_std_erm,meta_means_erm+meta_std_erm,color='cyan',alpha=0.5)
+    plt.ylim([0, 1000])
+    tikzplotlib.save("noisy-subq-sever.tex")
+    plt.show()
