@@ -86,6 +86,11 @@ if __name__ == "__main__":
     p = parsed['quantile']
     dataset = parsed['dataset']
 
+    maxLen = max([len(ii) for ii in parsed.keys()])
+    fmtString = '\t%' + str(maxLen) + 's : %s'
+    print('Arguments:')
+    for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
+
     if dataset == 'cal_housing':
         X, y = data_loader_cal_housing()
     elif dataset == 'abalone':
