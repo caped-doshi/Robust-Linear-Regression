@@ -11,7 +11,7 @@ from scipy.stats import entropy
 
 
 def data_loader_drug(i=0):
-    x = loadmat('C:/Users/Josh/Documents/data/qsar.mat')
+    x = loadmat('data/qsar.mat')
     x_train = x['X_train']
     x_test = x['X_test']
 
@@ -146,35 +146,8 @@ if __name__ == "__main__":
     n = 2000
     d = 100
 
-    meta_means_sever = []
-    meta_means_term = []
-    meta_means_subq = []
-    meta_means_crr = []
-    meta_means_genie = []
-    meta_means_ransac = []
-    meta_means_huber = []
-    meta_means_erm = []
-    meta_means_stir = []
-    meta_std_sever = []
-    meta_std_term = []
-    meta_std_subq = []
-    meta_std_crr = []
-    meta_std_ransac = []
-    meta_std_genie = []
-    meta_std_huber = []
-    meta_std_erm = []
-    meta_std_stir = []
     x_ = np.linspace(0.1,0.4,11)
     for eps in x_:
-        means_sever = []
-        means_term = []
-        means_subq = []
-        means_crr = []
-        means_genie = []
-        means_ransac = []
-        means_huber = []
-        means_erm = []
-        means_stir = []
         for j in range(1):
             X,y = data_loader_drug()
             
