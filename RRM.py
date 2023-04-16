@@ -78,10 +78,10 @@ def RRM(X, y, epsilon):
     
     ##INITIALIZATION##
     n, d = X.shape
-    p = np.ones([n,1])/n
+    p = np.ones(n)/n
     
     #initial theta as the solution of WLS at p_old
-    theta_old = np.linalg.pinv(X.T @ np.diag(p.flatten()) @ X) @ (X.T @ np.diag(p.flatten()) @ y)
+    theta_old = np.linalg.pinv(X.T @ np.diag(p) @ X) @ (X.T @ np.diag(p) @ y)
 
 
 
@@ -91,13 +91,13 @@ def RRM(X, y, epsilon):
         #LOSS
         alpha = (y-X@theta_old)**2
 
-        p = optimize_RRM(alpha.flatten(),epsilon,n)
+        p = optimize_RRM(alpha.flatten(),epsilon,n, p)
         # p = optimize_scipy(alpha.flatten(),epsilon,n, p).reshape(-1, 1)
             
         #WLS SOLUTION
         theta_new  = np.linalg.pinv(X.T @ np.diag(p.flatten()) @ X) @ (X.T @ np.diag(p.flatten()) @ y)
 
-        if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>1e-2:
+        if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>2e-2:
           print(np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old))
           cnt = 1
           theta_old = theta_new
@@ -107,11 +107,13 @@ def RRM(X, y, epsilon):
 
 
 
-def optimize_RRM(alpha, epsilon, n):
+def optimize_RRM(alpha, epsilon, n, p_val=None):
    # Define the optimization variables
   p = cp.Variable(n)
-  # p.value = p_val
-  p.value = np.ones(n)/n
+  if p_val is None:
+    p.value = np.ones(n)/n
+  else:
+    p.value = p_val
 
   # Define the objective function to be minimized
   objective = cp.Minimize(alpha.T @ p)
@@ -123,7 +125,7 @@ def optimize_RRM(alpha, epsilon, n):
 
   # Define the problem and solve it
   prob = cp.Problem(objective, constraints)
-  prob.solve(solver=cp.SCS, eps=1e-3)# feastol=1e-3, abstol=1e-3, reltol=1e-3, max_iters=100)
+  prob.solve(solver=cp.SCS, eps=1e-3, max_iters=10000)# feastol=1e-3, abstol=1e-3, reltol=1e-3, max_iters=100)
   return p.value
 
 # def optimize_scipy(alpha, epsilon, n, p_val):
