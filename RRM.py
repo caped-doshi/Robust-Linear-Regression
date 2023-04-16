@@ -84,7 +84,7 @@ if __name__ == "__main__":
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
             y_train_noisy = addUnstructuredNoise(X_train, y_train, eps)
             theta = RRM(X_train,y_train_noisy,eps)
-            loss = calc_RMSE(y_test, theta, X_test)
+            loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
             means.append(loss)
             print(f"Loss:\t{loss:.3f}")
         print(f"RRM:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")

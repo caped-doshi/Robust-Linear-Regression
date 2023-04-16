@@ -47,7 +47,7 @@ def data_loader_abalone(i=0):
 
   return x[perm], y[perm]
 
-def data_loader_cal_housing(i):
+def data_loader_cal_housing(i=0):
   x = []
   y = []
   with open("data/cal_housing.data", 'r') as f:
