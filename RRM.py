@@ -6,63 +6,6 @@ from sklearn.linear_model import HuberRegressor
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from scipy.optimize import minimize
-from scipy.special import rel_entr
-from scipy.stats import entropy
-
-
-def data_loader_drug(i=0):
-    x = loadmat('data/qsar.mat')
-    x_train = x['X_train']
-    x_test = x['X_test']
-
-    y_train = x['y_train']
-    y_test = x['y_test']
-
-    x = np.concatenate((x_train, x_test), axis=0)
-    y = np.concatenate((y_train, y_test), axis=0).flatten()
-
-    intercept = np.ones((x.shape[0], 1))
-    x = np.concatenate((x, intercept), axis=1)
-
-    perm = np.random.permutation(len(y))
-
-    return x[perm], y[perm]
-
-
-def calc_RMSE(y, theta, X):
-  if len(y) != len(X): 
-    print("ERROR: MISMATCHING DATA/TARGET DIMENSIONS")
-    return None
-  if len(X) == 0: 
-    print("ERROR: NO DATA")
-    return None
-  if len(theta) != len(X[0]): 
-    print("ERROR: MISMATCHING DATA/COEF DIMENSIONS")
-    return None
-  return np.sqrt(np.mean((np.dot(X, theta) - y) ** 2))
-
-def LM(X, y):
-    return np.matmul(np.linalg.pinv(X),y)
-
-def addFeatureNoise(X,y,noise:float):
-  noisyY = np.copy(y)
-  noisyX = np.copy(X)
-  for i in range(int(len(y) * (1-noise)), len(y)):
-    noisyY[i] = 10000*y[i]
-    noisyX[i,:] = 100*X[i,:]
-  return noisyX, noisyY
-
-def addNoise(X, y, noise: float): 
-    noisyY = np.copy(y)
-    d = 100
-    #m_ = np.random.normal(4,4,d)
-    b_ = np.random.normal(5,5)
-    for i in range(int(len(y) * (1-noise)), len(y)):
-        noisyY[i] = b_
-        #noisyY[i] = np.random.normal(np.dot(np.transpose(m_),X[i,0:d]) + b_,0.01)
-    return noisyY
-
-
 
 def RRM(X, y, epsilon):
    
@@ -128,44 +71,22 @@ def optimize_RRM(alpha, epsilon, n, p_val=None):
   prob.solve(solver=cp.SCS, eps=1e-3, max_iters=10000)# feastol=1e-3, abstol=1e-3, reltol=1e-3, max_iters=100)
   return p.value
 
-# def optimize_scipy(alpha, epsilon, n, p_val):
-#     def objective(p):
-#         return alpha.T @ p
-
-#     def constraint_entropy(p):
-#         return entropy(p) - np.log((1 - epsilon) * n)
-
-#     constraints = ({'type': 'eq', 'fun': lambda p: np.sum(p) - 1},  # probability constraint
-#                    {'type': 'ineq', 'fun': constraint_entropy},  # entropy constraint
-#                    {'type': 'ineq', 'fun': lambda p: -p})  # non-negativity constraint
-
-#     res = minimize(objective, p_val, method='CG', constraints=constraints, options={'maxiter': 500})
-
-#     return res.x
-
-
+from data_loader import *
+from RMSE import *
+from noise_models.noise import *
 if __name__ == "__main__":
-    n = 2000
-    d = 100
-
-    x_ = np.linspace(0.1,0.4,11)
+    x_ = np.linspace(0.1,0.4,4)
+    X,y = data_loader_drug()
     for eps in x_:
-        for j in range(1):
-            X,y = data_loader_drug()
-            
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = .80)
-
-            y_train_noisy = addNoise(X_train, y_train, eps)
-
-
-            theta_rrm = RRM(X_train, y_train_noisy, eps)
-            loss_rrm = calc_RMSE(y_test,theta_rrm,X_test)
-            print("LOSS RRM", eps, loss_rrm)
-
-            theta_erm = LM(X_train, y_train_noisy)
-            loss_erm = calc_RMSE(y_test,theta_erm,X_test)
-            print("LOSS ERM", eps, loss_erm)
-
+        print(f"epsilon:\t{eps}")
+        means = []
+        for j in range(4):
+            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
+            y_train_noisy = addUnstructuredNoise(X_train, y_train, eps)
+            theta = RRM(X_train,y_train_noisy,eps)
+            loss = calc_RMSE(y_test, theta, X_test)
+            means.append(loss)
+            print(f"Loss:\t{loss:.3f}")
+        print(f"RRM:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")
 
     
-
