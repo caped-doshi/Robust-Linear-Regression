@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from scipy.optimize import minimize
 from scipy.special import rel_entr
+from scipy.stats import entropy
 
 
 def data_loader_drug(i=0):
@@ -93,10 +94,11 @@ def blockwise(X, y, epsilon):
 
         p = p.flatten()
         p = optimize(alpha.flatten(),epsilon,n, p).reshape(-1, 1)
+        # p = optimize_scipy(alpha.flatten(),epsilon,n, p).reshape(-1, 1)
             
         theta_new  = np.linalg.pinv(X.T @ np.diag(p.flatten()) @ X) @ (X.T @ np.diag(p.flatten()) @ y)
 
-        if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>1e-2:
+        if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>1e-3:
           print(np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old))
           cnt = 1
           theta_old = theta_new
@@ -114,13 +116,28 @@ def optimize(alpha, epsilon, n, p_val):
 
   # Define the constraints
   constraints = [cp.sum(cp.entr(p)) >= cp.log((1-epsilon)*n), # entropy constraint
-                  cp.sum(p) == 1, # probability constraint
+                  cp.sum(p) == 1.0, # probability constraint
                   p >= 0] # non-negativity constraint
 
   # Define the problem and solve it
   prob = cp.Problem(objective, constraints)
-  prob.solve(solver=cp.ECOS, feastol=1e-7, abstol=1e-7, reltol=1e-7, max_iters=100)# feastol=1e-3, abstol=1e-3, reltol=1e-3, max_iters=100)
+  prob.solve(solver=cp.ECOS, max_iters=1000)# feastol=1e-3, abstol=1e-3, reltol=1e-3, max_iters=100)
   return p.value
+
+def optimize_scipy(alpha, epsilon, n, p_val):
+    def objective(p):
+        return alpha.T @ p
+
+    def constraint_entropy(p):
+        return entropy(p) - np.log((1 - epsilon) * n)
+
+    constraints = ({'type': 'eq', 'fun': lambda p: np.sum(p) - 1},  # probability constraint
+                   {'type': 'ineq', 'fun': constraint_entropy},  # entropy constraint
+                   {'type': 'ineq', 'fun': lambda p: -p})  # non-negativity constraint
+
+    res = minimize(objective, p_val, method='CG', constraints=constraints, options={'maxiter': 500})
+
+    return res.x
 
 
 if __name__ == "__main__":
@@ -156,7 +173,8 @@ if __name__ == "__main__":
         means_huber = []
         means_erm = []
         means_stir = []
-        for j in range(5):
+        for j in range(1):
+            eps=0.4
             X,y = data_loader_drug()
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = .80)
@@ -177,8 +195,5 @@ if __name__ == "__main__":
             print("LOSS ERM", eps, loss_erm)
 
 
-
-
-            exit(0)
     
 
