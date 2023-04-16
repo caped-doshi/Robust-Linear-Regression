@@ -11,7 +11,7 @@ def objective_function(b, x, y, S, f):
         sum_exp += -np.log(f(y[i], np.dot(b, x[i])))
     return sum_exp
 
-def TMLE(X, y, eps, eta, R, f):
+def TMLE_algo(X, y, eps, eta, R, f):
     n = len(y)
     temp_heap = []
     for i in range(n):
@@ -30,10 +30,10 @@ def TMLE(X, y, eps, eta, R, f):
         S_t = [x[1] for x in temp_heap]
 
         beta = cp.Variable(X.shape[1])
-        obj = cp.Minimize(cp.sum_squares(X[S_t] @ beta - y[S_t]))
+        obj = cp.Minimize(cp.sum_squares([X[S_t] @ beta - y[S_t], beta]))
         constraints = [cp.norm(beta, 2) <= R]
         prob = cp.Problem(obj, constraints)
-        prob.solve()
+        prob.solve(solver = "OSQP")
 
         if (1 / n) * objective_function(beta.value, X, y, S_t, f) > (1 / n) * objective_function(beta_prev, X, y, S_t, f) - eta:
             return beta.value
