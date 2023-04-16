@@ -64,15 +64,16 @@ def addNoise(X, y, noise: float):
 
 
 def blockwise(X, y, epsilon):
-
+    
     ##INITIALIZATION##
     n, d = X.shape
-    p_old = np.ones([n,1])/n
-    y = y.reshape(y.shape[0], 1)
+    p = np.ones([n,1])/n
     
     #initial theta as the solution of WLS at p_old
-    theta_old = np.linalg.pinv(X.T@(p_old*X))@(X.T@(p_old*y))
-    ###################
+    theta_old = np.linalg.pinv(X.T @ np.diag(p.flatten()) @ X) @ (X.T @ np.diag(p.flatten()) @ y)
+
+   
+    ##################
 
     ####RRM##########
     #INPUT
@@ -90,11 +91,12 @@ def blockwise(X, y, epsilon):
     while (cnt==1):
         alpha = (y-X@theta_old)**2
 
-        p_new = optimize(alpha.flatten(),epsilon,n).reshape(-1, 1)
+        p = p.flatten()
+        p = optimize(alpha.flatten(),epsilon,n, p).reshape(-1, 1)
             
-        theta_new  = np.linalg.pinv(X.T@(p_new*X))@(X.T@(p_new*y))
+        theta_new  = np.linalg.pinv(X.T @ np.diag(p.flatten()) @ X) @ (X.T @ np.diag(p.flatten()) @ y)
 
-        if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>1e-3:
+        if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>1e-2:
           print(np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old))
           cnt = 1
           theta_old = theta_new
@@ -102,10 +104,10 @@ def blockwise(X, y, epsilon):
             cnt = 0
     return theta_new
 
-def optimize(alpha, epsilon, n):
+def optimize(alpha, epsilon, n, p_val):
    # Define the optimization variables
   p = cp.Variable(n)
-  p.value = np.ones(n)/n
+  p.value = p_val
 
   # Define the objective function to be minimized
   objective = cp.Minimize(alpha.T @ p)
@@ -117,7 +119,7 @@ def optimize(alpha, epsilon, n):
 
   # Define the problem and solve it
   prob = cp.Problem(objective, constraints)
-  prob.solve(feastol=1e-6, abstol=1e-6, reltol=1e-6, max_iters=1000)
+  prob.solve(solver=cp.ECOS, feastol=1e-7, abstol=1e-7, reltol=1e-7, max_iters=100)# feastol=1e-3, abstol=1e-3, reltol=1e-3, max_iters=100)
   return p.value
 
 
@@ -161,12 +163,18 @@ if __name__ == "__main__":
 
             y_train_noisy = addNoise(X_train, y_train, eps)
 
-            theta_erm = LM(X_train, y_train_noisy)
-            loss_erm = calc_RMSE(y_test,theta_erm,X_test)
-            print("LOSS ERM", eps, loss_erm)
+
             theta_rrm = blockwise(X_train, y_train_noisy, eps)
             loss_rrm = calc_RMSE(y_test,theta_rrm,X_test)
             print("LOSS RRM", eps, loss_rrm)
+
+            ols_est = np.matmul(np.linalg.pinv(X_train), y_train_noisy)
+
+            print(calc_RMSE(y_test, ols_est, X_test))
+
+            theta_erm = LM(X_train, y_train_noisy)
+            loss_erm = calc_RMSE(y_test,theta_erm,X_test)
+            print("LOSS ERM", eps, loss_erm)
 
 
 
