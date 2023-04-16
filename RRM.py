@@ -6,6 +6,8 @@ from sklearn.linear_model import HuberRegressor
 from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from scipy.optimize import minimize
+from scipy.special import rel_entr
+
 
 def data_loader_drug(i=0):
     x = loadmat('C:/Users/Josh/Documents/data/qsar.mat')
@@ -93,44 +95,30 @@ def blockwise(X, y, epsilon):
         theta_new  = np.linalg.pinv(X.T@(p_new*X))@(X.T@(p_new*y))
 
         if np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old)>1e-3:
+          print(np.linalg.norm(theta_old-theta_new)/np.linalg.norm(theta_old))
           cnt = 1
           theta_old = theta_new
         else:
             cnt = 0
-        return
     return theta_new
 
-def optimize(alpha, epsi, n):
-
-    # Define the entropy function
-  def entropy(p):
-      return -np.sum(p * np.log(p))
+def optimize(alpha, epsilon, n):
+   # Define the optimization variables
+  p = cp.Variable(n)
+  p.value = np.ones(n)/n
 
   # Define the objective function to be minimized
-  def objective(p):
-      return np.dot(alpha, p)
+  objective = cp.Minimize(alpha.T @ p)
 
-  # Define the constraint function
-  def constraint(p):
-      return entropy(p) - np.log((1 - epsi) * n)
+  # Define the constraints
+  constraints = [cp.sum(cp.entr(p)) >= cp.log((1-epsilon)*n), # entropy constraint
+                  cp.sum(p) == 1, # probability constraint
+                  p >= 0] # non-negativity constraint
 
-  # Define the initial guess for p
-  p0 = np.ones(n) / n
-
-  # Define the bounds for p (each element of p should be between 0 and 1)
-  bounds = [(0, 1) for i in range(n)]
-
-  # Define the constraint as a dictionary
-  constraints = [{'type': 'ineq', 'fun': constraint}]
-
-  # Use the minimize function to find the optimal p
-  result = minimize(objective, p0, method='SLSQP', bounds=bounds, constraints=constraints)
-
-  # The optimal p vector can be obtained from the 'x' attribute of the result object
-  p_optimal = result.x
-  print(p_optimal)
-  return p_optimal
-  
+  # Define the problem and solve it
+  prob = cp.Problem(objective, constraints)
+  prob.solve(feastol=1e-6, abstol=1e-6, reltol=1e-6, max_iters=1000)
+  return p.value
 
 
 if __name__ == "__main__":
@@ -173,12 +161,16 @@ if __name__ == "__main__":
 
             y_train_noisy = addNoise(X_train, y_train, eps)
 
-            theta_blockwise = blockwise(X_train, y_train_noisy, eps)
-            exit(0)
             theta_erm = LM(X_train, y_train_noisy)
-
             loss_erm = calc_RMSE(y_test,theta_erm,X_test)
+            print("LOSS ERM", eps, loss_erm)
+            theta_rrm = blockwise(X_train, y_train_noisy, eps)
+            loss_rrm = calc_RMSE(y_test,theta_rrm,X_test)
+            print("LOSS RRM", eps, loss_rrm)
 
-            print(eps, loss_erm)
+
+
+
+            exit(0)
     
 
