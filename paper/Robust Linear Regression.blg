@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Robust Linear Regression.aux
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+The style file: iclr2023_conference.bst
+Reallocating 'name_of_file' (item size: 1) to 20 items.
+Database file #1: iclr2023_conference.bib
+Warning--entry type for "Razaviyayn" isn't style-file defined
+--line 110 of file iclr2023_conference.bib
+You've used 23 entries,
+            2773 wiz_defined-function locations,
+            782 strings with 10608 characters,
+and the built_in function-call counts, 12190 in all, are:
+= -- 1096
+> -- 780
+< -- 14
++ -- 260
+- -- 237
+* -- 1044
+:= -- 1875
+add.period$ -- 97
+call.type$ -- 23
+change.case$ -- 144
+chr.to.int$ -- 23
+cite$ -- 46
+duplicate$ -- 529
+empty$ -- 926
+format.name$ -- 272
+if$ -- 2589
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 22
+newline$ -- 145
+num.names$ -- 96
+pop$ -- 268
+preamble$ -- 1
+purify$ -- 122
+quote$ -- 0
+skip$ -- 432
+stack$ -- 0
+substring$ -- 366
+swap$ -- 86
+text.length$ -- 6
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 243
+warning$ -- 0
+while$ -- 90
+width$ -- 0
+write$ -- 356
+(There was 1 warning)

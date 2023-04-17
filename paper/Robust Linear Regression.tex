@@ -1,0 +1,1423 @@
+
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2023_conference,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+\usepackage{amsmath,amsthm}
+\usepackage{thmtools}
+\usepackage{thm-restate}
+\usepackage{mathtools}
+
+\usepackage{subcaption}
+
+\usepackage{bbm}
+
+\usepackage{color, colortbl}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\DeclareMathOperator{\proj}{proj}
+
+\newcommand\cauchyschwarz{\stackrel{\mathclap{\normalfont\mbox{Cauchy-Schwarz}}}{\leq}}
+
+\newenvironment{proofsketch}{%
+	\renewcommand{\proofname}{Proof Sketch}\proof}{\endproof}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\usepackage{hyperref}
+
+\usepackage{cleveref}
+
+\usepackage{tikz,pgfplots,float}
+\usetikzlibrary {datavisualization.formats.functions}
+\usepgfplotslibrary{fillbetween}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{matrix}
+\usepackage{xcolor}
+
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+
+\declaretheorem[name=Theorem]{thm}
+\declaretheorem[name=Lemma,numberwithin=section]{lemma}
+\declaretheorem[name=Definition]{definition}
+\declaretheorem[name=Assumption]{assumption}
+\declaretheorem[name=Interpretation]{interpretation}
+\declaretheorem[name=Proposition]{proposition}
+\declaretheorem[name=Corollary,numberwithin=thm]{corollary}
+
+\usepackage{xcolor}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\DontPrintSemicolon
+% Set algorithm keyword formatting
+\newcommand{\Comment}{\tcc*[r]}
+\SetKwComment{tcc}{$\triangleright$~}{}
+\SetCommentSty{normalfont}
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+% Set algorithm line numbers
+\SetNlSty{}{}{:}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+
+\usepackage{url}
+
+\usepackage{appendix}
+\usepackage{titletoc}
+
+\usepackage{booktabs,caption,dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{4}}% column type for figures with 4 decimals
+\newcommand{\subhead}[1]{\multicolumn{1}{c}{#1}}% to format sub-headings of d-type columns
+
+\title{Robust Linear Regression by Sub-Quantile Optimization}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+\author{Arvind Rathnashyam, Fatih Orhan, Joshua Myers, \& Jake Herman  \thanks{ Work done as a part of ML and Optimization Spring 2023 Group Project.} \\
+	Department of Computer Science\\
+	Rensselaer Polytechnic University\\
+	Troy, NY 12180, USA \\
+	\texttt{\{rathna, orhanf, myersj5, hermaj2\}@rpi.edu} \\
+}
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		Robust Linear Regression is the problem of fitting data to a distribution, $\displaystyle \mathbb{P}$ when there exists contaminated samples, $\displaystyle \mathbb{Q}$. We model this as $\displaystyle \hat{\mathbb{P}} = (1-\varepsilon)\mathbb{P} + \varepsilon\mathbb{Q}$. Traditional Least Squares Methods fit the empirical risk model to all training data in $\displaystyle \hat{\mathbb{P}}$. In this paper we show theoretical and experimental results of sub-quantile optimization, where we optimize with respect to the $p$-quantile of the empirical loss.
+	\end{abstract}
+	
+	\section{Introduction}
+	
+	Linear Regression is one of the most widely used statistical estimators throughout science. Although robustness is only a somewhat recent topic in machine learning, it has been a topic in statistics for many decades. The key motivating factor in investigating robust linear regression is the sheer vastness of probability distributions that are not drawn from a normal distribution schema. Given that outliers in data sets occur so frequent, the ability for a linear regression model to be robust is necessary to compensate for the various distributions being analyzed. 
+	\subsection{Motivations}
+	The failure of classical regression techniques being unable to model data highly corrupted by outliers can be conveyed clearly in numerous datasets, including those featuring data in the medical, economic, and meteorological fields. Ultimately, in many real data sets, the samples may not be collected from even or fair distributions; thus, classical analyses such as standard regression or least-squares may not represent the actual distribution of the data well. 
+	
+	The quantile is a statistical measure that is distribution-agnostic, thus it can provide 
+	
+	\subsection{Contributions}
+	Our goal is to provide a theoretic analysis and convergence conditions for sub-quantile optimization and offer practitioners a method for robust linear regression.
+	Several popular methods have been utilized due to their simplicity and high effectiveness including quantile regression \cite{quantile-regression}, Theil-Sen Estimator \cite{thiel-sen}, and Huber Regression \cite{Huber2009}. These methods, although rudimentary, serve to show the effectiveness of building resistance against outliers in data. By improving upon existing methods, namely least-squares estimation in these cases, models can be designed to better estimate data sets with considerably corruptive outliers.
+	
+	Sub-Quantile Optimization aims to address the shortcomings of ERM in applications such as noisy/corrupted data (\cite{khetan2018learning},\cite{jiang2018mentornet}), classification with imbalanced classes, (\cite{lin2017dense},\cite{he2009imbalanced}), as well as fair learning (\cite{Corbett2018fairness}).
+	
+	\begin{figure}[!t]
+		\begin{tikzpicture}
+			\begin{groupplot}[group style={group size= 2 by 4},height=5cm,width=6.4cm,xmax=4,xmin=-4,
+				ymin= -10,ymax=10,
+				xtick={-4,-3,-2,...,4},
+				ytick={-10,-8,-6,...,10},]
+				\nextgroupplot[title=Structured Noise,ylabel={$y$},xlabel={$x$}]
+				\coordinate (c1) at (current axis.left of origin);
+				\addplot[mark=*,color=cyan,only marks] coordinates{(0.5454756141119426,4.20207144062236) (2.6952740390873733,8.475671650669172) (-0.1612438784423731,2.688323570846449) (1.9998807196500725,7.011477368661404) (0.6573126643085468,4.432503359641061) (0.822541876079238,4.691099695987436) (-1.665736406528514,-0.2771610262088303) (0.2955820690953599,3.6958661148678047) (4.329988449821567,11.633259356797302) (-4.412313203501535,-5.77063957797815) (3.5629538644332275,10.091868592245838) (-0.6175885445775965,1.7473187369931718) (0.8108793561773843,4.772417668204566) (1.4214273053887914,5.818934958869865) (3.081315566792172,9.08926804908307) (-0.12089034451099817,2.6605946971138144) (0.4628376617792958,3.923002461330265) (0.37617729415550505,3.676581100428469) (0.977114787165429,4.918947422974899) (1.314754156260769,5.688804682122404) (-0.36235424331683597,2.2267827837116263) (-0.8007556950385752,1.4886373858967947) (-0.7015664550907283,1.7651694045148667) (-2.1753647987904734,-1.482231084924366) (-1.495574696589605,0.04857682714064265) (-1.0588112744961395,0.8183551891451499) (-3.827119610541674,-4.796523392389788) (-0.8559789159750391,1.1837704089349095) (-0.11761120022533014,2.7730611413376285) (3.3752350984949295,9.778804511993851) (2.4222770389407957,7.727148811092623) (-1.5410032016624133,-0.2633438113497304) (2.480017633230306,7.979402356067379) (0.5911583134769168,4.283748748593926) (-0.71501674964969,1.6324881095139794) (0.6516043112113717,4.294631666773893) (-3.079711134644328,-3.285226613281087) (-1.5088703031224757,-0.08081402676688078) (0.7827672445662932,4.570750601954812) (1.8939059587103262,6.858172766747038)};
+				\addplot[mark=*,color=orange,only marks] coordinates{(-2.946629011640607,-8.793723527498958) (0.8607384957406246,-1.538989556510056) (-1.1903001477494382,-5.345751610044574) (1.0305878148541996,-0.8812658035679226) (2.7345343942849927,2.5442143953062244) (-1.6113746066635852,-6.284678207630399) (-0.8883952236652384,-4.5410943399901775) (0.8157297797465353,-1.2566730413348421) (0.9642301396642339,-0.9032576567416104) (-0.14448993411816005,-3.334946134068381)};
+				\addplot[domain=-5:5,samples=120,color=black,very thick] {1.99804993*x+2.99972117} ;
+				\addplot[domain=-5:5,samples=120,color=red,very thick] {0.55184722*x+0.77673256} ;
+				\addplot[domain=-5:5,samples=120,color=blue,very thick] {0.61291924*x+1.73788515} ;
+				\nextgroupplot[title=Unstructured Noise,xlabel={$x$},legend to name={IntroLegend},legend style={legend columns=5}]
+				\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
+				\addplot[domain=-5:5,samples=120,color=black,very thick] {2.00041502*x+3.00091281} ;
+				\addlegendentry{SubQuantile}
+				\addplot[domain=-5:5,samples=120,color=red,very thick] {0.000166177232*x-1.89493121} ;
+				\addlegendentry{TERM}
+				\addplot[domain=-5:5,samples=120,color=blue,very thick] {1.90359844*x+2.82276139} ;
+				\addlegendentry{Sever}
+				\addplot[mark=*,color=cyan,only marks] coordinates{(0.788762485297498,4.619409754983769) (-1.8444557076323929,-0.5824544981134812) (-3.8667186653234786,-4.754991283615981) (-1.0770702633013416,0.7722164021812354) (-0.35460032498749144,2.2768627851664966) (-6.0822151692288084,-9.06286764938399) (-1.3972518211012221,0.1885381821988659) (2.9097896507970673,8.788974171667162) (-0.3463437020806441,2.420626808504963) (-2.1062359514012012,-1.2085000641078332) (4.336773668705573,11.632780878244247) (-0.6106102670869219,1.8184898177512854) (2.964822961712252,8.905021515559394) (-1.5637145371389622,-0.07761865537709459) (1.0345144344033383,5.0204590940620575) (2.056356483528722,7.198480210723839) (-0.7446791767339869,1.5853174482562558) (0.9631985535487033,4.9300987804715914) (0.8591431516732644,4.6302171243067765) (2.136527593488855,7.225942702339085) (-0.22230647531299189,2.5877920816746207) (1.4255477338524918,5.833868092502212) (-1.4608390115429133,0.12305693654859831) (0.8455335501589681,4.769483861326801) (-2.1885026970448886,-1.4714423105566306) (0.31837311592194245,3.604291796660203) (-2.5244214783210617,-2.0353095069267404) (0.9463907944621844,4.957203119009067) (0.8146787696108556,4.669681514124957) (0.7171745412553174,4.525279797042462)};
+				\addlegendentry{clean}
+				\addplot[mark=*,color=orange,only marks] coordinates{(-3.2474795820658593,6.450035960386647) (1.8753826722797218,-0.41858598306318395) (1.4931353198669002,-1.2946095099790276) (-6.390816833283051,0.40645831126308823) (0.39048632994899735,2.323962397589362) (-0.08068388106259215,2.8091622671588747) (1.3134080902531131,-3.6866845075408796) (-0.5728261692279717,-1.6637925896534693) (-3.795620644314326,3.901941933326407) (-2.2805802625691634,2.1567188534369586) (-1.1331317978018236,-1.0620378556289347) (-4.057270733769615,6.22788036393642) (3.580927646622491,1.4134339560728868) (1.1473909216831844,0.7892374536150136) (4.60155271303633,1.1396713973323012) (0.777450139132804,-2.5904275309220073) (1.2193257645912936,0.9783812850138183) (-2.0137550195781966,0.08990758847097716) (-3.0052924293950043,0.9558207339897568) (-1.6843214424199917,3.0989236738078767)};
+				\addlegendentry{noise}
+			\end{groupplot}
+			\coordinate (c3) at ($(c1)!.5!(c2)$);
+			\node[below] at (c3 |- current bounding box.south)
+				{\pgfplotslegendfromname{IntroLegend}};
+		\end{tikzpicture}
+		\caption{Sub-Quantile Performance on Linearly Dependent and Independent Noise}
+		\label{fig:structure-unstructured-noise}
+	\end{figure}
+	
+	As seen in the above comparison, current models fail to estimate data sets corrupted by structured noise, with some models even failing to estimate trends plagued with unstructured noise. Through this, sub-quantile optimization is shown to prevail at overcoming these challenges current models currently face.
+	
+	\section{Related Work}
+	Least Trimmed Squares (LTS) \cite{LTS} is an estimator that relies on minimizing the sum of the smallest $h$ residuals given a $(d-1)$-dimension hyperplane calculated given $n$ data points in $\mathbf{R}^d$ and an integer trimming parameter $h$. Given that the outliers comprise less than half the data, this algorithm is more efficient than the more common LMS estimator. However, this algorithm unfortunately suffers from the curse of dimensionality; the computational cost of the algorithm grows exponentially with increasing dimensions of the data. Thus, the necessity to design a more computationally efficient algorithm is expressed.
+	
+	Tilted Empirical Risk Minimization (TERM) \cite{li2020tilted} is a framework built to similarly handle the shortcomings of emperical risk minimization (ERM) with respect to robustness. The TERM framework instead minimizes the following quantity, where $t$ is a hyperparameter known as tilt
+	\begin{equation}
+		\tilde{R}(t;\vtheta) \coloneqq \frac{1}{t} \log\left(\frac{1}{N}\sum_{i \in \left[N\right]}e^{tf(\vx_i;\vtheta)} \right)
+	\end{equation}
+	By using the tilt hyperparameter to change the individual impact of each specific loss, the model is more resistant to outliers found in the data.
+	
+	SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} proposes the \textit{iterative trimmed maximum likelihood estimator} against adversarially corrupted samples in General Linear Models (GLM). The estimator is defined as follows, where $S = \{(\vx_i,y_i)\}_{i=1}^n$ represents the training data. \vspace{1em}
+	\begin{equation}
+		\hat{\vtheta}(S) = \min_{\vtheta} \min_{\hat{S} \subset S, |\hat{S}| = (1-\eps)n} \sum_{(\vx_i,y_i) \in S} -\log f(y_i|\vtheta^\top\vx_i)
+	\end{equation}
+	This estimator is proven to return near-optimal risk on a variety of linear models, including Gaussian regression, Poisson regression, and binomial regression; these achievements can be demonstrated on label and covariate corruptions.
+	
+	
+	SEVER \cite{DiakonikolasKKLSS19} is a gradient filtering algorithm which removes elements whose gradients have the furthest distance from the average gradient of all points
+	\begin{equation}
+		\tau_i = \left((\nabla f_i(\vw) - \hat{\nabla})\cdot \vv\right)^2
+	\end{equation}
+	This method is novel in that it is highly scalable, making it robust against high-dimension data with structured outliers. Similarly, SEVER is easily implemented with standard machine learning libraries and can be applied to many typical learning problems, including classification and regression. Despite this, the algorithm still falls short when features have high covariance or when features have low predictive power of the target. Moreover, SEVER requires approximate learners to be run after every iteration, making SEVER unfeasible for large-scale machine learning tasks. 
+	
+	Quantile Regression \cite{yu_quantile_2003} relies on splitting data into quantiles to better represent data that is not evenly distributed. The paper introduces various estimation methods for quantile regression and apply them to a multitude of datasets. In doing so, they prove quantile regression is suitable at estimating both linear and nonlinear response models.
+	
+	Super-Quantile Optimization \cite{ROCKAFELLAR2014140} aims to solve error minimization problems by building upon the aforementioned quantile regression by centering around a conditional value-at-risk, or a superquantile. For $\alpha \in [0,1)$, the $\alpha$-superquantile for a random variable $Y$ is defined as \begin{equation}
+		\Bar{q}_\alpha (Y) := \frac{1}{1-\alpha} \int_\alpha^1 q_\beta (Y) d\beta
+	\end{equation}
+	In doing so, more conservatively fitted curves are produced. As with quantile regression, such curves do require the solution of a linear program.
+	This concept of superquantile error provides insight into tail behavior for quantities of error and an overall unique approach to linear regression.
+	
+	Robust Risk Minimization \cite{RRM} is a method in which given an upper bound on the corrupted data fraction $\epsilon$, the risk function can be minimized as follows:
+	\begin{equation}
+		\hat{\mathbb{\theta}}_{RRM} = \operatorname*{argmin}_{\theta \in \Theta} \operatorname*{min}_{\pi \in \Pi: \mathbf{H}(\pi) \geq ln|(1-\tilde{\epsilon})n|} R(\mathbb{\theta,\pi})
+	\end{equation}
+	This method is popular as it does not require the removal of corrupted data points and does not rely on a specified corruption fraction.
+		
+	\section{Sub-quantile Optimization}
+	\label{sec:sub-quantile-optimization}
+	
+	\begin{definition}
+		Let $F_X$ represent the Cumulative Distribution Function (CDF) of the random variable $X$. The \textbf{$\mathbf{p}$-Quantile} of a Random Variable $X$ is defined as follows \vspace{1em}
+		\begin{equation}
+			Q_p(p) = \inf\{x\in\mathbb{R}: p \leq F(x)\} 
+		\end{equation}
+	\end{definition}
+
+	Note $Q_p(0.5)$ represents the median of the random variable.
+	
+	\begin{definition}
+		The \textbf{Empirical Distribution Function} is defined as follows
+		\begin{equation}
+			\hat{F}_n(t) = \frac{1}{n} \sum_{i=1}^n\mathbbm{1}_{X_i \leq t} 			
+		\end{equation}
+	\end{definition}
+	
+	\begin{definition}
+		Let $\ell$ be the loss function. \textbf{Risk} is defined as follows
+		\begin{equation}
+			U = \mathbb{E}\left[\ell \left( f(\vx;\vtheta,\vy)\right)\right]
+		\end{equation}
+	\end{definition}
+	
+	The $\mathbf{p}$-\textbf{Quantile} of the Empirical Risk is given
+	\begin{equation}\label{eqn:sub-quantile}
+		\mathbb{L}_p(U) = \frac{1}{p}\int_0^p \mathcal{Q}_q(U)\,dq = \mathbb{E}\left[U|U \leq \mathcal{Q}_p(U) \right] = \max_{t\in \mathbb{R}}\left\{t - \frac{1}{p}\mathbb{E}\left[(t-U)^+\right]\right\}
+	\end{equation}
+	In equation \ref{eqn:sub-quantile}, $t$ represents the $p$-quantile of $U$. We also show that we can calculate $t$ by a maximizing optimization function. 
+	The Sub-Quantile Optimization problem is posed as follows
+	\begin{equation}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{p}\mathbb{E}(t - \ell(f(\vx;\vtheta),y))^+\right\}
+	\end{equation}
+	
+	For the linear regression case, this equation becomes 
+	\begin{equation}
+		\label{eqn:theta_sm}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vtheta^\top\vx_i - y_i)^2)^+\right\}
+	\end{equation}
+		
+	The two-step optimization for Sub-Quantile optimization is given as follows \vspace{1em}
+	\begin{equation}
+		\label{eqn:t-update}
+		t_{k+1} = \argmax_t g(t,\vtheta_k) 
+	\end{equation}
+	\begin{equation}
+		\label{eqn:theta-update}
+		\vtheta_{k+1} = \vtheta_k + \alpha \nabla_{\vtheta_k} g(t,\vtheta_k)
+	\end{equation}
+		
+	This algorithm is adopted from \cite{Razaviyayn}. Theoretically, it has been proven to converge in research by \cite{Jin_2019}.
+	
+		
+	\subsection{Motivation}
+	\begin{assumption}\label{asm:normal-corruption}
+		To provide theoretical bounds on the effectiveness of Sub-Quantile Minimization, we make the General Linear Model Assumption that
+		\begin{equation}\vspace{1em}
+			\vy_P = \vbeta_P^\top\mP  + \eps_P
+		\end{equation}
+		and similarly 
+		\begin{equation}
+			\vy_Q = \vbeta_Q^\top \mQ + \eps_Q
+		\end{equation}
+		where $\vbeta_P$ and $\vbeta_Q$ the \textit{oracle} regressors for $\mathbb{P}$ and $\mathbb{Q}$ and $\eps_P$ and $\eps_Q$ are both Normally Distributed with mean $0$.  
+	\end{assumption}
+	Since we are interested in learning the optimal model for distributions, our goal is to learn the parameters $\vbeta_P$ from the distribution $\hat{\mathbb{P}}$. We want to clarify the corruption is not adversarially chosen. \\
+	In this section we quantify the effect of corruption on the desired model. To introduce notation, let $\mP$ represent the data from distribution $\mathbb{P}$ and let $\mQ$ represent the training data for $\mathbb{Q}$. Let $\vy_P$ represent the target data for $\mathbb{P}$ and let $\vy_Q$ represent the target data for $\mathbb{Q}$.\\
+	\begin{assumption}\label{asm:p-q-sample}
+		We assume the rows of $\mP$ and $\mQ$ are sampled from the same multivariate normal distribution. \vspace{1em}
+		\begin{equation}
+			\mP_i,\mQ_j \sim \mathcal{N}_p(\mathbf{0},\mSigma)
+		\end{equation}
+	\end{assumption}
+	
+	We will use our assumptions to quantify the effect of the corrupted data on an optimal least squares regression model. We are interested in $\displaystyle (\mX^\top\mX)^{-1}\mX^\top\vy - (\mP^\top\mP)^{-1}\mP^\top\vy$.
+	It is know the least squares optimal solution for $\mX$ is equal to $(\mX^\top\mX)^{-1}\mX^\top\vy$\\
+	Note $\displaystyle \mX = \begin{pmatrix}\mP \\ \mQ \end{pmatrix}$ and $\displaystyle \vy = \begin{pmatrix} \vy_P \\ \vy_Q \end{pmatrix} $so $\mX^\top = \begin{pmatrix}\mP^\top & \mQ^\top \end{pmatrix}$\\
+	
+	\begin{restatable}{thm}{expected-value-corrupted}\label{thm:expected-value-corrupted}
+		The expected optimal parameters of the corrupted model $\hat{\mathbb{P}}$\vspace{1em}
+		\begin{equation}
+			\label{eqn:corrupted-optimal}
+			\mathbb{E}\left[\mX^{\dagger}\vy \right] = \vbeta_P + \eps(\vbeta_Q - \vbeta_P)
+		\end{equation}
+	\end{restatable}
+	The proof is reliant on assumption \ref{asm:p-q-sample}, this allows us to utilize the Wishart Distribution, $\mathcal{W}$, and the inverse Wishart Distribution, $\mathcal{W}^{-1}$. Please refer to Appendix \ref{app:expected-value-corrupted}. By Theorem \ref{thm:expected-value-corrupted} we can see the level of corruption is dependent upon $\eps$, which represents the percentage of corrupted samples, and the distance between the optimal parameters for $\mathbb{P}$, which is $\vbeta_P$ and the optimal parameters for $\mathbb{Q}$, which is $\vbeta_Q$. 
+	
+		
+	Here we utilize the idea of \textit{influence} from \cite{McWilliams2014}.
+	
+	Theorem \ref{thm:expected-value-corrupted} finds the optimal model when the corrupted distribution is sampled from the same distribution as the target distribution but has different optimal parameters. We will now look at the case of feature corruption. This is where the optimal parameters of the two distributions are the same but the data from $\mathbb{P}$ and $\mathbb{Q}$ are sampled differently. 
+	
+	\begin{restatable}{thm}{expected-value-corrupted-different}\label{thm:expected-value-corrupted-different}
+		In the case of $\mathbb{P}$ and $\mathbb{Q}$ being from different Normal Distributions. The expected optimal parameters of the corrupted model $\hat{\mathbb{P}}$\vspace{1em}
+		\begin{equation}
+			\mathbb{E}\left[\mX^{\dagger}\vy \right] = \vbeta_P - n(1-\eps)\mSigma_P^{-1}\vbeta_Q
+		\end{equation}
+	\end{restatable}
+	The proof can be found in Appendix \ref{app:expected-value-corrupted-different}.
+	
+	In equation \ref{eqn:corrupted-optimal}, note as $\displaystyle \eps \to 0$ we are returned $\vbeta_P$. This is the intuition behind SubQuantile Minimization. By minimizing over the SubQuantile, we seek to reduce $\eps$, and thus our model will return a model which is by expectation closer to $\vbeta_P$. 	
+
+	\section{Theory} 
+	
+	\subsection{Analysis of $g(t,\theta)$}
+	
+	In this section, we will explore the fundamental aspects of $g(t,\vtheta)$. This will motivate the convergence analysis in the next section.
+	
+	\begin{restatable}{lemma}{gtconcavelemma}
+		\label{lem:gtcomcavelemma}
+		$g(t_{k+1},\vtheta_k)$ is concave with respect to $t$.
+	\end{restatable}
+	\begin{proof}
+		We provide a simple argument for concavity. Note $t$ is a concave and convex function. Also $(\cdot)^+$ is a convex strictly non-negative function. Therefore we have a concave function minus the non-negative multiple of a summation of an affine function composed with a convex function. Therefore this is a concave function with respect to $t$. 
+	\end{proof}	
+	
+	\begin{restatable}{lemma}{gfermat}
+		\label{lem:gfermat}
+		The maximizing value of $t$ in $g(t,\vtheta)$ in $t$-update step of optimization as described by Equation \ref{eqn:t-update} is maximized when $t = Q_p(U)$
+	\end{restatable}
+		\begin{proof}
+		Since $\displaystyle g(t,\vtheta)$ with respect to $t$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
+		Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^\top\mX - \vy)^2\right)$ and note $\displaystyle 0 < p < 1$
+		\begin{align}
+			\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) 
+			&= -1 + \frac{1}{np}\sum_{i=1}^{n}
+			\left\{
+			\begin{array}{lr}
+				1, & \text{if } t > \hat{\vnu}_i\\
+				0, & \text{if } t < \hat{\vnu}_i \\
+				\left[0,1\right], & \text{if } t = \hat{\vnu}_i \\
+			\end{array}
+			\right\}&&\\
+			&= 0 \text{ when }\displaystyle t = \hat{\vnu}_{np}&&
+		\end{align}
+		This is the $p$-quantile of $U$. A full proof is provided in Appendix \ref{app:gfermat}.
+	\end{proof}
+	
+	\begin{restatable}{lemma}{gthetaderiv}\label{lem:gthetaderiv}
+		Let $t = \hat{\vnu}_{np}$. The $\vtheta$-update step described in Equation \ref{eqn:theta_sm} is equivalent to minimizing the least squares loss of the $np$ elements with the lowest squared loss.
+	   \begin{equation}
+			\nabla_{\vtheta}g(t_{k+1},\vtheta_k) = \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i)
+		\end{equation}
+	\end{restatable}
+	We provide a proof in Appendix \ref{app:gthetaderiv}. However, this result is quite intuitive as it shows we are optimizing over the $p$ Sub-Quantile of the Risk.
+	\begin{interpretation}
+		\label{int:minimize-small}
+		Sub-Quantile Minimization continously minimizes the risk over the $p$-quantile of the error. In each iteration, this means we reduce the error of the points within the lowest $np$ errors.
+	\end{interpretation}
+
+		
+	\begin{restatable}{lemma}{gthetaconvexlemma}
+		\label{lem:gthetaconvex}
+		$g(t_{k+1},\vtheta_k)$ is convex with respect to $\vtheta_k$.
+	\end{restatable}
+	\begin{proof}
+		We see by lemma \ref{lem:gfermat} and interpretation \ref{int:minimize-small}, we are optimizing by the $np$ points with the lowest squared error. Mathematically, 
+		\begin{align}
+			g(t_{k+1},\vtheta_k) &= t_{k+1} - \frac{1}{np}\sum_{i=1}^{n}\left(t_{k+1} - (\vtheta^\top\vx_i - y_i)^2\right)^+ &&\\
+			&= t_{k+1} - \frac{1}{np}\sum_{i=1}^{np}\left(t_{k+1} - (\vtheta^\top\vx_i - y_i)^2\right)^+ &&\\
+			&= t - t + \frac{1}{np}\sum_{i=1}^{np}(\vtheta^\top\vx_i - y_i)^2 &&\\
+			&= \frac{1}{np}\sum_{i=1}^{np}(\vtheta^\top\vx_i - y_i)^2 &&
+		\end{align}
+		Now we can make a simple argument for convexity. We have a non-negative multiple of the sum of the composition of an affine function with a convex function. Thus $g(t,\vtheta)$ is convex with respect to $\vtheta$.
+	\end{proof}
+	
+	\begin{restatable}{lemma}{g-lsmooth}
+		\label{lem:g-lsmooth}
+		$g(t,\vtheta)$ is $L$-smooth with respect to $\vtheta$ with $\displaystyle L = \norm{\frac{2}{np}\sum_{i=1}^{np}\norm{\vx_i}^2}$ 
+	\end{restatable}
+	
+	Now we will state two properties regarding the effect of the $t$-update step and the $\vtheta$-update step as described in Equations \ref{eqn:t-update} and \ref{eqn:theta-update}, respectively. 
+	\begin{restatable}{lemma}{g-change-wrt-t}
+		\label{lem:g-change-wrt-t}
+		If $t_{k+1} \leq t_k$ then $ g(t_{k+1},\vtheta_k) = g(t_{k}) + \frac{1}{np}\sum_{i=np}^n(t_k - \vnu_i)^+$. If $t_{k+1} > t_k$, then $ g(t_{k+1},\vtheta_k) = g(t_k) + \frac{1}{np}\sum_{i=n(p-\delta)}^{np}(t-\vnu_i)^+  - \delta t$. For a small $\delta$. 
+	\end{restatable}
+	\begin{proofsketch}
+		When $t_{k+1} \leq t_k$ this result is quite intuitive, as we are simply removing the error of the elements outside elements within the lowest $np$ squared losses. We delegate the rest of the proof to Appendix \ref{app:g-change-wrt-t}
+	\end{proofsketch}
+
+	\subsection{Optimization}
+
+	We are solving a min-max convex-concave problem, thus we are looking for a Nash Equilibrium Point. 
+	
+	\begin{restatable}{definition}{nash-equilibrium}
+		\label{def:nash-equilibrium}
+		$(t^*,\vtheta^*)$ is a \textbf{Nash Equilibrium} of $g$ if for any $(t,\vtheta) \in \mathbb{R}\times\mathbb{R}^d$\vspace{1em}
+		\begin{equation}
+			g(t^*,\vtheta) \leq g(t^*,\vtheta^*) \leq g(t,\vtheta^*)
+		\end{equation}
+	\end{restatable}	
+	\begin{restatable}{definition}{local-nash-equilibrium}
+		\label{def:local-nash-equilibrium}
+		$(t^*,\vtheta^*)$ is a \textbf{Local Nash Equilibrium} of $g$ if there exists $\delta > 0$ such that for any $t,\vtheta$ $(t,\vtheta)$ satsifying $\norm{t - t^*} \leq \delta$ and $\norm{\vtheta -\vtheta^*} \leq \delta$ then: 
+		\vspace{1em}
+		\begin{equation}
+			g(t^*,\vtheta) \leq g(t^*,\vtheta^*) \leq g(t,\vtheta^*)
+		\end{equation}
+	\end{restatable}
+	\begin{proposition}\label{prop:first-order-nash}
+		As $g$ is first-order differentiable,  any local Nash Equilibrium satisfies $\nabla_\vtheta g(t,\vtheta) = \mathbf{0}$ and $\nabla_t g(t,\vtheta) = 0$
+	\end{proposition}
+	
+	We are now interested in what it means to be at a Local Nash Equilibrium. By Proposition \ref{prop:first-order-nash}, this means both first-order partial derivatives are equal to $0$. By lemma \ref{lem:gfermat}, we have shown $\nabla_tg(t,\vtheta) = 0$ when $\vnu_{np} \leq t < \vnu_{np+1}$. Furthermore, by lemma \ref{lem:gthetaderiv}, we have shown $\nabla_\vtheta(g,\vtheta) = 0$ when the least squares error is minimized for the $np$ points with lowest squared error. In other words:
+	\begin{align*}
+		\mathbb{E}\left[\nabla_\vtheta g(t_{k+1},\vtheta_k)\right] &= 0 &&\\
+		2(\vmu\vmu^\top + \mSigma)(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) &= 0&&
+		\intertext{Since the first term is non-zero, the equality is satisfied when:}
+		(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) &= 0&&\\
+		\vtheta_k &= (1-\varepsilon)\vbeta_P + \varepsilon\vbeta_P &&
+	\end{align*}
+	Note this aligns with the results of Theorem \ref{thm:expected-value-corrupted}.
+	This means that for a subset of $np$ points from $\mX$, the least squares error is minimized. What we are interested in is how many points within those $np$ points come from $\mathbb{P}$ and how many of those points from $\mathbb{Q}$. Our goal is to minimize the number of points within the $np$ lowest squared losses from $Q$, as they will introduce error to our predictions on points from $P$. 
+	
+	Now we come to one of the most important theorems of this paper. 
+	\begin{restatable}{thm}{convergence-guarantee}
+		\label{thm:convergence-guarantee}
+		In the case of linear regression, SubQuantile Minimization will converge to a local or global minimum.
+	\end{restatable}
+	
+
+	\subsection{Converging to $\beta_P$}
+	
+	We will start by defining the two types of noise we are interesting in. 
+	\begin{definition}
+		\textbf{Unstructured Noise} is noise that is not dependent on the input data, i.e., $\displaystyle \mathbb{P}\left[\vy | \mX\right] = \mathbb{P}\left[\mX\right]$
+	\end{definition}
+	\begin{definition}
+		\textbf{Linearly Structured Noise} is noise that is made from a linear combination of the input data, i.e. $\displaystyle \vy = \vbeta_Q\mX + \veps$
+	\end{definition}
+	Also note we often consider Gaussian Noise as Unstrucutred Noise, but it can be modeled as Structured Noise where $\vbeta_Q = \vzero$. 
+
+	\begin{restatable}{lemma}{effect-of-projection}
+		\label{lem:effect-of-projection}
+		The expected value of error on points in $\mathbb{P}$ will be lower than the expected value of error on points in $\mathbb{Q}$ if $\proj_{\vbeta_P}(\vtheta) - \vbeta_P < \proj_{\vbeta_Q}(\vtheta) - \vbeta_Q$
+	\end{restatable}
+	
+	Lemma \ref{lem:effect-of-projection} gives us an intuitive result, the proof is in appendix \ref{app:effect-of-projection}. If in each optimization step, our projection on $\vbeta_P$ is closer than our projection on to $\vbeta_Q$, we know the number of steps from $\mathbb{Q}$ will increase from the previous iteration.
+	\begin{restatable}{thm}{improvement-of-theta}
+		\label{thm:improvement-of-theta}
+		After an optimization step, there will be, by expectation, more elements from $\mathbb{P}$ in the SubQuantile Matrix than in the previous matrix if \begin{equation}
+			(1-\varepsilon - \alpha_1)\vbeta_P > (\varepsilon - \alpha_2)\vbeta_Q
+		\end{equation}
+		where $\alpha_1$ and $\alpha_2$ represents the coefficients for the linear combination of $\vtheta$ in the basis defined as $\mB = \begin{bmatrix} \vbeta_P & \vbeta_Q & \mR\end{bmatrix}$
+	\end{restatable}
+	
+	We are now interested in theoretical guarantees with no distributional assumptions. First we will consider some intuition on why this problem is not as hard as compared to when the corruption is linearly structured. Let us say the noise is of non-linear regression, in other words $\vy_Q \sim f(\mX,\vbeta_Q)$, where $f$ is a non-linear combination of features of $\mX$. In this case, it is not possible to model the non-linear regression by a linear combination of the features, thus, if we have elements from $\mathbb{Q}$ within the lowest $np$ losses, then training on these points will not generalize well to points from $\mathbb{Q}$, so their error will not decrease. 
+	
+	\subsection{Complexity of SubQuantile Optimization}
+	In this section we will provide the expected complexity in the case of linearly structured noise. Each time step we add a $\mathcal{O}(d)$ partitioning step, thus total added complexity would be $T\mathcal{O}(d)$. 
+	
+	\section{Empirical Results}\label{sec:numerical-experiments}
+	
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		
+		\KwInput{Training iterations $T$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $m$}
+		\KwOutput{Trained Parameters, $\displaystyle \vtheta$}
+		\KwData{Inliers: $\displaystyle y|x \sim \mathcal{N}(x^2-x+2,0.01)$, Outliers: $\displaystyle y|x \sim \mathcal{N}(-x^2+x+4,0.01)$}
+		$\vtheta_0 \gets (\mX^\top\mX)^{-1}\mX^\top\vy$\\
+		\For{$k \in 1,2,\ldots,m$}
+		{
+			$\displaystyle \vnu = \left(\mX\vtheta_k - \vy\right)^2$\\
+			$\hat{\vnu} = sorted(\vnu)$\\
+			$\displaystyle t_{k+1} = \hat{\vnu}_{np}$\\
+			$L \coloneqq \frac{1}{np}\norm{\mS^\top\mS}_2$\\
+			$\alpha \coloneqq \frac{1}{2L}$\\
+			$\displaystyle \vtheta_{k+1} = \vtheta_k - \alpha \nabla_{\vtheta_k}g(t_{k+1},\vtheta_k)$
+		}
+		\KwRet{$ \vtheta_T $}
+		\caption{Sub-Quantile Minimization Optimization Algorithm}
+		\label{alg:sqo1}
+	\end{algorithm}
+
+	We also present a batch algorithm which improves training speed significantly. In accordance with Minibatch theory, if the subset $I$ of all data is representative of all the data, then this will have similar results to Algorithm \ref{alg:sqo1}.
+
+	\subsection{Synthetic Data}
+	
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}
+			\begin{groupplot}[group style={
+					group name=myplot,
+					group size= 2 by 1},height=6cm,width=0.5\linewidth,
+					tick align=outside,
+					tick pos=left,
+					legend pos=outer north east,
+					x grid style={darkgray176},
+					xmin=0.1, xmax=0.4,
+					xtick style={color=darkgray176},
+					y grid style={darkgray176},
+					ymin=0, ymax=1000,
+					ytick style={color=darkgray176},
+					ytick={0,0.01,0.1,1,10,100,1000},
+					ymajorgrids=true,
+					grid style=dashed,
+					ymode=log,
+					log ticks with fixed point,
+				]
+			\nextgroupplot[ylabel=Test RMSE,title=\texttt{Structured Linear Regression}]
+			\coordinate (c1) at (current axis.left of origin);
+			\addplot [very thick, black,mark=square*]
+			table {%
+				0.1 0.051268957555294
+				0.13 0.0514495596289635
+				0.16 0.0551305003464222
+				0.19 0.057117372751236
+				0.22 0.0563316717743874
+				0.25 0.0603582747280598
+				0.28 0.0671692341566086
+				0.31 0.0716694444417953
+				0.34 0.0722151920199394
+				0.37 0.0809529423713684
+				0.4 0.0831400007009506
+			};
+			\addplot [very thick, green,mark=square*]
+			table {%
+				0.1 0.437333673238754
+				0.13 0.386190682649612
+				0.16 0.358839213848114
+				0.19 0.343710452318192
+				0.22 0.280364125967026
+				0.25 0.260662972927094
+				0.28 0.246182486414909
+				0.31 0.214282184839249
+				0.34 0.182513549923897
+				0.37 0.157826259732246
+				0.4 0.122116580605507
+			};
+			\addplot [very thick, red,mark=square*]
+			table {%
+				0.1 95.9340133666992
+				0.13 93.2578277587891
+				0.16 99.5399475097656
+				0.19 97.7672500610352
+				0.22 92.5856094360352
+				0.25 94.9917831420898
+				0.28 102.384918212891
+				0.31 101.503684997559
+				0.34 98.5561752319336
+				0.37 97.3780136108398
+				0.4 99.4728240966797
+			};
+			\addplot [very thick, orange,mark=square*]
+			table {%
+				0.1 7.6847243309021
+				0.13 21.3335552215576
+				0.16 34.1913909912109
+				0.19 62.1776123046875
+				0.22 53.1061515808105
+				0.25 66.6994171142578
+				0.28 77.5602340698242
+				0.31 85.306999206543
+				0.34 84.2073516845703
+				0.37 101.736701965332
+				0.4 111.674514770508
+			};
+			\addplot [very thick, purple,mark=square*]
+			table {%
+				0.1 2.52466607093811
+				0.13 1.37765717506409
+				0.16 1.08749675750732
+				0.19 2.09511113166809
+				0.22 1.80987584590912
+				0.25 3.07317590713501
+				0.28 2.04403829574585
+				0.31 1.17876148223877
+				0.34 2.61896777153015
+				0.37 7.01777935028076
+				0.4 17.3156700134277
+			};%\addlegendentry{Huber}
+			\addplot [very thick, cyan,mark=square*]
+			table {%
+				0.1 12.0581359863281
+				0.13 15.8333539962769
+				0.16 17.4384574890137
+				0.19 20.8180561065674
+				0.22 25.0700569152832
+				0.25 25.4318656921387
+				0.28 31.2439308166504
+				0.31 32.9088668823242
+				0.34 34.2781715393066
+				0.37 39.0287933349609
+				0.4 40.8038940429688
+			};
+			\nextgroupplot[legend to name={CommonLegend},legend style={legend columns=7},title=\texttt{Noisy Linear Regression}]
+			\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
+			\addplot [very thick, black,mark=square*]
+			table {%
+				0.1 0.0531531982123852
+				0.13 0.0547916479408741
+				0.16 0.0517183169722557
+				0.19 0.0598121285438538
+				0.22 0.0633033365011215
+				0.25 0.0636905208230019
+				0.28 0.0685481578111649
+				0.31 0.0725809782743454
+				0.34 0.073113426566124
+				0.37 0.0811997801065445
+				0.4 0.0835705175995827
+			};\addlegendentry{SubQuantile}
+			\addplot [very thick, green,mark=square*]
+			table {%
+				0.1 0.457023710012436
+				0.13 0.412708103656769
+				0.16 0.345218479633331
+				0.19 0.333872556686401
+				0.22 0.318428456783295
+				0.25 0.270081698894501
+				0.28 0.260262817144394
+				0.31 0.220724537968636
+				0.34 0.182974651455879
+				0.37 0.167444884777069
+				0.4 0.137933492660522
+			};\addlegendentry{Sever}
+			\addplot [very thick, red,mark=square*]
+			table {%
+				0.1 97.7916717529297
+				0.13 98.6138687133789
+				0.16 92.7318115234375
+				0.19 101.104835510254
+				0.22 106.167358398438
+				0.25 98.6027069091797
+				0.28 103.280212402344
+				0.31 96.0323791503906
+				0.34 96.8245086669922
+				0.37 101.979034423828
+				0.4 96.4476547241211
+			};\addlegendentry{TERM}
+			\addplot [very thick, orange,mark=square*]
+			table {%
+				0.1 10.3684768676758
+				0.13 30.2483787536621
+				0.16 46.2747001647949
+				0.19 60.5157356262207
+				0.22 82.2602081298828
+				0.25 99.0850219726562
+				0.28 114.497596740723
+				0.31 146.111450195312
+				0.34 137.082153320312
+				0.37 146.904800415039
+				0.4 147.33024597168
+			};\addlegendentry{Ransac}
+			\addplot [very thick, purple,mark=square*]
+			table {%
+				0.1 2.69340968132019
+				0.13 1.8283885717392
+				0.16 2.23839139938354
+				0.19 3.36720323562622
+				0.22 2.01704359054565
+				0.25 1.88405132293701
+				0.28 1.98570477962494
+				0.31 1.34437727928162
+				0.34 2.54432535171509
+				0.37 6.12596797943115
+				0.4 20.0719184875488
+			};\addlegendentry{Huber}
+			\addplot [very thick, cyan,mark=square*]
+			table {%
+				0.1 12.7941513061523
+				0.13 15.0450792312622
+				0.16 17.8279113769531
+				0.19 21.3316707611084
+				0.22 25.1707763671875
+				0.25 27.4510860443115
+				0.28 31.0159301757812
+				0.31 33.1825561523438
+				0.34 34.6065292358398
+				0.37 40.7400207519531
+				0.4 41.4671249389648
+			};\addlegendentry{ERM}
+			\end{groupplot}
+			\coordinate (c3) at ($(c1)!.5!(c2)$);
+			\node[below] at (c3 |- current bounding box.south)
+			{\pgfplotslegendfromname{CommonLegend}};
+		\end{tikzpicture}
+		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets}
+		\label{fig:synthetic-linear-regression}
+	\end{figure}
+	We now demonstrate SubQuantile Regression in the presence of Gaussian Random Noise. 
+		
+	%\begin{figure*}[!t]
+		%\centering
+		%\input{noisy-linear.tex}
+		%\caption{Accuracy of \texttt{Noisy Linear Regression Dataset}}
+		%\label{fig:noisy-linear-regression}
+%	\end{figure*}
+
+	From the results we can see in Figure \ref{fig:synthetic-linear-regression}, Subquantile Minimization performs better throughout all noise ranges. The one struggle exists when $\eps$ is around $0.5$, thus we face issues similar to the power method where there exists the top two eigenvalues such that $|\lambda_1| \approx |\lambda_2|$.
+	
+	In our first synthetic experiment, we run Algorithm \ref{alg:sqo1} on synthetically generated structured linear regression data, the noise is sampled from a linear distribution that is dependent on the vector of $\mX$. The results of Sub-Quantile Minimization can be seen in Figure \ref{fig:structured-linear-regression}. Our results show the near optimal performance of Sub-Quantile Minimization. The results and comparison with other methods can be seen in Table \ref{tab:quadratic-regression}. Note we are not interested in $\eps \geq 0.5$ as the concept of corruptness becomes unclear. We see in Table \ref{tab:quadratic-regression}, Sub-Quantile Minimization produces State of the Art Results in the Quadratic Regression Case. Furthermore, it performs significantly better than baseline methods in the high-noise regimes $(\eps = 0.4)$, this is confirmed in both the small data and large data datasets. Please refer to Appendix \ref{app:experimental-details} for more details on the \texttt{Structured Linear Regression} Dataset. 
+	
+	In our second synthetic experiment, we run Algorithm \ref{alg:sqo1} similarly on synthetically generated linear regression data. However, in this experiment, the noise is sampled from a Gaussian that is independent of the $\mX$ coordinates. 
+	
+	Methods such as TERM, \cite{li2020tilted}, are unable to capture the target distribution through structurally generated noise, which can also be called \textit{adversarial}. SubQuantile Optimization, on the other hand, is robust to such adversarial attacks. 
+
+	\subsection{Real Data}
+	
+	We provide results on the \texttt{Drug Discovery} Dataset in \cite{DiakonikolasKKLSS19} utilizing the noise procedure described in \cite{li2020tilted}.
+	
+		\begin{figure}
+		\centering
+		\pgfplotsset{scaled y ticks=false}
+		\begin{tikzpicture}
+			\begin{groupplot}[group style={
+					group name=myplot,
+					group size= 2 by 1},height=6cm,width=0.5\linewidth,
+				tick align=outside,
+				tick pos=left,
+				legend pos=outer north east,
+				x grid style={darkgray176},
+				xmin=0.1, xmax=0.4,
+				xtick style={color=darkgray176},
+				y grid style={darkgray176},
+				ymin=0.8, ymax=6,
+				ytick style={color=darkgray176},
+				%ytick={0.1,1,6},
+				ymajorgrids=true,
+				grid style=dashed,
+				ymode=log,
+				log basis y={2},
+				log ticks with fixed point,
+				]
+				\nextgroupplot[ylabel=Test RMSE,title=Unstructured Noise]
+				\coordinate (c1) at (current axis.left of origin);
+				\addplot [very thick, black,mark=square*]
+				table {%
+					0.1 1.04887938499451
+					0.13 1.03735637664795
+					0.16 1.0456268787384
+					0.19 1.00054287910461
+					0.22 0.963551819324493
+					0.25 0.964074432849884
+					0.28 1.11675548553467
+					0.31 1.10877585411072
+					0.34 1.08537185192108
+					0.37 1.06288659572601
+					0.4 1.15286016464233
+				};
+				\addplot [very thick, green,mark=square*]
+				table {%
+					0.1 1.09920370578766
+					0.13 1.08194553852081
+					0.16 1.07517790794373
+					0.19 1.0383814573288
+					0.22 0.969865620136261
+					0.25 0.972586274147034
+					0.28 1.11225378513336
+					0.31 1.08170461654663
+					0.34 1.06149160861969
+					0.37 0.976940512657166
+					0.4 1.0820677280426
+				};
+				\addplot [very thick, red,mark=square*]
+				table {%
+					0.1 1.38112473487854
+					0.13 1.3834912776947
+					0.16 1.37953472137451
+					0.19 1.34663784503937
+					0.22 1.31893944740295
+					0.25 1.28839957714081
+					0.28 1.43339419364929
+					0.31 1.40003788471222
+					0.34 1.36796271800995
+					0.37 1.33629393577576
+					0.4 1.35248398780823
+				};
+				\addplot [very thick, orange,mark=square*]
+				table {%
+					0.1 529206607872
+					0.13 248858066944
+					0.16 2117881954304
+					0.19 805079744512
+					0.22 779128274944
+					0.25 860870279168
+					0.28 1958463799296
+					0.31 815870509056
+					0.34 997245255680
+					0.37 2418093064192
+					0.4 1562900692992
+				};
+				\addplot [very thick, purple,mark=square*]
+				table {%
+					0.1 1.39971232414246
+					0.13 1.45554709434509
+					0.16 1.47451901435852
+					0.19 1.42943596839905
+					0.22 1.52605354785919
+					0.25 1.37709391117096
+					0.28 1.66744387149811
+					0.31 1.74357545375824
+					0.34 1.81910479068756
+					0.37 1.9489768743515
+					0.4 1.97231221199036
+				};
+				\addplot [very thick, cyan,mark=square*]
+				table {%
+					0.1 1.32730400562286
+					0.13 1.42827868461609
+					0.16 1.58449447154999
+					0.19 1.63084530830383
+					0.22 1.78823781013489
+					0.25 1.93592619895935
+					0.28 2.09295845031738
+					0.31 2.27927470207214
+					0.34 2.40985894203186
+					0.37 2.53798723220825
+					0.4 2.65325546264648
+				};
+				\nextgroupplot[legend to name={DrugLegend},legend style={legend columns=7},title=Structured Noise]
+				\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
+				\addplot [very thick, black,mark=square*]
+				table {%
+					0.1 0.985085129737854
+					0.13 0.967344880104065
+					0.16 1.05987989902496
+					0.19 1.06230103969574
+					0.22 0.938246369361877
+					0.25 1.1628532409668
+					0.28 1.12525105476379
+					0.31 1.06253051757812
+					0.34 1.18652653694153
+					0.37 1.13473856449127
+					0.4 1.19862473011017
+				};\addlegendentry{SubQuantile}
+				\addplot [very thick, green,mark=square*]
+				table {%
+					0.1 1.01883554458618
+					0.13 1.0083224773407
+					0.16 1.08754074573517
+					0.19 1.08325290679932
+					0.22 0.97248762845993
+					0.25 1.14739739894867
+					0.28 1.09311807155609
+					0.31 1.02050757408142
+					0.34 1.09984254837036
+					0.37 1.04416346549988
+					0.4 1.05520582199097
+				};\addlegendentry{Sever}
+				\addplot [very thick, red,mark=square*]
+				table {%
+					0.1 1.33265817165375
+					0.13 1.34413123130798
+					0.16 1.39500391483307
+					0.19 1.38573050498962
+					0.22 1.29539334774017
+					0.25 1.42339968681335
+					0.28 1.41533291339874
+					0.31 1.33846986293793
+					0.34 1.39721322059631
+					0.37 1.3342844247818
+					0.4 1.35167098045349
+				};\addlegendentry{TERM}
+				\addplot [very thick, orange,mark=square*]
+				table {%
+					0.1 2404382670848
+					0.13 1237811331072
+					0.16 1555973275648
+					0.19 2838279225344
+					0.22 2747414609920
+					0.25 5128395423744
+					0.28 1649884266496
+					0.31 2477872644096
+					0.34 3036363096064
+					0.37 4817864359936
+					0.4 3626952294400
+				};\addlegendentry{Ransac}
+				\addplot [very thick, purple,mark=square*]
+				table {%
+					0.1 1.3859475851059
+					0.13 1.40004086494446
+					0.16 1.56484758853912
+					0.19 1.47474980354309
+					0.22 1.55145347118378
+					0.25 1.78543448448181
+					0.28 1.84772074222565
+					0.31 2.29905819892883
+					0.34 2.64187002182007
+					0.37 3.29620218276978
+					0.4 3.1149308681488
+				};\addlegendentry{Huber}
+				\addplot [very thick, cyan,mark=square*]
+				table {%
+					0.1 1.90347039699554
+					0.13 1.9887580871582
+					0.16 2.73341131210327
+					0.19 2.93166780471802
+					0.22 3.21404385566711
+					0.25 3.80489802360535
+					0.28 3.67719650268555
+					0.31 4.13737964630127
+					0.34 4.04461336135864
+					0.37 4.5059757232666
+					0.4 4.36363077163696
+				};\addlegendentry{ERM}
+			\end{groupplot}
+			\coordinate (c3) at ($(c1)!.5!(c2)$);
+			\node[below] at (c3 |- current bounding box.south)
+			{\pgfplotslegendfromname{DrugLegend}};
+		\end{tikzpicture}
+		\caption{\texttt{Drug Discovery} Dataset with Normal Noise and Structured Noise}
+		\label{fig:drug-discovery}
+	\end{figure}
+	
+	\textcolor{blue}{Table \ref{tab:drug-discovery} is not up to date, will be updated in next version of paper. Figure \ref{fig:drug-discovery} is up to date. We also plan on implementing CRR \cite{bhatia2017} and STIR \cite{pmlr-v89-mukhoty19a}}.
+	\begin{table}[!h]
+		\centering
+		\begin{tabular}{lcccc}
+			\toprule 
+			\textbf{Objectives}&\multicolumn{4}{c}{Test RMSE (\texttt{Drug Discovery})}\\                   
+			\cmidrule(rl){2-5}
+			&\subhead{$\eps = 0$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.4$}& \subhead{$\eps = 0.8$}\\ 
+			\midrule
+			OLS \ref{eqn:OLS}  &$0.990_{(0.060)}$&$1.969_{(0.118)}$&$2.829_{(0.086)}$&$4.682_{(0.101)}$\\
+			Huber \cite{Huber2009} &$1.326_{(0.096)}$&$1.628_{(0.253)}$&$2.023_{(0.498)}$&$3.442_{(0.581)}$\\
+			RANSAC \cite{RANSAC1981} &$\infty$&$\infty$&$\infty$&$\infty$\\
+			TERM \cite{li2020tilted} &$1.313_{(0.072)}$&$1.334_{(0.105)}$&$1.343_{(0.0740)}$&$\mathbf{1.428_{(0.107)}}$\\
+			SEVER \cite{DiakonikolasKKLSS19} &$1.079_{(0.059)}$&$1.076_{(0.048)}$&$\mathbf{1.067_{(0.091)}}$&$3.993_{(0.203)}$\\
+			\rowcolor{LightCyan}
+			SubQuantile($p = 1-\eps$) &$\mathbf{1.052_{(0.062)}}$&$\mathbf{1.060_{(0.065)}}$&$1.073_{(0.101)}$&$1.479_{(0.0695)}$\\
+			\midrule 
+			Genie ERM &$0.990_{(0.060)}$&$1.038_{(0.041)}$&$1.037_{(0.086)}$&$\infty$\\
+			\bottomrule
+		\end{tabular}
+		\caption{\texttt{Drug Discovery} Dataset. Empirical Risk over $\mathbb{P}$}
+		\label{tab:drug-discovery}
+	\end{table}
+
+	\begin{figure}
+		\begin{center}
+			\input{final-epsilon-base-learner.tex}
+		\end{center}
+		\caption{Probability of points from $\mathbb{Q}$ in the final subquantile}
+		\label{fig:structure-subquantile}
+	\end{figure}
+	
+	The results in figure \ref{fig:structure-subquantile} demonstrate the percentage of elements from $\mathbb{Q}$ in the final subquantile matrix $\mS_T$ from different theta initializations after $T$ iterations of subquantile minimization in the \texttt{Noisy Linear Regression} Dataset. 
+	As we can see in Table \ref{tab:drug-discovery}, we obtain state of the art results in the lower range of range of noise, and futher more, we obtain results on par with the current state of the art. This makes our model the strongest among the tested, due to our strength throughout the whole range of noises. This dataset is also 
+	
+	\section{Conclusion}
+	In this work we provide a theoretical analysis for robust linear regression by minimizing the \textit{Sub-Quantile} of the Empirical Risk. Furthermore, we run various numerical experiments and compare against the current State of the Art in Robust Linear Regression. Since minimizing over the subquantile is a general machine learning framework, it is scalable to larger scale machine learning problems. In future work, more real world applications can be explored and the theory can be expanded beyond linear regression. 
+		
+	\subsubsection*{Author Contributions}
+	
+	\subsubsection*{Acknowledgments}	
+	
+	\newpage
+
+	\bibliographystyle{iclr2023_conference}
+	\bibliography{iclr2023_conference}
+	
+	\begin{appendices}
+		
+	\newpage
+	\appendix
+	\startcontents[sections]
+	\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
+	\newpage
+	
+	\section{Proofs on the effect of Linear Corruption}\label{app:sub-quantile-optimization}
+	\subsection{Proof of Theorem~\ref{thm:expected-value-corrupted}}\label{app:expected-value-corrupted}
+	\begin{proof}
+	\begin{align}
+		\intertext{We will first calculate the pseudo-inverse}
+		\mX^\top\mX &= \begin{pmatrix}\mP^\top & \mQ^\top \end{pmatrix}
+		\begin{pmatrix}\mP \\ \mQ \end{pmatrix} \\
+		&= \mP^\top\mP + \mQ^\top \mQ &&
+		\intertext{Now we can calculate the Moore-Penrose Inverse\vspace{1em}}
+		(\mX^\top\mX)^{-1}\mX^\top &= (\mP^\top\mP+ \mQ^\top\mQ)^{-1}\begin{pmatrix}\mP^\top &\mQ^\top \end{pmatrix}\\
+		&= \begin{pmatrix}(\mP^\top\mP + \mQ^\top\mQ)^{-1} \mP^\top & (\mP^\top\mP  + \mQ^\top\mQ)^{-1} \mQ^\top \end{pmatrix}
+		\intertext{Now we solve for the optimal model}
+		\mX^{\dagger}\vy &= \begin{pmatrix}(\mP^\top\mP + \mQ^\top\mQ)^{-1} \mP^\top & (\mP^\top\mP  + \mQ^\top\mQ)^{-1} \mQ^\top \end{pmatrix} \begin{pmatrix}\vy_P \\ \vy_Q \end{pmatrix} \\
+		&= (\mP^\top\mP + \mQ^\top\mQ)^{-1} \mP^\top \vy_P + (\mP^\top\mP + \mQ^\top \mQ)^{-1} \mQ^\top \vy_Q \label{eqn:OLS-optimal} &&
+	\end{align}\\
+	By assumption \ref{asm:p-q-sample}, all rows of $\mP$ and $\mQ$ are sampled from a common Normal Distribution. Thus we are able to utilize properties of the Wishart Distribution, \cite{nydick2012wishart}.
+	\begin{equation}
+		\mP^\top\mP = \sum_{i=1}^{n*(1-\eps)}\mP_i\mP_i^\top
+	\end{equation}
+	\begin{equation}
+		\mQ^\top\mQ = \sum_{j=1}^{n\eps}\mQ_j\mQ_j^\top
+	\end{equation}\vspace{1em}
+	Thus we can say $\mP^\top\mP$ and $\mQ^\top\mQ$ are sampled from the Wishart distribution.
+	\begin{equation}
+		\mP^\top\mP \sim \mathcal{W}(n(1-\eps),\mSigma)
+	\end{equation}
+	\begin{equation}\vspace{1em}
+		\mQ^\top\mQ \sim \mathcal{W}(n\eps,\mSigma)
+	\end{equation}
+	We can now use the Expected Value of the Wishart Distribution.\vspace{1em}
+	\begin{equation}
+		\mathbb{E}(\mP^\top\mP) = n(1-\eps)\mSigma
+	\end{equation}
+	\begin{equation}\vspace{1em}
+		\mathbb{E}(\mQ^\top\mQ) = n\eps\mSigma
+	\end{equation}
+	It thus follows
+	\begin{equation}\vspace{1em}
+		\mathbb{E}\left[\mP^\top\mP + \mQ^\top\mQ\right] = n\mSigma
+	\end{equation}
+	Since we are interested in the pseudo-inverse, we will utilize the Inverse Wishart Distribution. 
+	\begin{equation}
+		\left(\mP^\top\mP + \mQ^\top\mQ\right)^{-1} \sim \mathcal{W}^{-1}(n, \mSigma)
+	\end{equation}
+	It thus follows by the expectation of the Inverse Wishart Distribution 
+	\begin{equation}
+		\mathbb{E}\left[\left(\mP^\top\mP + \mQ^\top\mQ\right)^{-1}\right] = n\mSigma^{-1}
+	\end{equation}
+	Now we will plug this into Equation \ref{eqn:OLS-optimal}:\vspace{1em}
+	\begin{align}\vspace{1em}
+		\mathbb{E}\left[\mX^{\dagger}\vy\right] &= \left(n\mSigma^{-1}\right)\mP^\top\vy_P + \left(n\mSigma^{-1}\right)\mQ^\top\vy_Q &&\\
+		&= \left(n\mSigma^{-1}\right)\mP^\top(\mP\vbeta + \veps_P) + \left(n\mSigma^{-1}\right)\mQ^\top(\mQ\vbeta_Q^\top + \veps_Q) &&\\
+		&= \left(n\mSigma^{-1}\right)\left((\mP^\top\mP)\vbeta_P + (\mQ^\top\mQ)\left(\vbeta_P + (\vbeta_Q - \vbeta_P)\right)\right) &&\\
+		&= \left(n\mSigma^{-1}\right)\left((n(1-\eps)\mSigma)\vbeta_P + n\eps\mSigma \left(\vbeta_P + \vPsi\right)\right) &&\\
+		&= \left(n \mSigma^{-1}\right)\left(n\mSigma\vbeta_P + n\eps\mSigma\vPsi\right) &&\\
+		&= \vbeta_P + \eps(\vPsi) &&
+	\end{align}
+	This concludes the proof. 
+	\end{proof}
+
+	\subsection{Proof of Theorem~\ref{thm:expected-value-corrupted-different}}
+	\label{app:expected-value-corrupted-different}
+	\begin{proof}
+	The first half of the proof follows from Appendix \ref{app:expected-value-corrupted}. We start by noting new notation. $\displaystyle \mSigma_P$ represents the covariance matrix for $\mathbb{P}$ and $\displaystyle \mSigma_Q$ represents the covariance matrix for $\mathbb{Q}$.\vspace{1em}
+	\begin{equation}
+		\mathbb{E}\left[\mP^\top\mP\right] = n(1-\eps)\mSigma_P
+	\end{equation}\openup .5em
+	\begin{equation}
+		\mathbb{E}\left[\mQ^\top\mQ\right] = n\eps\mSigma_Q 
+	\end{equation}
+	It thus follows
+	\begin{equation}
+		\mathbb{E}\left[\mP^\top\mP + \mQ^\top\mQ\right] = \left(n(1-\eps)\mSigma_P + n\eps \mSigma_Q\right)
+	\end{equation}
+	This is where the structure of the proof differs from Theorem \ref{thm:expected-value-corrupted} because we can no longer follow the Inverse Wishart Distribution.
+	\begingroup
+	\addtolength{\jot}{1em}
+	\begin{align}
+		\mathbb{E}\left[\left(\mP^\top\mP + \mQ^\top\mQ\right)^{-1} \right] &= \left(n(1-\eps)\mSigma_P + n\eps \mSigma_Q\right)^{-1} &&
+		\intertext{Now we can use the Woodbury Formula \cite{Matrix-Computations}}
+		&= n(1-\eps)\mSigma_P^{-1} - n(1-\eps)\mSigma_P^{-1}(n\eps\mSigma_Q^{-1}) &&
+	\end{align}
+	\endgroup
+	We will now calculate the expected optimal parameters by plugging this into Equation \ref{eqn:OLS-optimal}:\vspace{1em}
+	\begingroup
+	\addtolength{\jot}{1em}
+	\begin{align}
+		\mathbb{E}\left[\mX^\dagger\vy\right] &= n(1-\eps)\mSigma_P^{-1}(\mP^T\mP)\vbeta_P - n(1-\eps)\mSigma_P^{-1}(n\eps\mSigma_Q^{-1})(\mQ^T\mQ)\vbeta_Q &&\\
+		&= n(1-\eps)\mSigma_P^{-1}(n(1-\eps)\mSigma_P)\vbeta_P - n(1-\eps)\mSigma_P^{-1}(n\eps\mSigma_Q^{-1})(n\eps\mSigma_Q)\vbeta_Q &&\\
+		&= \vbeta_P - n(1-\eps)\mSigma_P^{-1}\vbeta_Q &&
+	\end{align}
+	\endgroup
+	This concludes the proof.
+	\end{proof}
+	
+	\newpage
+	\section{General Properties of Sub-Quantile Minimization}\label{app:general-proofs}
+	\subsection{Derivation of Lemma~\ref{lem:gfermat}}
+	\label{app:gfermat}
+	Since $\displaystyle g(t,\vtheta)$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
+	Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^\top\mX - \vy)^2\right)$ and note $\displaystyle 0 < p < 1$
+	\begin{align}
+		\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) &= \partial{\left(-t + \frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)} &&\\
+		&= \partial{(-t)} + \partial{\left(\frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)}&&\\
+		&= -1 + \frac{1}{np}\sum_{i=1}^{n}\partial{(t-\hat{\vnu}_i)^+} &&\\
+		&= -1 + \frac{1}{np}\sum_{i=1}^{n}
+		\left\{
+		\begin{array}{lr}
+			1, & \text{if } t > \hat{\vnu}_i\\
+			0, & \text{if } t < \hat{\vnu}_i \\
+			\left[0,1\right], & \text{if } t = \hat{\vnu}_i \\
+		\end{array}
+		\right\}&&\\
+		&= 0 \text{ when }\displaystyle t = \hat{\vnu}_{np}&&
+	\end{align}
+	This is the $p$-quantile of $\displaystyle \vnu$. Assuming no two points are equal in the dataset, this means the minimizing value for $t$ has a range of values, $\hat{\vnu}_{np} \leq t < \hat{\vnu}_{np+1}$. This means $g(t,\vtheta)$ is not strongly convex with respect to $t$. 
+	\subsection{Derivation of Lemma~\ref{lem:gthetaderiv}}
+	\label{app:gthetaderiv}
+		Note that $t_k = \vnu_{np}$ which is equivalent to $(\vtheta_k^\top\vx_{np} - y_{np})^2$
+		\begin{align}
+			\nabla_{\vtheta_k} g(t_{k+1},\vtheta_k) &= \nabla_{\vtheta_k}\left(\vnu_{np} - \frac{1}{np}\sum_{i=1}^n(\vnu_{np} - (\vtheta_k^\top\vx_i - y_i)^2)^+\right) &&\\
+			&= \nabla_{\vtheta_k}\left((\vtheta_k^\top\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\left((\vtheta_k^\top\vx_{np} - y_{np})^2 - (\vtheta_k^\top\vx_i - y_i)^2\right)^+\right) &&\\
+			&= \nabla_{\vtheta_k}(\vtheta_k^\top\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\nabla_{\vtheta_k}\left((\vtheta_k^\top\vx_{np} - y_{np})^2 - (\vtheta_k^\top\vx_i - y_i)^2\right)^+ &&\\				
+			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{n}2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) \notag\\ &\qquad-2\vx_i(\vtheta_k^\top\vx_i - y_i) \left\{
+			\begin{array}{lr}
+				1, & \text{if } t > v_i\\
+				0, & \text{if } t < v_i \\
+				\left[0,1\right], & \text{if } t = v_i \\
+			\end{array} \right\} &&\\
+			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{np}2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -2\vx_i(\vtheta_k^\top\vx_i - y_i) &&\\	
+			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) - 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) + \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i) &&\\
+			&= \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i)&&
+		\end{align}
+		This is the derivative of the $np$ samples with lowest error with respect to $\vtheta$.
+
+	\subsection{Derivation of Lemma~\ref{lem:g-lsmooth}}
+	The objective function 
+	$\displaystyle g(\vtheta,t)$ is $L$-smooth w.r.t $\vtheta$ iff
+	\begin{equation}
+		||  \nabla_\vtheta g(\vtheta',t) - \nabla_\vtheta g(\vtheta,t) || \leq L|| \vtheta' - \vtheta || 
+	\end{equation}
+	\begin{align}
+		\norm{ \nabla_{\vtheta} g(\vtheta^{'},t) - \nabla_{\vtheta} g(\vtheta,t) } = &\norm{ \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top} \vx_i - y_i) - \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top \vx_i - y_i) } &&\\
+		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top}\vx_i - \vtheta_k^\top\vx_i)}&&\\
+		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i\vx_i^\top(\vtheta_k^{'\top} - \vtheta_k^\top)} &&\\
+		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\frac{2}{np}\sum_{i=1}^{np}\vx_i\vx_i^\top}\norm{\vtheta_k^{'\top} - \vtheta_k^\top} &&\\
+		= &L\norm{\vtheta_k^{'\top} - \vtheta_k^\top} &&
+	\end{align}
+	where $\displaystyle L = \norm{\frac{2}{np}\mX^\top\mX}$\\
+	This concludes the derivation.
+	\subsection{Proof of Lemma~\ref{lem:g-change-wrt-t}}
+	\label{app:g-change-wrt-t}
+	\begin{proof}
+		We will investigate the two cases $t_{k+1} \leq t$ and $t_{k+1} > t_k$.\\
+		\textbf{Case (i)} $t_{k+1} \leq t_k$\\
+		Let us first expand out $g(t_k,\vtheta_k)$ with the knowledge that $t_k \geq \hat{\vnu_{k}}$
+		\begin{align}
+			g(t_k, \vtheta_k) &= t_k - \frac{1}{np}\sum_{i=1}^{n}(t_k-\vnu_i)^+ &&\\
+			&= t_k - \frac{1}{np}(np)t_k + \frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+ &&\\
+			&= \frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+ &&\\
+			g(t_{k+1},\vtheta_k) - g(t_k,\vtheta_k) &=  \frac{1}{np}\sum_{i=1}^{np}\vnu_i - \left(\frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+\right) &&\\
+			&= - \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+ &&
+		\end{align}
+		\textbf{Case (ii)} $t_{k+1} > t_k$\\
+		Since we know $t_k$ is less than $\vnu_{np}$, WLOG we will say $t_k$ is greater than the lowest $n(p-\delta)$ elements, where $\delta \in (0,p)$. 
+		\begin{align}
+			g(t_k,\vtheta_k) &= t_k - \frac{1}{np}\sum_{i=1}^n(t_k - \vnu_i)^+ &&\\
+			&= t_k - \frac{1}{np}\sum_{i=1}^{n(p-\delta)}(t_k - \vnu_i)^+ &&\\
+			&= t_k - \frac{1}{np}(n(p-\delta))t_k + \frac{1}{np}\sum_{i=1}^{n(p-\delta)}\vnu_i &&\\
+			g(t_k,\vtheta_{k+1}) - g(t_k,\vtheta_k) &= \frac{1}{np}\sum_{i=1}^{np}\vnu_i - \left(\delta t_k + \frac{1}{np}\sum_{i=1}^{n(p-\delta)}\vnu_i\right) &&\\
+			&= \left(\frac{1}{np}\sum_{i=n(p-\delta)}^n\vnu_i\right) - \delta t_k &&
+		\end{align}
+		This concludes the proof.
+	\end{proof}
+  	
+  	\newpage
+	\section{Theory for Linear Corruption}
+	In this section, we provide rigorous theory for why Sub-Quantile Minimization works so well in the case of corruption of the form $\displaystyle \vbeta_Q^\top \vmu = y_p + \eps_Q$.
+	\begin{assumption}\label{asm:normal-error}
+		The residuals of $\vtheta_k$ are normally distributed with respect to $\mathbb{P}$ and $\mathbb{Q}$. In other words, $\vtheta_k \vp - y_P$ and $\vtheta_k \vq - y_Q$ are normally distributed.
+	\end{assumption}
+	Assumption \ref{asm:normal-error} can be visually verified in figure \ref{fig:normal-residual}. Even after multiple iteration steps the residuals with respect to $\mathbb{P}$ and $\mathbb{Q}$ are still normal. Thus it follows by decreasing $\norm{\vtheta - \vbeta_P}_1$ more relative to $\norm{\vtheta - \vbeta_Q}_1$ then the SubQuantile will contain more points from $\mP$ by expectation. 
+	\begin{figure}
+		\begin{minipage}[htbp]{0.24\textwidth}
+			\centering
+			\input{residual0.tikz}
+			%\caption{Caption for first figure}
+			\label{fig:1}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[htbp]{0.24\textwidth}
+			\centering
+			\input{residual2.tikz}
+			%\caption{Caption for second figure}
+			\label{fig:2}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[htbp]{0.24\textwidth}
+			\centering
+			\input{residual4.tikz}
+			%\caption{Caption for third figure}
+			\label{fig:3}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[htbp]{0.24\textwidth}
+			\centering
+			\input{residual6.tikz}
+			%\caption{Caption for fourth figure}
+			\label{fig:4}
+		\end{minipage}
+		\caption{Residuals with respect to $\mathbb{P}$ and $\mathbb{Q}$, $k$ represents optimization step.}
+		\label{fig:normal-residual}
+	\end{figure}
+	
+	\subsection{Proof of Lemma~\ref{lem:effect-of-projection}}
+	\label{app:effect-of-projection}
+	\begin{proof}
+		\begin{assumption}
+			\label{asm:p-q-linear-independence}
+			We assume $\vbeta_P \neq \alpha \vbeta_Q\,\, \forall \alpha \in \mathbb{R}$.
+		\end{assumption}
+		First let us define the projections of $\vtheta$ onto both $\vbeta_P$ and $\vbeta_Q$. We will define a basis of the $\vtheta$-space which is $\mathbb{R}^d$. Let the basis,
+		\begin{equation}
+			\mB = \begin{bmatrix} \vbeta_P & \vbeta_Q & \mR \end{bmatrix} \text{ where } \mR= \begin{bmatrix}	\vr_1 & \vr_2 & \dots & \vr_{d-2} \end{bmatrix}
+		\end{equation}
+		Thus we can represent $\vtheta$ as a linear combination of the basis 
+		\begin{equation}
+			\vtheta = \alpha_1 \vbeta_P + \alpha_2 \vbeta_Q + \sum_{i=3}^d \alpha_i \vr_i 
+		\end{equation}
+		Now we will calculate the projections of $\vtheta$ on to $\vbeta_P$ and $\vbeta_Q$.
+		\begin{align*}
+			\proj_{\vbeta_P}(\vtheta) &= \left(\frac{\vtheta^\top \vbeta_P}{\norm{\vbeta_P}^2_2}\right)\vbeta_P &&\\
+			&= \left(\frac{\norm{\vtheta}\norm{\vbeta_P}\cos(\omega_P)}{\norm{\vbeta_P}^2_2}\right)\vbeta_P &&\\
+			&= \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right)\vbeta_P &&
+		\end{align*}
+		We can use the same derivation for $\vbeta_Q$:
+		\begin{equation}
+			\proj_{\vbeta_Q}(\vtheta) = \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right)\vbeta_Q
+		\end{equation}
+		Now we can prove the lemma.\\
+		Let us set $\displaystyle \alpha_1 = \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right)$ and $\displaystyle \alpha_2 = \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right)$. Therefore we can rewrite $\vtheta$ as the following:
+		\begin{equation}
+			\vtheta = \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right) \vbeta_P + \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right) \vbeta_Q + \sum_{i=3}^d\alpha_i\vr_i 
+		\end{equation}
+		From a simple algebraic manipulation we have:
+		\begin{equation}
+			\vtheta - \vbeta_P = \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}} - 1\right) \vbeta_P + \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right) \vbeta_Q + \sum_{i=3}^d\alpha_i\vr_i 
+		\end{equation}
+		It thus follows, if $\displaystyle \left|\left(\frac{\norm{\vtheta'}\cos(\omega_P)}{\norm{\vbeta_P}}\right)-1\right| < \left|\left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right)-1\right|$ then $\displaystyle |\vtheta' - \vbeta_P| < |\vtheta - \vbeta_P|$ due to our formation of the basis. This concludes the proof. 
+	\end{proof}
+
+	\subsection{Proof of Theorem~\ref{thm:improvement-of-theta}}
+	\label{app:improvement-of-theta}
+	\begin{proof}
+		To show the change in $\varepsilon$ we will first calculate the expected change in $\vtheta$ by the $\vtheta$-update described in Equation \ref{eqn:theta-update}. We will also introduce some notation, $\mathcal{S}$ represents all $\vx \in \mX$ that are within the lowest $np$ losses, i.e. within the subquantile, $\vp \in \mathcal{S}$ represent all data vectors from $\mathbb{P}$ that are within the SubQuantile, similarly $\vq \in \mathbb{Q}$ represent all data vectors from $\mathbb{Q}$ that are within the SubQuantile. Furthermore, $|\mathcal{S}| = np$, there are $\varepsilon n$ points from $\mathbb{Q}$ in $\mathcal{S}$ and $(1-\varepsilon)n$ points from $\mathbb{P}$ within $\mathcal{S}$. 
+		\begingroup
+		%\addtolength{\jot}{0.5em}
+		\begin{align}
+			\mathbb{E}\left[\vtheta_{k+1}\right] &= \vtheta_k - \mathbb{E}\left[\alpha \nabla g(\vtheta_k,t_{k+1})\right] &&\\
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vx \in \mathcal{S}}\vx(\vtheta^\top\vx - y) \right] &&\\
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vx \in \mathcal{S}}\vx\vx^\top\vtheta_k - \vx y \right] &&\\
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^\top\vtheta_k - \vp y_p + \sum_{\vq \in \mathcal{S}} \vq\vq^\top\vtheta_k - \vq y_q \right] &&
+			\intertext{We will use Assumption \ref{asm:normal-corruption} to rewrite $y_p$ and $y_q$}
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^\top\vtheta_k - \vp (\vbeta_P \vp + \eps_P) + \sum_{\vq \in \mathcal{S}} \vq\vq^\top\vtheta_k - \vq (\vbeta_Q \vp + \eps_Q) \right] &&\\
+			&= \vtheta_k - \alpha\left(\sum_{\vp \in \mathcal{S}} \left(\vmu \vmu^\top + \mSigma\right)\vtheta_k - \left(\vmu \vmu^\top + \mSigma\right)\vbeta_P - \sum_{\vq \in \mathcal{S}} \left(\vmu \vmu^\top + \mSigma\right)\vtheta_k + \left(\vmu \vmu^\top + \mSigma\right)\vbeta_Q\right) &&
+			\intertext{Let $\mC = \vmu\vmu^\top + \mSigma$ for notational simplicity}
+			&= \vtheta_k - \alpha np \mC\left(\vtheta_k - (1-\varepsilon)\vbeta_P - \varepsilon\vbeta_Q\right) &&
+		\end{align}
+		\endgroup
+		Now that we have the expected update for $\vtheta$ in terms of the linear regression coefficients, we now want to utilize Lemma \ref{lem:effect-of-projection}.\\
+		Let $\displaystyle \vtheta_k = \alpha_1\vbeta_P + \alpha_2\vbeta_Q + \sum_{i=3}^{d}\alpha_i \vr_i$ in the same basis $\mB$ defined in Lemma \ref{lem:effect-of-projection}. Note in the case of data that is normally distributed about $0$ with no covariance amongst the predictor variables, then $\mC$ is a multiple of the identity. For simplicity, let $\mC = \mI$. Then the following manipulations hold:
+		\begin{align}
+			\vtheta_{k+1} &= \vtheta_k - \alpha np\left(\vtheta_k - (1-\varepsilon)\vbeta_P - \varepsilon \vbeta_Q\right) &&\\
+			&= \vtheta_k(1-\alpha np) + \alpha np (1-\varepsilon)\vbeta_P + (1-\alpha np)\varepsilon\vbeta_Q &&\\
+			&= (1-\alpha n p)\left(\alpha_1 \vbeta_P + \alpha_2 \vbeta_Q + \sum_{i=3}^d\alpha_i\vr_i\right) + \alpha np(1-\varepsilon)\vbeta_P + \alpha np\varepsilon\vbeta_Q &&\\
+			&= \alpha np (1-\varepsilon - \alpha_1)\vbeta_P + \alpha np (\varepsilon - \alpha_2)\vbeta_Q + \alpha_1 \vbeta_P + \alpha_2 \vbeta_Q + (1 - \alpha np)\sum_{i=3}^d\alpha_i\vr_i &&
+		\end{align}
+		Thus the conditions for $\varepsilon$ to decrease by expectation are  $\displaystyle \norm{(1-\varepsilon - \alpha_1)\vbeta_P} > \norm{(\varepsilon - \alpha_2)\vbeta_Q}$. This concludes the proof. \textcolor{blue}{Still need to verify last two steps.}
+	\end{proof}
+	\newpage
+	
+	\section{Proofs for Convergence}
+	\label{app:convergence-proofs}
+	\subsection{Proof of Theorem ~\ref{thm:convergence-guarantee}}
+	\begin{proof}
+	We will first start by introducing new notation. Let $\mS$ represent a matrix with $np$ data points from $\mX$, in other words it is a possible SubQuantile Matrix. Let $\displaystyle\vPi$ represent the set of all such possible matrices $\mS$ of $\mX$. Note $\displaystyle \left|\vPi\right| = \binom{n}{np}$. We can now redefine the min-max optimization problem of $g$ to a min-min optimization problem. Let us define the function $f(\vtheta, \mS) = \norm{\vtheta^\top\mS - \vy_S}_2^2$
+	\begin{equation}
+		\vtheta^*, \mS^* = \argmin_{\vtheta \in \mathbb{R}^d} \argmin_{\mS \in \vPi} \norm{\vtheta^\top\mS - \vy_S}_2^2
+	\end{equation}
+	\textcolor{blue}{I think this optimization problem is easier to show to converge.}
+	Note we have a $\mathcal{O}(n)$ oracle for the $\displaystyle \argmin_{S\in \vPi}f(\vtheta_T,\mS_T)$. 
+	\begin{restatable}{lemma}{unique-S-minimizer}
+		The resultant $\displaystyle \widetilde{\mS} = \argmin_{\mS \in \vPi} f(\vtheta,\mS)$ is a unique minimizer iff all points in $\mX$ are different. 
+	\end{restatable}
+	We will now show $f$ is a monotonically decreasing function.\\
+	First let us define $\phi(\cdot) = \min_{\mS \in \vPi}\left(\cdot,\mS\right)$. Let us also note $f$ is $\ell$ smooth with respect to $\vtheta$. This is following notation from \cite{Jin_2019}.It thus follows:
+	\begin{align*}
+		f(\vtheta_{k+1}, \mS_k) &\leq f(\vtheta_k, \mS_k) + \langle\nabla_\vtheta f(\vtheta_k,\mS_k), \vtheta_{k+1}-\vtheta_k \rangle + \frac{\ell}{2}\norm{\vtheta_{k+1}-\vtheta_k}_2^2 &&\\
+		&= \phi(\vtheta_k) + \langle\nabla_\vtheta f(\vtheta_k,\mS_k), -\frac{1}{\ell}\nabla_\vtheta f(\vtheta_k,\mS_k)\rangle + \frac{\ell}{2}\norm{\frac{1}{\ell}\nabla_\vtheta f(\vtheta_k,\mS_k)}_2^2 &&\\
+		&= \phi(\vtheta_k) - \frac{1}{\ell}\left(\nabla_\vtheta f(\vtheta_k,\mS_k)\right)^2 + \frac{1}{2\ell}\left(\nabla_\vtheta f(\vtheta_k,\mS_k)\right)^2 &&\\
+		&= \phi(\vtheta_k) - \frac{1}{2\ell}\left(\nabla_\vtheta f(\vtheta_k,\mS_k)\right)^2 &&\\
+	\end{align*} 
+	Thus we have proved the inner optimization problem is monotonically decreasing. Since the outer minimization is strictly less than or equal to the result from the inner optimization, it follows after each two step optimization: 
+	\begin{align*}
+		\phi(\vtheta_{k+1}) \leq \phi(\vtheta_k)
+	\end{align*}
+	
+	Since $f$ is lower bounded by $0$. We can invoke Montonicity Convergence Theorem, since $f$ is a monotically decreasing function and is lower bounded, it therefore converges to either a local or global minimum. 
+	\end{proof}
+	
+	\subsection{Expectation of Improvement}
+	Let us define the function $h(\vtheta_k) = f(\vtheta_k,\mS_{k-1}) - f(\vtheta_k,\mS_k)$, a strictly non-negative function. From our results above it follows:
+	\begin{align*}
+		\phi(\vtheta_{k+1}) &\leq \phi(\vtheta_k) - \frac{1}{2\ell}\left(\nabla_\vtheta f(\vtheta_k,\mS_k)\right)^2 &&\\
+		&= f(\vtheta_k, \mS_{k-1}) - h(\vtheta_k) +  - \frac{\ell}{2}\norm{\vtheta_{k+1} - \vtheta_k}^2_2 \\
+		&= f(\vtheta_k, \mS_{k-1}) - h(\vtheta_k) - \frac{\ell}{2}\norm{\vtheta_{k+1} - \frac{1}{\ell} \nabla_\vtheta f(\vtheta_k,\mS_k) - \vtheta_k}_2^2 &&\\
+		&= f(\vtheta_k, \mS_{k-1}) - h(\vtheta_k) - \frac{\ell}{2}\left(\norm{\vtheta_{k+1}-\vtheta_k}_2^2 + \frac{2}{\ell}\norm{\vtheta_{k+1}-\vtheta_k}\nabla_\vtheta f(\vtheta_k,\mS_k) + \frac{1}{\ell^2}\nabla_\vtheta f(\vtheta_k,\mS_k)\right)
+	\end{align*}
+	\textcolor{blue}{The plan is to take a telescopic sum over $f(\vtheta_{k+1},\mS_{k+1}) - f(\vtheta_k,\mS_k)$. This is in the works for the final version of the paper}
+	\newpage
+	
+	\section{Stochastic Sub-Quantile Optimization}
+	In the age of big data, stochastic methods are necessary for fast training of models to handle large amounts of data. In this section we will provide an algorithm for Stochastic Sub-Quantile Optimization and \textcolor{blue}{prove convergence}.
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		
+		\KwInput{Training iterations $T$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $d$, Batch Size $m$}
+		\KwOutput{Trained Parameters, $\displaystyle \vtheta$}
+		\KwData{Inliers: $\displaystyle y|x \sim \mathcal{N}(x^2-x+2,0.01)$, Outliers: $\displaystyle y|x \sim \mathcal{N}(-x^2+x+4,0.01)$}
+		$\vtheta_1 \gets \mathcal{N}(0,\sigma)^d$\\
+		\For{$k \in 1,2,\ldots,T$}
+		{
+			$I \subseteq \left[n\right]$ of size $m$\\
+			$\displaystyle \vnu = \left(\mX_I\vtheta_k - \vy_I\right)^2$\\
+			$\hat{\vnu} = sorted(\vnu)$\\
+			$\displaystyle t_{k+1} = \hat{\vnu}_{mp}$\\
+			$L \coloneqq \sum_{i=1}^{mp} \vx_i^\top\vx_i$\\
+			$\alpha \coloneqq \frac{1}{2L}$\\
+			$\displaystyle \vtheta_{k+1} = \vtheta_k - \alpha \nabla_{\vtheta_k}g(t_{k+1},\vtheta_k)$
+		}
+		\KwRet{$\vtheta_T$}
+		\caption{Stochastic Sub-Quantile Minimization Optimization Algorithm}
+		\label{alg:sqo-stochastic}
+	\end{algorithm}
+	\textcolor{blue}{I think a proof of convergence for a stochastic batch algorithm would be nice to add for the final paper if possible}
+	
+	\newpage
+	
+	\section{Additional Experiments}
+	\label{app:additional-experiments}
+	\subsection{\texttt{Quadratic Regression}}
+	\begin{table}[!h]
+	\centering
+	\begin{tabular}{lccc}
+		\toprule 
+		\textbf{Objectives}&\multicolumn{3}{c}{Test RMSE (\texttt{Quadratic Regression})}\\                   
+		\cmidrule(rl){2-4}
+		&\subhead{$\eps = 0$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.4$}\\ 
+		\midrule
+		OLS \ref{eqn:OLS}  &$0.0099_{(0.0002)}$&$2.078_{(0.146)}$&$4.104_{(0.442)}$\\
+		Huber \cite{Huber2009} &$1.000_{(0.0002)}$&$1.000_{(0.0003)}$&$1.13_{(0.087)}$\\
+		RANSAC \cite{RANSAC1981} &$0.010_{(0.0002)}$&$0.011_{(0.0002)}$&$0.061_{(0.053)}$\\
+		TERM \cite{li2020tilted} &$0.010_{(0.0001)}$&$0.012_{(0.0008)}$&$0.017_{(0.0016)}$\\
+		SEVER \cite{DiakonikolasKKLSS19} &$0.0166_{(0.007)}$&$0.011_{(0.0004)}$&$0.0267_{(0.036)}$\\
+		\rowcolor{LightCyan}
+		SubQuantile($p = 0.6$) &$\mathbf{0.0099_{(0.0002)}}$&$\mathbf{0.00998_{(0.0002)}}$&$\mathbf{0.010_{(0.0001)}}$\\
+		\midrule 
+		Genie ERM &$0.0099_{(0.0002)}$&$0.00997_{(0.0002)}$&$0.010_{(0.0001)}$\\
+		\bottomrule
+	\end{tabular}
+	\caption{\texttt{Quadratic Regression} Synthetic Dataset. Empirical Risk over $\mathbb{P}$}
+	\label{tab:quadratic-regression}
+	\end{table}
+
+	\subsection{\texttt{Abalone}}
+	\begin{table}[!h]
+		\centering
+		\begin{tabular}{lcc}
+			\toprule 
+			\textbf{Objectives}&\multicolumn{2}{c}{Test RMSE (\texttt{Abalone Linear Regression})}\\                   
+			\cmidrule(rl){2-3}
+			&\subhead{Clean}& \subhead{Noisy}\\ 
+			\midrule
+			OLS \ref{eqn:OLS}  &$2.278_{(0.0647)}$&$4803.253_{(139.3664)}$\\
+			Huber \cite{Huber2009} &$5.650_{(0.0939)}$&$976.554_{(20.9315)}$\\
+			RANSAC \cite{RANSAC1981} &$2.554_{(0.1580)}$&$2.701_{(0.1957)}$\\
+			TERM \cite{li2020tilted} &$10.937_{(0.369)}$&$10.873_{(0.5204)}$\\
+			SEVER \cite{DiakonikolasKKLSS19} &$2.338_{(0.0803)}$&$\mathbf{2.260_{(0.0779)}}$\\
+			\rowcolor{LightCyan}
+			SubQuantile($p = 1-\eps$) &$\mathbf{2.278_{(0.0647)}}$&$20.051_{(53.5233)}$\\
+			\midrule 
+			Genie ERM &$2.3145_{(0.0647)}$&$3.3199_{(0.0.0769)}$\\
+			\bottomrule
+		\end{tabular}
+		\caption{\texttt{Abalone Regression} Real Dataset. Empirical Risk over $\mathbb{P}$}
+		\label{tab:abalone-regression}
+	\end{table}
+	This experiment has both feature and label noise in the Noisy Data. SubQuantile minimization no longer always converges to the $\mathbb{P}$ SubQuantile. \textcolor{blue}{I think the theory on this can be expanded on in Sections \ref{app:effect-of-projection} and \ref{app:improvement-of-theta}}
+	
+	\subsection{\texttt{Cal-Housing}}
+	\begin{table}[!h]
+		\centering
+		\begin{tabular}{lcc}
+			\toprule 
+			\textbf{Objectives}&\multicolumn{2}{c}{Test RMSE (\texttt{Cal-Housing Linear Regression})}\\                   
+			\cmidrule(rl){2-3}
+			&\subhead{Clean}& \subhead{Noisy}\\ 
+			\midrule
+			OLS \ref{eqn:OLS}  &$0.606_{(0.0013)}$&$82.128_{(0.4161)}$\\
+			Huber \cite{Huber2009} &$0.6091_{(0.0009)}$&$75.098_{(2.7928)}$\\
+			RANSAC \cite{RANSAC1981} &$0.711_{(0.0199)}$&$0.621_{(0.0178)}$\\
+			TERM \cite{li2020tilted} &$0.737_{(0.0026)}$&$0.728_{(0.0142)}$\\
+			SEVER \cite{DiakonikolasKKLSS19} &$0.644_{(0.0010)}$&$\mathbf{0.635_{(0.0059)}}$\\
+			\rowcolor{LightCyan}
+			SubQuantile($p = 1-\eps$) &$\mathbf{0.606_{(0.0013)}}$&$17.293_{(6.5970)}$\\
+			\midrule 
+			Genie ERM &$0.6054_{(0.0013)}$&$0.969_{(0.0118)}$\\
+			\bottomrule
+		\end{tabular}
+		\caption{\texttt{Cal-Housing Regression} Real Dataset. Empirical Risk over $\mathbb{P}$}
+		\label{tab:Cal-Housing-regression}
+	\end{table}
+	This experiment has both feature and label noise in the Noisy Data.
+	\newpage
+	
+	\section{Experimental Details}\label{app:experimental-details}
+	
+	\subsection{\texttt{Structured Linear Regression} Dataset}
+	We will describe $\mathbb{P}$ and $\mathbb{Q}$ in the \texttt{Structured Linear Regression} Dataset.\\
+	$\vx \sim \mathcal{N}(4,4)^{100}$\\
+	$\vm \sim \mathcal{N}(4,4)^{100}$\\
+	$b \sim \mathcal{N}(4,4)$\\
+	$\vm' \sim \mathcal{N}(4,4)^{100}$\\
+	$b' \sim \mathcal{N}(4,4)$\\
+	$n_{\text{train}} = 2\text{e}3$\\
+	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.1)$\\
+	$\mathbb{Q}: y|\vx \sim \mathcal{N}(\vm^{'\top}\vx + b', 0.1)$\\
+	Please note $\vm$, $b$, $\vm'$, $b'$, are all sampled independently. 
+	
+	\subsection{\texttt{Noisy Linear Regression} Dataset}
+	We will describe $\mathbb{P}$ and $\mathbb{Q}$ in the \texttt{Noisy Linear Regression} Dataset.\\
+	$\vx \sim \mathcal{N}(0,4)^{100}$\\
+	$\vm \sim \mathcal{N}(0,4)^{100}$\\
+	$b \sim \mathcal{N}(0,4)$\\
+	$\vm' = \vzero$\\
+	$b' \sim \mathcal{N}(4,4)$\\
+	$n_{\text{train}} = 2\text{e}3$\\
+	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.1)$\\
+	$\mathbb{Q}: y|\vx \sim \mathcal{N}(b', 4)$\\
+	Please note $\vm$, $b$, $\vm'$, $b'$, are all sampled independently. 
+	
+	\subsection{\texttt{Quadratic Regression} Dataset}
+	We will describe $\mathbb{P}$ and $\mathbb{Q}$ in the \texttt{Quadratic Regression} dataset.\\
+	$x \sim \mathcal{N}(0,1)$\\
+	$n_{\text{train}} = 1\text{e}4$\\
+	$\mathbb{P}: y|x \sim \mathcal{N}(x^2 - x + 2, 0.01)$\\
+	$\mathbb{Q}: y|x \sim \mathcal{N}(-x^2 + x + 4, 0.01)$
+	
+	\subsection{\texttt{Drug Discovery} Dataset}
+	This dataset is downloaded from \cite{DiakonikolasKKLSS19}. We utilize the same noise procedure as in \cite{li2020tilted}.\\
+	$\mathbb{P}$ is given from an 80/20 train test split from the dataset. \\
+	$\mathbb{Q}$ is random noise sampled from $\mathcal{N}(5,5)$.\\
+	The noise represents a noisy worker
+		
+	\subsection{Feature Noise}
+	Take $5$\% of the training data and multiply features by 100 and responses by 10000. 
+	
+	\end{appendices}
+\end{document}

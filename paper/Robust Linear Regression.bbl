@@ -1,0 +1,186 @@
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Awasthi et~al.(2022)Awasthi, Das, Kong, and
+  Sen]{https://doi.org/10.48550/arxiv.2206.04777}
+Pranjal Awasthi, Abhimanyu Das, Weihao Kong, and Rajat Sen.
+\newblock Trimmed maximum likelihood estimation for robust learning in
+  generalized linear models, 2022.
+\newblock URL \url{https://arxiv.org/abs/2206.04777}.
+
+\bibitem[Bhatia et~al.(2017)Bhatia, Jain, Kamalaruban, and Kar]{bhatia2017}
+Kush Bhatia, Prateek Jain, Parameswaran Kamalaruban, and Purushottam Kar.
+\newblock Consistent robust regression.
+\newblock In I.~Guyon, U.~Von Luxburg, S.~Bengio, H.~Wallach, R.~Fergus,
+  S.~Vishwanathan, and R.~Garnett (eds.), \emph{Advances in Neural Information
+  Processing Systems}, volume~30. Curran Associates, Inc., 2017.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper_files/paper/2017/file/e702e51da2c0f5be4dd354bb3e295d37-Paper.pdf}.
+
+\bibitem[Corbett{-}Davies \& Goel(2018)Corbett{-}Davies and
+  Goel]{Corbett2018fairness}
+Sam Corbett{-}Davies and Sharad Goel.
+\newblock The measure and mismeasure of fairness: {A} critical review of fair
+  machine learning.
+\newblock \emph{CoRR}, abs/1808.00023, 2018.
+\newblock URL \url{http://arxiv.org/abs/1808.00023}.
+
+\bibitem[Diakonikolas et~al.(2019)Diakonikolas, Kamath, Kane, Li, Steinhardt,
+  and Stewart]{DiakonikolasKKLSS19}
+Ilias Diakonikolas, Gautam Kamath, Daniel~M. Kane, Jerry Li, Jacob Steinhardt,
+  and Alistair Stewart.
+\newblock Sever: A robust meta-algorithm for stochastic optimization.
+\newblock In \emph{Proceedings of the 36th International Conference on Machine
+  Learning}, ICML '19, pp.\  1596--1606. JMLR, Inc., 2019.
+
+\bibitem[Fischler \& Bolles(1981)Fischler and Bolles]{RANSAC1981}
+Martin~A. Fischler and Robert~C. Bolles.
+\newblock Random sample consensus: A paradigm for model fitting with
+  applications to image analysis and automated cartography.
+\newblock \emph{Commun. ACM}, 24\penalty0 (6):\penalty0 381–395, jun 1981.
+\newblock ISSN 0001-0782.
+\newblock \doi{10.1145/358669.358692}.
+\newblock URL \url{https://doi.org/10.1145/358669.358692}.
+
+\bibitem[Golub \& Van~Loan(1996)Golub and Van~Loan]{Matrix-Computations}
+Gene~H. Golub and Charles~F. Van~Loan.
+\newblock \emph{Matrix Computations (3rd Ed.)}.
+\newblock Johns Hopkins University Press, USA, 1996.
+\newblock ISBN 0801854148.
+
+\bibitem[He \& Garcia(2009)He and Garcia]{he2009imbalanced}
+Haibo He and Edwardo~A. Garcia.
+\newblock Learning from imbalanced data.
+\newblock \emph{IEEE Transactions on Knowledge and Data Engineering},
+  21\penalty0 (9):\penalty0 1263--1284, 2009.
+\newblock \doi{10.1109/TKDE.2008.239}.
+
+\bibitem[Huber \& Ronchetti(2009)Huber and Ronchetti]{Huber2009}
+Peter~J. Huber and Elvezio. Ronchetti.
+\newblock \emph{Robust statistics}.
+\newblock Wiley series in probability and statistics. Wiley, Hoboken, N.J., 2nd
+  ed. edition, 2009.
+\newblock URL \url{http://catdir.loc.gov/catdir/toc/ecip0824/2008033283.html}.
+
+\bibitem[Jiang et~al.(2018)Jiang, Zhou, Leung, Li, and
+  Fei-Fei]{jiang2018mentornet}
+Lu~Jiang, Zhengyuan Zhou, Thomas Leung, Li-Jia Li, and Li~Fei-Fei.
+\newblock Mentornet: Learning data-driven curriculum for very deep neural
+  networks on corrupted labels.
+\newblock In \emph{ICML}, 2018.
+
+\bibitem[Jin et~al.(2019)Jin, Netrapalli, and Jordan]{Jin_2019}
+Chi Jin, Praneeth Netrapalli, and Michael~I. Jordan.
+\newblock What is local optimality in nonconvex-nonconcave minimax
+  optimization?, 2019.
+\newblock URL \url{https://arxiv.org/abs/1902.00618}.
+
+\bibitem[Khetan et~al.(2018)Khetan, Lipton, and Anandkumar]{khetan2018learning}
+Ashish Khetan, Zachary~C. Lipton, and Anima Anandkumar.
+\newblock Learning from noisy singly-labeled data.
+\newblock In \emph{International Conference on Learning Representations}, 2018.
+\newblock URL \url{https://openreview.net/forum?id=H1sUHgb0Z}.
+
+\bibitem[Koenker \& Hallock(2001)Koenker and Hallock]{quantile-regression}
+Roger Koenker and Kevin~F. Hallock.
+\newblock Quantile regression.
+\newblock \emph{Journal of Economic Perspectives}, 15\penalty0 (4):\penalty0
+  143--156, December 2001.
+\newblock \doi{10.1257/jep.15.4.143}.
+\newblock URL \url{https://www.aeaweb.org/articles?id=10.1257/jep.15.4.143}.
+
+\bibitem[Li et~al.(2020)Li, Beirami, Sanjabi, and Smith]{li2020tilted}
+Tian Li, Ahmad Beirami, Maziar Sanjabi, and Virginia Smith.
+\newblock Tilted empirical risk minimization.
+\newblock \emph{arXiv preprint arXiv:2007.01162}, 2020.
+
+\bibitem[Lin et~al.(2017)Lin, Goyal, Girshick, He, and Dollar]{lin2017dense}
+T.~Lin, P.~Goyal, R.~Girshick, K.~He, and P.~Dollar.
+\newblock Focal loss for dense object detection.
+\newblock In \emph{2017 IEEE International Conference on Computer Vision
+  (ICCV)}, pp.\  2999--3007, Los Alamitos, CA, USA, oct 2017. IEEE Computer
+  Society.
+\newblock \doi{10.1109/ICCV.2017.324}.
+\newblock URL \url{https://doi.ieeecomputersociety.org/10.1109/ICCV.2017.324}.
+
+\bibitem[McWilliams et~al.(2014)McWilliams, Krummenacher, Lucic, and
+  Buhmann]{McWilliams2014}
+Brian McWilliams, Gabriel Krummenacher, Mario Lucic, and Joachim~M. Buhmann.
+\newblock Fast and robust least squares estimation in corrupted linear models.
+\newblock In \emph{Proceedings of the 27th International Conference on Neural
+  Information Processing Systems - Volume 1}, NIPS'14, pp.\  415–423,
+  Cambridge, MA, USA, 2014. MIT Press.
+
+\bibitem[Mount et~al.(2014)Mount, Netanyahu, Piatko, Silverman, and Wu]{LTS}
+David~M. Mount, Nathan~S. Netanyahu, Christine~D. Piatko, Ruth Silverman, and
+  Angela~Y. Wu.
+\newblock On the least trimmed squares estimator.
+\newblock \emph{Algorithmica}, 69\penalty0 (1):\penalty0 148--183, 2014.
+\newblock \doi{10.1007/s00453-012-9721-8}.
+\newblock URL \url{https://doi.org/10.1007/s00453-012-9721-8}.
+
+\bibitem[Mukhoty et~al.(2019)Mukhoty, Gopakumar, Jain, and
+  Kar]{pmlr-v89-mukhoty19a}
+Bhaskar Mukhoty, Govind Gopakumar, Prateek Jain, and Purushottam Kar.
+\newblock Globally-convergent iteratively reweighted least squares for robust
+  regression problems.
+\newblock In Kamalika Chaudhuri and Masashi Sugiyama (eds.), \emph{Proceedings
+  of the Twenty-Second International Conference on Artificial Intelligence and
+  Statistics}, volume~89 of \emph{Proceedings of Machine Learning Research},
+  pp.\  313--322. PMLR, 16--18 Apr 2019.
+\newblock URL \url{https://proceedings.mlr.press/v89/mukhoty19a.html}.
+
+\bibitem[Nydick(2012)]{nydick2012wishart}
+Steven~W Nydick.
+\newblock The wishart and inverse wishart distributions.
+\newblock \emph{Electronic Journal of Statistics}, 6\penalty0 (1-19), 2012.
+
+\bibitem[Osama et~al.(2020)Osama, Zachariah, and Stoica]{RRM}
+Muhammad Osama, Dave Zachariah, and Petre Stoica.
+\newblock Robust risk minimization for statistical learning from corrupted
+  data.
+\newblock \emph{IEEE Open Journal of Signal Processing}, 1:\penalty0 287--294,
+  2020.
+
+\bibitem[Razaviyayn et~al.(2020)Razaviyayn, Huang, Lu, Nouiehed, Sanjabi, and
+  Hong]{Razaviyayn}
+Meisam Razaviyayn, Tianjian Huang, Songtao Lu, Maher Nouiehed, Maziar Sanjabi,
+  and Mingyi Hong.
+\newblock Non-convex min-max optimization: Applications, challenges, and recent
+  theoretical advances, 06 2020.
+
+\bibitem[Rockafellar et~al.(2014)Rockafellar, Royset, and
+  Miranda]{ROCKAFELLAR2014140}
+R.T. Rockafellar, J.O. Royset, and S.I. Miranda.
+\newblock Superquantile regression with applications to buffered reliability,
+  uncertainty quantification, and conditional value-at-risk.
+\newblock \emph{European Journal of Operational Research}, 234\penalty0
+  (1):\penalty0 140--154, 2014.
+\newblock ISSN 0377-2217.
+\newblock \doi{https://doi.org/10.1016/j.ejor.2013.10.046}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0377221713008692}.
+
+\bibitem[Sen(1968)]{thiel-sen}
+Pranab~Kumar Sen.
+\newblock Estimates of the regression coefficient based on kendall's tau.
+\newblock \emph{Journal of the American Statistical Association}, 63\penalty0
+  (324):\penalty0 1379--1389, 1968.
+\newblock \doi{10.1080/01621459.1968.10480934}.
+\newblock URL
+  \url{https://www.tandfonline.com/doi/abs/10.1080/01621459.1968.10480934}.
+
+\bibitem[Yu et~al.(2003)Yu, Lu, and Stander]{yu_quantile_2003}
+Keming Yu, Zudi Lu, and Julian Stander.
+\newblock Quantile regression: applications and current research areas.
+\newblock \emph{Journal of the Royal Statistical Society: Series D (The
+  Statistician)}, 52\penalty0 (3):\penalty0 331--350, 2003.
+\newblock \doi{https://doi.org/10.1111/1467-9884.00363}.
+\newblock URL
+  \url{https://rss.onlinelibrary.wiley.com/doi/abs/10.1111/1467-9884.00363}.
+
+\end{thebibliography}
