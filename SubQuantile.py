@@ -76,7 +76,9 @@ if __name__ == "__main__":
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
     parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
     parser.add_argument('--quantile',help='what quantile level to minimize over', type=float,default=0.9)
-    parser.add_argument('--dataset', help='dataset; drug, cal_housing, or abalone',type=str,default='drug')
+    parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='drug')
+    parser.add_argument('--n', help='samples for synthetic data',type=int,default='2000')
+    parser.add_argument('--d', help='dim for synthetic data',type=int,default='200')
 
     parsed = vars(parser.parse_args())
     num_trials = parsed['num_trials']
@@ -97,6 +99,10 @@ if __name__ == "__main__":
         X, y = data_loader_abalone()
     elif dataset == 'drug':
         X, y = data_loader_drug()     
+    elif dataset == 'synthetic':
+        n = parsed['n']
+        d = parsed['d']
+        X, y = gaussian(n, d) 
 
     if noise_type == "oblivious":
         noise_fn = addObliviousNoise
