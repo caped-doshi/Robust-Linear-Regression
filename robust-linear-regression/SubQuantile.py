@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from sklearn.linear_model import Ridge
-from noise_models.noise import *
+from noise import *
 from data_loader import *
 import cvxpy as cp
 import argparse

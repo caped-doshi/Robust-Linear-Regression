@@ -75,8 +75,7 @@ def optimize_RRM(alpha, epsilon, n, p_val=None, tol=1e-3, max_iters=10000):
   return p.value
 
 from data_loader import *
-from RMSE import *
-from noise_models.noise import *
+from noise import *
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 

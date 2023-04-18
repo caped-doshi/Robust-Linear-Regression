@@ -1,5 +1,5 @@
 from data_loader import *
-from noise_models.noise import *
+from noise import *
 from sklearn.linear_model import HuberRegressor, Ridge, RANSACRegressor, QuantileRegressor
 import statsmodels.api as sm
 import statsmodels.formula.api as smf

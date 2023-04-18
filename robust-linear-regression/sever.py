@@ -1,8 +1,6 @@
 import numpy as np
 from sklearn.linear_model import Ridge, LinearRegression
 import argparse
-from noise_models.noise import *
-from data_loader import *
 
 def SEVER(x_train, y_train, reg=2, p=0.01, iter=64):
     for _ in range(iter):

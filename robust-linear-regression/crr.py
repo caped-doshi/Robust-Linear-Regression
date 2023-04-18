@@ -29,7 +29,6 @@ def CRR(X,y):
     return theta
 
 from data_loader import *
-from RMSE import *
 from noise_models.noise import *
 if __name__ == "__main__":
     #X,y = data_loader_drug()
