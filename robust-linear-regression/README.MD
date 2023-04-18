@@ -7,7 +7,7 @@ pip install -r requirements.txt
 
 Subquantile Minimization
 ```
-python SubQuantile.py --num_trials 5\
+python SubQuantile.py --num_trials 5 \
   --num_iters 64 \
   --noise 0.1 \
   --noise_type oblivious \
