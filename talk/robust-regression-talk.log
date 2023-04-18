@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  17 APR 2023 16:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  17 APR 2023 21:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1140,6 +1140,23 @@ mercolorthemeorchid.sty)
 merinnerthemerounded.sty)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/beamer\bea
 merouterthemeinfolines.sty))
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\pif
+ont.sty
+Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
+LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
+
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\upz
+d.fd
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
+
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ups
+y.fd
+File: upsy.fd 2001/06/04 font definitions for U/psy.
+))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\pal
 atino.sty
 Package: palatino 2020/03/25 PSNFSS-v9.3 (SPQR) 
@@ -1147,7 +1164,7 @@ Package: palatino 2020/03/25 PSNFSS-v9.3 (SPQR)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/beamer\bea
 merinnerthemecircles.sty)
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 1
-82.
+83.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 ppl.fd
@@ -1161,24 +1178,24 @@ File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
 ) (robust-regression-talk.aux)
 \openout1 = `robust-regression-talk.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 182.
-LaTeX Font Info:    ... okay on input line 182.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 183.
+LaTeX Font Info:    ... okay on input line 183.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1240,7 +1257,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 pstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring OFF on input line 182.
+Package hyperref Info: Link coloring OFF on input line 183.
  (robust-regression-talk.out) (robust-regression-talk.out)
 \@outlinefile=\write5
 \openout5 = `robust-regression-talk.out'.
@@ -1248,41 +1265,41 @@ Package hyperref Info: Link coloring OFF on input line 182.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/ppl/m/n on input line 182.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 182.
+(Font)                  OT1/cmr/m/n --> OT1/ppl/m/n on input line 183.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/ppl/b/n on input line 182.
+(Font)                  OT1/cmr/bx/n --> OT1/ppl/b/n on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/ppl/b/n on input line 182.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 182.
+(Font)                  OT1/cmr/bx/n --> OT1/ppl/b/n on input line 183.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/phv/m/n on input line 182.
+(Font)                  OT1/cmss/m/n --> OT1/phv/m/n on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/phv/m/n on input line 182.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 182.
+(Font)                  OT1/cmss/bx/n --> OT1/phv/m/n on input line 183.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/ppl/m/it on input line 182.
+(Font)                  OT1/cmr/m/it --> OT1/ppl/m/it on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/ppl/m/it on input line 182.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 182.
+(Font)                  OT1/cmr/bx/it --> OT1/ppl/m/it on input line 183.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 182.
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 182.
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 183.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/ppl/m/n --> OT1/ppl/b/n on input line 182.
+(Font)                  OT1/ppl/m/n --> OT1/ppl/b/n on input line 183.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/ppl/m/it --> OT1/ppl/b/it on input line 182.
+(Font)                  OT1/ppl/m/it --> OT1/ppl/b/it on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/ppl/b/n on input line 182.
+(Font)                  OT1/cmr/bx/n --> OT1/ppl/b/n on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/ppl/b/n --> OT1/ppl/b/n on input line 182.
+(Font)                  OT1/ppl/b/n --> OT1/ppl/b/n on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/phv/m/n --> OT1/phv/b/n on input line 182.
+(Font)                  OT1/phv/m/n --> OT1/phv/b/n on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/ppl/m/it --> OT1/ppl/b/it on input line 182.
+(Font)                  OT1/ppl/m/it --> OT1/ppl/b/it on input line 183.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/pcr/m/n --> OT1/pcr/b/n on input line 182.
+(Font)                  OT1/pcr/m/n --> OT1/pcr/b/n on input line 183.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/translator
 \translator-basic-dictionary-English.dict
@@ -1312,7 +1329,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 182.
+ on input line 183.
 
 (robust-regression-talk.nav) [1
 
@@ -1320,14 +1337,14 @@ your preamble.
  (robust-regression-talk.toc) [2
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 237
+LaTeX Font Info:    Trying to load font information for U+msa on input line 238
 .
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
 msa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 237
+LaTeX Font Info:    Trying to load font information for U+msb on input line 238
 .
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
@@ -1336,7 +1353,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [3
 
 ]
-Overfull \vbox (9.92212pt too high) detected at line 282
+Overfull \vbox (9.92212pt too high) detected at line 283
  []
 
 [4
@@ -1344,7 +1361,7 @@ Overfull \vbox (9.92212pt too high) detected at line 282
 ] [5
 
 ]
-Overfull \hbox (6.3805pt too wide) detected at line 323
+Overfull \hbox (6.3805pt too wide) detected at line 325
 \U/msb/m/n/10.95 L[] \OT1/cmr/m/n/10.95 = [] [][] \OMS/cmsy/m/n/10.95 Q[]\OT1/c
 mr/m/n/10.95 (\OMS/cmsy/m/n/10.95 U\OT1/cmr/m/n/10.95 )\OT1/ppl/m/it/10.95 dq \
 OT1/cmr/m/n/10.95 = \U/msb/m/n/10.95 E [] \OT1/cmr/m/n/10.95 = [] []
@@ -1354,83 +1371,47 @@ OT1/cmr/m/n/10.95 = \U/msb/m/n/10.95 E [] \OT1/cmr/m/n/10.95 = [] []
 
 ] [7
 
+] [8
+
+] [9
+
+] [10
+
 ]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 3
-86.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
+26.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-
-LaTeX Warning: Citation `bhatia2017' on page 8 undefined on input line 386.
-
-
-LaTeX Warning: Citation `pmlr-v89-mukhoty19a' on page 8 undefined on input line
- 386.
-
-
-LaTeX Warning: Citation `RRM' on page 8 undefined on input line 386.
-
-
-LaTeX Warning: Citation `https://doi.org/10.48550/arxiv.2206.04777' on page 8 u
-ndefined on input line 386.
-
-
-LaTeX Warning: Citation `li2020tilted' on page 8 undefined on input line 386.
-
-
-LaTeX Warning: Citation `DiakonikolasKKLSS19' on page 8 undefined on input line
- 386.
-
-
-LaTeX Warning: Citation `Huber2009' on page 8 undefined on input line 386.
-
-
-LaTeX Warning: Citation `RANSAC1981' on page 8 undefined on input line 386.
-
-[8
+) [11
 
 ]
-<rpi-small.png, id=343, 201.8742pt x 37.8213pt>
+<rpi-small.png, id=485, 201.8742pt x 37.8213pt>
 File: rpi-small.png Graphic file (type png)
 <use rpi-small.png>
-Package pdftex.def Info: rpi-small.png  used on input line 399.
+Package pdftex.def Info: rpi-small.png  used on input line 439.
 (pdftex.def)             Requested size: 273.83728pt x 51.31104pt.
- [9
+ [12
 
- <./rpi-small.png>] [10
-
-] [11
-
-] [12
+ <./rpi-small.png>] [13
 
 ]
 \openout4 = `robust-regression-talk.vrb'.
 
- (robust-regression-talk.vrb) [13
+ (robust-regression-talk.vrb) [14
 
 ]
-[14
+[15
 
 ]
-LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 4
-89.
+Overfull \vbox (81.34758pt too high) detected at line 513
+ []
 
-(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\oms
-pcr.fd
-File: omspcr.fd 
-)
-LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 489.
- [15
-
-] [16
+[16
 
  <C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/tex/latex/beamer/be
 americonarticle.pdf>] [17
-
-] [18
 
 ]
 \tf@nav=\write6
@@ -1443,45 +1424,48 @@ americonarticle.pdf>] [17
 \openout8 = `robust-regression-talk.snm'.
 
  (robust-regression-talk.aux)
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `robust-regression-talk.out' has not changed.
 
-(rerunfilecheck)             Checksum: 6A8FEC37EC0EC0536A9F1BC2AA926401;1024.
+(rerunfilecheck)             Checksum: 08B95297F77121D67301CB7359E1EA94;928.
  ) 
 Here is how much of TeX's memory you used:
- 38586 strings out of 478338
- 978038 string characters out of 2830528
- 1471538 words of memory out of 3000000
- 56220 multiletter control sequences out of 15000+600000
- 502226 words of font info for 112 fonts, out of 8000000 for 9000
+ 38606 strings out of 478338
+ 978396 string characters out of 2830528
+ 1472222 words of memory out of 3000000
+ 56227 multiletter control sequences out of 15000+600000
+ 504561 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,18n,104p,8559b,2245s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/ba
 se/8r.enc}<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmex10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Arvind Rathnash
-yam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/
-Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmmib10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Arvind Rathnashyam/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Arvind Ra
-thnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.p
-fb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/publi
-c/amsfonts/cm/cmsy8.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Arvind Rathnashyam
-/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><
-C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/couri
-er/ucrr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/
-type1/urw/palatino/uplb8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/urw/palatino/uplbi8a.pfb><C:/Users/Arvind Rathnashyam/App
-Data/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/Arvind
- Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplri8a.pfb
->
-Output written on robust-regression-talk.pdf (18 pages, 362160 bytes).
+1/public/amsfonts/cmextra/cmbsy8.pfb><C:/Users/Arvind Rathnashyam/AppData/Local
+/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Arvind Rath
+nashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb
+><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmmi10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Arvind Rathnashyam/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Ar
+vind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmex
+tra/cmmib8.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Arvind Rathna
+shyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:
+/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmsy10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Arvind Rathnashyam/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Ar
+vind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symb
+ols/msbm10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
+/type1/urw/courier/ucrr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Progra
+ms/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/Arvind Rathnashyam/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplbi8a.pfb><C:/Users/Arvind
+ Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb>
+<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/pala
+tino/uplri8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fon
+ts/type1/urw/zapfding/uzdr.pfb>
+Output written on robust-regression-talk.pdf (17 pages, 399239 bytes).
 PDF statistics:
- 762 PDF objects out of 1000 (max. 8388607)
- 52 named destinations out of 1000 (max. 500000)
- 492 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 782 PDF objects out of 1000 (max. 8388607)
+ 55 named destinations out of 1000 (max. 500000)
+ 520 words of extra memory for PDF output out of 10000 (max. 10000000)
 
