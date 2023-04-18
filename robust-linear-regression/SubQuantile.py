@@ -39,8 +39,8 @@ def SubQ(X, y, T, p, j):
 
 def SubQ2(X, y, T, p):
     n = X.shape[0]
-    X_np = X[:int(n*p)]
-    y_np = y[:int(n*p)]
+    X_np = X[np.random.permutation(n)[:int(n*p)]]
+    y_np = y[np.random.permutation(n)[:int(n*p)]]
     ridge = Ridge(2, fit_intercept=True, solver='cholesky')
     ridge.fit(X[:, :-1], y)
     theta = np.append(ridge.coef_, [ridge.intercept_])
