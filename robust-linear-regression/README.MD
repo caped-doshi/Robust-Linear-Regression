@@ -7,7 +7,14 @@ pip install -r requirements.txt
 
 Subquantile Minimization
 ```
-python SubQuantile.py --num_trials 5 --num_iters 64 --noise 0.1 --noise_type oblivious --quantile 0.9 --dataset drug --n 2000 --d 200
+python SubQuantile.py --num_trials 5\
+  --num_iters 64\
+  --noise 0.1 \
+  --noise_type oblivious \
+  --quantile 0.9 \
+  --dataset drug \
+  --n 2000 \
+  --d 200
 ```
 
 Sever
