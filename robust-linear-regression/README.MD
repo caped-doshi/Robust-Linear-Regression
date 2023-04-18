@@ -54,7 +54,7 @@ python RMM.py --num_trials 5 ^
   --d 200
 ```
 
-Sklearn Models
+Sklearn Models (RANSAC, Ridge, Quantile, and Genie Regression). Genie runs Ridge with knowledge of where clean data is.
 ```
 python smart.py -- method Ridge ^
   --num_trials 5 ^
