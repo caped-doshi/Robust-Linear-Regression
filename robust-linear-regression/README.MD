@@ -31,8 +31,7 @@ python sever.py --num_trials 5 ^
 
 Consistent Robust Regression
 ```
-python crr.py ^
-  --num_trials 5 ^
+python crr.py --num_trials 5 ^
   --num_iters 3000 ^
   --noise 0.1 ^
   --noise_type oblivious ^
@@ -43,12 +42,23 @@ python crr.py ^
 
 Robust Risk Minimization
 ```
-python RMM.py ^
-  --num_trials 5 
+python RMM.py --num_trials 5 ^
   --max_iters 50 ^
   --tol 0.02 ^
   --dist_max_iters 10000 ^
   --dist_tol 0.001 ^
+  --noise 0.1 ^
+  --noise_type oblivious ^
+  --dataset drug ^
+  --n 2000 ^
+  --d 200
+```
+
+Sklearn Models
+```
+python smart.py -- method Ridge ^
+  --num_trials 5 ^
+  --num_iters 32 ^
   --noise 0.1 ^
   --noise_type oblivious ^
   --dataset drug ^
