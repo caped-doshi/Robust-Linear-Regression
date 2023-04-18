@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -29,6 +29,12 @@ Sam Corbett{-}Davies and Sharad Goel.
 \newblock \emph{CoRR}, abs/1808.00023, 2018.
 \newblock URL \url{http://arxiv.org/abs/1808.00023}.
 
+\bibitem[Diakonikolas \& Kane(2019)Diakonikolas and
+  Kane]{Diakonikolas2019RecentAI}
+Ilias Diakonikolas and Daniel~M. Kane.
+\newblock Recent advances in algorithmic high-dimensional robust statistics.
+\newblock \emph{ArXiv}, abs/1911.05911, 2019.
+
 \bibitem[Diakonikolas et~al.(2019)Diakonikolas, Kamath, Kane, Li, Steinhardt,
   and Stewart]{DiakonikolasKKLSS19}
 Ilias Diakonikolas, Gautam Kamath, Daniel~M. Kane, Jerry Li, Jacob Steinhardt,
@@ -36,6 +42,11 @@ Ilias Diakonikolas, Gautam Kamath, Daniel~M. Kane, Jerry Li, Jacob Steinhardt,
 \newblock Sever: A robust meta-algorithm for stochastic optimization.
 \newblock In \emph{Proceedings of the 36th International Conference on Machine
   Learning}, ICML '19, pp.\  1596--1606. JMLR, Inc., 2019.
+
+\bibitem[Dua \& Graff(2017)Dua and Graff]{Dua2019}
+Dheeru Dua and Casey" Graff.
+\newblock {UCI} machine learning repository, 2017.
+\newblock URL \url{http://archive.ics.uci.edu/ml}.
 
 \bibitem[Fischler \& Bolles(1981)Fischler and Bolles]{RANSAC1981}
 Martin~A. Fischler and Robert~C. Bolles.
@@ -145,6 +156,14 @@ Muhammad Osama, Dave Zachariah, and Petre Stoica.
   data.
 \newblock \emph{IEEE Open Journal of Signal Processing}, 1:\penalty0 287--294,
   2020.
+
+\bibitem[Pace \& Barry(1997)Pace and Barry]{Kelley1997}
+Kelley Pace and Ronald Barry.
+\newblock Sparse spatial autoregressions.
+\newblock \emph{Statistics `I\& Probability Letters}, 33\penalty0 (3):\penalty0
+  291--297, 1997.
+\newblock URL
+  \url{https://EconPapers.repec.org/RePEc:eee:stapro:v:33:y:1997:i:3:p:291-297}.
 
 \bibitem[Razaviyayn et~al.(2020)Razaviyayn, Huang, Lu, Nouiehed, Sanjabi, and
   Hong]{Razaviyayn}

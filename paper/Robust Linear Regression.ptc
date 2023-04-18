@@ -7,10 +7,9 @@
 \contentsline {section}{\numberline {4}Theory}{5}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Analysis of $g(t,\theta )$}{5}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Optimization}{6}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Converging to $\beta _P$}{6}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Complexity of SubQuantile Optimization}{7}{subsection.4.4}%
-\contentsline {section}{\numberline {5}Empirical Results}{7}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Synthetic Data}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {4.3}Converging to $\beta _P$}{7}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Empirical Results}{8}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Synthetic Data}{8}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Real Data}{8}{subsection.5.2}%
 \contentsline {section}{\numberline {6}Conclusion}{9}{section.6}%
 \ttl@starttoc {sections@1}
@@ -20,23 +19,24 @@
 \contentsline {section}{\numberline {B}General Properties of Sub-Quantile Minimization}{15}{appendix.B}%
 \contentsline {subsection}{\numberline {B.1}Derivation of Lemma\nobreakspace {}\ref {lem:gfermat}}{15}{subsection.B.1}%
 \contentsline {subsection}{\numberline {B.2}Derivation of Lemma\nobreakspace {}\ref {lem:gthetaderiv}}{15}{subsection.B.2}%
-\contentsline {subsection}{\numberline {B.3}Derivation of Lemma\nobreakspace {}\ref {lem:g-lsmooth}}{16}{subsection.B.3}%
+\contentsline {subsection}{\numberline {B.3}Derivation of Lemma\nobreakspace {}\ref {lem:g-lsmooth}}{15}{subsection.B.3}%
 \contentsline {subsection}{\numberline {B.4}Proof of Lemma\nobreakspace {}\ref {lem:g-change-wrt-t}}{16}{subsection.B.4}%
-\contentsline {section}{\numberline {C}Theory for Linear Corruption}{18}{appendix.C}%
+\contentsline {section}{\numberline {C}Theory for Adaptive Linear Corruption}{18}{appendix.C}%
 \contentsline {subsection}{\numberline {C.1}Proof of Lemma\nobreakspace {}\ref {lem:effect-of-projection}}{18}{subsection.C.1}%
 \contentsline {subsection}{\numberline {C.2}Proof of Theorem\nobreakspace {}\ref {thm:improvement-of-theta}}{19}{subsection.C.2}%
-\contentsline {section}{\numberline {D}Proofs for Convergence}{20}{appendix.D}%
-\contentsline {subsection}{\numberline {D.1}Proof of Theorem \nobreakspace {}\ref {thm:convergence-guarantee}}{20}{subsection.D.1}%
-\contentsline {subsection}{\numberline {D.2}Expectation of Improvement}{20}{subsection.D.2}%
-\contentsline {section}{\numberline {E}Stochastic Sub-Quantile Optimization}{21}{appendix.E}%
-\contentsline {section}{\numberline {F}Additional Experiments}{22}{appendix.F}%
-\contentsline {subsection}{\numberline {F.1}\texttt {Quadratic Regression}}{22}{subsection.F.1}%
-\contentsline {subsection}{\numberline {F.2}\texttt {Abalone}}{22}{subsection.F.2}%
-\contentsline {subsection}{\numberline {F.3}\texttt {Cal-Housing}}{22}{subsection.F.3}%
-\contentsline {section}{\numberline {G}Experimental Details}{23}{appendix.G}%
-\contentsline {subsection}{\numberline {G.1}\texttt {Structured Linear Regression} Dataset}{23}{subsection.G.1}%
-\contentsline {subsection}{\numberline {G.2}\texttt {Noisy Linear Regression} Dataset}{23}{subsection.G.2}%
-\contentsline {subsection}{\numberline {G.3}\texttt {Quadratic Regression} Dataset}{23}{subsection.G.3}%
-\contentsline {subsection}{\numberline {G.4}\texttt {Drug Discovery} Dataset}{23}{subsection.G.4}%
-\contentsline {subsection}{\numberline {G.5}Feature Noise}{23}{subsection.G.5}%
+\contentsline {subsection}{\numberline {C.3}Proof of Theorem \nobreakspace {}\ref {thm:probability-epsilon-decreasing}}{20}{subsection.C.3}%
+\contentsline {section}{\numberline {D}Proofs for Convergence}{22}{appendix.D}%
+\contentsline {subsection}{\numberline {D.1}Proof of Theorem \nobreakspace {}\ref {thm:convergence-guarantee}}{22}{subsection.D.1}%
+\contentsline {subsection}{\numberline {D.2}Expectation of Improvement}{22}{subsection.D.2}%
+\contentsline {section}{\numberline {E}Stochastic Sub-Quantile Optimization}{24}{appendix.E}%
+\contentsline {section}{\numberline {F}Additional Experiments}{25}{appendix.F}%
+\contentsline {subsection}{\numberline {F.1}\texttt {Quadratic Regression}}{25}{subsection.F.1}%
+\contentsline {subsection}{\numberline {F.2}\texttt {Abalone}}{25}{subsection.F.2}%
+\contentsline {subsection}{\numberline {F.3}\texttt {Cal-Housing}}{25}{subsection.F.3}%
+\contentsline {section}{\numberline {G}Experimental Details}{26}{appendix.G}%
+\contentsline {subsection}{\numberline {G.1}\texttt {Structured Linear Regression} Dataset}{26}{subsection.G.1}%
+\contentsline {subsection}{\numberline {G.2}\texttt {Noisy Linear Regression} Dataset}{26}{subsection.G.2}%
+\contentsline {subsection}{\numberline {G.3}\texttt {Quadratic Regression} Dataset}{27}{subsection.G.3}%
+\contentsline {subsection}{\numberline {G.4}\texttt {Drug Discovery} Dataset}{27}{subsection.G.4}%
+\contentsline {subsection}{\numberline {G.5}Feature Noise}{27}{subsection.G.5}%
 \contentsfinish 

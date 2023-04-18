@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  17 APR 2023 21:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  18 APR 2023 16:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1379,7 +1379,7 @@ OT1/cmr/m/n/10.95 = \U/msb/m/n/10.95 E [] \OT1/cmr/m/n/10.95 = [] []
 
 ]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
-26.
+28.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 pcr.fd
@@ -1387,10 +1387,10 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ) [11
 
 ]
-<rpi-small.png, id=485, 201.8742pt x 37.8213pt>
+<rpi-small.png, id=486, 201.8742pt x 37.8213pt>
 File: rpi-small.png Graphic file (type png)
 <use rpi-small.png>
-Package pdftex.def Info: rpi-small.png  used on input line 439.
+Package pdftex.def Info: rpi-small.png  used on input line 441.
 (pdftex.def)             Requested size: 273.83728pt x 51.31104pt.
  [12
 
@@ -1405,7 +1405,7 @@ Package pdftex.def Info: rpi-small.png  used on input line 439.
 [15
 
 ]
-Overfull \vbox (81.34758pt too high) detected at line 513
+Overfull \vbox (81.34758pt too high) detected at line 515
  []
 
 [16
@@ -1463,9 +1463,9 @@ ata/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplbi8a.pfb><C:/Users/Arvind
 <C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/pala
 tino/uplri8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fon
 ts/type1/urw/zapfding/uzdr.pfb>
-Output written on robust-regression-talk.pdf (17 pages, 399239 bytes).
+Output written on robust-regression-talk.pdf (17 pages, 399569 bytes).
 PDF statistics:
- 782 PDF objects out of 1000 (max. 8388607)
+ 783 PDF objects out of 1000 (max. 8388607)
  55 named destinations out of 1000 (max. 500000)
  520 words of extra memory for PDF output out of 10000 (max. 10000000)
 

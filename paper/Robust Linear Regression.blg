@@ -7,45 +7,45 @@ Reallocating 'name_of_file' (item size: 1) to 20 items.
 Database file #1: iclr2023_conference.bib
 Warning--entry type for "Razaviyayn" isn't style-file defined
 --line 110 of file iclr2023_conference.bib
-You've used 23 entries,
+You've used 26 entries,
             2773 wiz_defined-function locations,
-            782 strings with 10608 characters,
-and the built_in function-call counts, 12190 in all, are:
-= -- 1096
-> -- 780
-< -- 14
-+ -- 260
-- -- 237
-* -- 1044
-:= -- 1875
-add.period$ -- 97
-call.type$ -- 23
-change.case$ -- 144
-chr.to.int$ -- 23
-cite$ -- 46
-duplicate$ -- 529
-empty$ -- 926
-format.name$ -- 272
-if$ -- 2589
+            803 strings with 11158 characters,
+and the built_in function-call counts, 13379 in all, are:
+= -- 1205
+> -- 843
+< -- 17
++ -- 281
+- -- 255
+* -- 1132
+:= -- 2058
+add.period$ -- 107
+call.type$ -- 26
+change.case$ -- 159
+chr.to.int$ -- 26
+cite$ -- 52
+duplicate$ -- 583
+empty$ -- 1028
+format.name$ -- 299
+if$ -- 2843
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 22
-newline$ -- 145
-num.names$ -- 96
-pop$ -- 268
+missing$ -- 24
+newline$ -- 161
+num.names$ -- 108
+pop$ -- 293
 preamble$ -- 1
-purify$ -- 122
+purify$ -- 134
 quote$ -- 0
-skip$ -- 432
+skip$ -- 482
 stack$ -- 0
-substring$ -- 366
-swap$ -- 86
+substring$ -- 393
+swap$ -- 89
 text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 243
+type$ -- 276
 warning$ -- 0
-while$ -- 90
+while$ -- 100
 width$ -- 0
-write$ -- 356
+write$ -- 396
 (There was 1 warning)

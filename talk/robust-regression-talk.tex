@@ -378,6 +378,8 @@ serif
 		\begin{itemize}
 			\item[\ding{228}]
 			\cite{DiakonikolasKKLSS19} Sever computes the gradient of losses in each iteration. This incurs a $\mathcal{O}(dn^2)$ time complexity per iteration. Furthermore, points thrown out in early iterations are not resampled. 
+			\item[\ding{228}]
+			\cite{bhatia2017} CRR runs in order complexity $\mathcal{O}(d^3 + nd)$. The theoretical guarantees of CRR are given only in the case of Oblivious Noise.
 			\item[\ding{228}] 
 			Our work computes a $np$ partition of the loss in each iteration. This incurs only a $\mathcal{O}(n)$ time complexity per iteration. Subquantile Minimization is novel in that it resamples points that may not have been in previous Subquantiles.
 		\end{itemize}
