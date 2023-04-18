@@ -48,8 +48,7 @@ def SEVER(x_train, y_train, reg=2, p=0.01, iter=64):
 
 
 from data_loader import *
-from RMSE import *
-from noise_models.noise import *
+from noise import *
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 

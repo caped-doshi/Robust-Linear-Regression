@@ -35,8 +35,7 @@ def TERM(train_X, train_y, t, alpha, num_iters):
 
 
 from data_loader import *
-from RMSE import *
-from noise_models.noise import *
+from noise import *
 if __name__ == "__main__":
     X,y = data_loader_drug()
 

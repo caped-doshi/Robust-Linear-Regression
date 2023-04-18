@@ -18,8 +18,7 @@ def stir(X,y,iters):
     return theta
 
 from data_loader import *
-from RMSE import *
-from noise_models.noise import *
+from noise import *
 if __name__ == "__main__":
     X,y = data_loader_drug()
 
@@ -29,7 +28,7 @@ if __name__ == "__main__":
         means = []
         for j in range(10):
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
-            y_train_noisy = addUnstructuredNoise(X_train, y_train, eps)
+            y_train_noisy = addObliviousNoise(X_train, y_train, eps)
             theta = stir(X_train,y_train_noisy,1000)
             loss = calc_RMSE(y_test, theta, X_test)
             means.append(loss)
