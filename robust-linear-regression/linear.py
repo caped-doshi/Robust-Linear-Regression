@@ -9,8 +9,7 @@ from matplotlib import pyplot as plt
 import tikzplotlib
 
 from data_loader import *
-from noise_models.noise import *
-from RMSE import *
+from noise import *
 
 from sever import SEVER
 from term import TERM
@@ -19,11 +18,11 @@ from stir import stir
 from SubQuantile import SubQ
 
 def LM(X, y):
-  return np.matmul(np.linalg.pinv(X),y)
-  # ridge = Ridge(2, fit_intercept=True, solver='cholesky')
-  # ridge.fit(X[:, :-1], y)
-  # theta = np.append(ridge.coef_, [ridge.intercept_])
-  # return theta
+  #return np.matmul(np.linalg.pinv(X),y)
+  ridge = Ridge(2, fit_intercept=True, solver='cholesky')
+  ridge.fit(X[:, :-1], y)
+  theta = np.append(ridge.coef_, [ridge.intercept_])
+  return theta
 
 if __name__ == "__main__":
     n = 2000

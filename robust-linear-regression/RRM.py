@@ -1,13 +1,9 @@
 import numpy as np
 import cvxpy as cp
-from scipy.io import loadmat
-from sklearn import linear_model
-from sklearn.linear_model import HuberRegressor
-from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from scipy.optimize import minimize
 import argparse
-from noise_models.noise import *
+from noise import *
 from data_loader import *
 
 
@@ -29,10 +25,6 @@ def RRM(X, y, epsilon, tol=2e-2, max_iters=50, dist_tol=1e-3, dist_max_iters=100
     
     #initial theta as the solution of WLS at p_old
     theta_old = np.linalg.pinv(X.T @ np.diag(p) @ X) @ (X.T @ np.diag(p) @ y)
-
-
-
-
 
     for i in range(max_iters):
         #LOSS

@@ -72,7 +72,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
-    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=32)
+    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=64)
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
     parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
     parser.add_argument('--quantile',help='what quantile level to minimize over', type=float,default=0.9)
