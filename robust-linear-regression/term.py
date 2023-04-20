@@ -1,5 +1,6 @@
 import numpy as np
 import cvxpy as cp
+import argparse
 
 #code from https://github.com/litian96/TERM/blob/master/robust_regression/regression.py
 def compute_gradients_tilting(theta, X, y, t):  # our objective
@@ -37,17 +38,49 @@ def TERM(train_X, train_y, t, alpha, num_iters):
 from data_loader import *
 from noise import *
 if __name__ == "__main__":
-    X,y = gaussian(100000,500)
+    
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='drug')
+    parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
+    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=64)
+    parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
+    parser.add_argument('--n', help='samples for synthetic data',type=int,default='2000')
+    parser.add_argument('--d', help='dim for synthetic data',type=int,default='200')
+    
+    parsed = vars(parser.parse_args())
+    
+    dataset = parsed['dataset']
+    num_trials = parsed['num_trials']
+    num_iters = parsed['num_iters']
+    noise = parsed['noise']
+    
+    if dataset == 'cal_housing':
+        X, y = data_loader_cal_housing()
+    elif dataset == 'abalone':
+        X, y = data_loader_abalone()
+    elif dataset == 'drug':
+        X, y = data_loader_drug()     
+    elif dataset == 'synthetic':
+        n = parsed['n']
+        d = parsed['d']
+        X, y = gaussian(n, d) 
+    
+    # X,y = gaussian(100000,500)
+    
+    maxLen = max([len(ii) for ii in parsed.keys()])
+    fmtString = '\t%' + str(maxLen) + 's : %s'
+    print('Arguments:')
+    for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
 
-    x_ = np.linspace(0.1,0.4,4)
-    for eps in x_:
-        print(f"epsilon:\t{eps}")
-        means = []
-        for j in range(10):
-            X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
-            X_train, y_train_noisy = addObliviousNoise(X_train, y_train, eps)
-            theta = TERM(X_train,y_train_noisy, -2, 0.01, 1000)
-            loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
-            means.append(loss)
-            print(f"Loss:\t{loss:.3f}")
-        print(f"TERM:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")
+
+    print(f"epsilon:\t{noise}")
+    means = []
+    for j in range(num_trials):
+        X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
+        X_train, y_train_noisy = addObliviousNoise(X_train, y_train, noise)
+        theta = TERM(X_train,y_train_noisy, -2, 0.01, num_iters)
+        loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
+        means.append(loss)
+        print(f"Loss:\t{loss:.3f}")
+    print(f"TERM:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")

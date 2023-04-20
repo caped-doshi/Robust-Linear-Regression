@@ -1,6 +1,7 @@
 import numpy as np
 import heapq
 import cvxpy as cp
+import argparse
 
 def f(y_i, y_predict):
     return (y_i - y_predict) ** 2
@@ -44,6 +45,9 @@ from data_loader import *
 from RMSE import *
 from noise import *
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser()
+    
     X,y = data_loader_drug()
 
     x_ = np.linspace(0.1,0.4,4)
