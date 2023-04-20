@@ -2,7 +2,7 @@
 
 A python implementation of Subquantile Minimization for Robust Linear Regression.
 
-## robust-linear-regression
+## robust-linear-regression directory files
 The following are the different baselines and our proposed method for robust-linear regression
 - `SubQuantile.py`: This is our proposed method
 - `sever.py`: [ICML 2019] A robust meta-algorithm for stochastic optimization used in ridge regression.
