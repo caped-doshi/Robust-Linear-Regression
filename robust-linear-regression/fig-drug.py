@@ -15,17 +15,16 @@ from sever import SEVER
 from term import TERM
 from crr import CRR
 from stir import stir
-from SubQuantile import SubQ
+from SubQuantile import SubQ, SubQ2
 
 def LM(X, y):
-  #return np.matmul(np.linalg.pinv(X),y)
   ridge = Ridge(2, fit_intercept=True, solver='cholesky')
   ridge.fit(X[:, :-1], y)
   theta = np.append(ridge.coef_, [ridge.intercept_])
   return theta
 
 if __name__ == "__main__":
-    n = 2000
+    n = 10000
     d = 200
 
     meta_means_sever = []
@@ -48,7 +47,8 @@ if __name__ == "__main__":
     meta_std_huber = []
     meta_std_erm = []
     meta_std_stir = []
-    x_ = np.linspace(0.05,0.05,1)
+    x_ = np.linspace(0.1,0.4,11)
+    X,y = data_loader_drug()
     for eps in x_:
         means_sever = []
         means_term = []
@@ -61,23 +61,23 @@ if __name__ == "__main__":
         means_stir = []
         means_quantile = []
         for j in range(4):
-            X,y = data_loader_abalone()
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
-            X_train,y_train_noisy = addFeatureNoise(X_train, y_train, eps)
+            X_train,y_train_noisy = addObliviousNoise(X_train, y_train, eps)
             
             mod = sm.QuantReg(y_train_noisy,X_train)
             q = mod.fit(q=1-eps-0.1,max_iter=500)
             theta_quantile = q.params
             theta_sever = SEVER(X_train, y_train_noisy,iter=64)
-            theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 500)
+            theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 6000)
             theta_erm = LM(X_train, y_train_noisy)
-            theta_subq = SubQ2(X_train,y_train_noisy, 32, 1-eps)
+            theta_subq = SubQ2(X_train,y_train_noisy, 64, 1-eps)
             theta_huber = HuberRegressor(max_iter=1500).fit(X_train,y_train_noisy).coef_
             theta_genie = LM(X_train[:int(y_train.shape[0] * (1-eps))], y_train[:int(y_train.shape[0] * (1-eps))])
-            ransac = RANSACRegressor().fit(X_train,y_train_noisy)
-            theta_crr = CRR(X_train,y_train_noisy)
+            base_model = Ridge()
+            ransac = RANSACRegressor(estimator=base_model,random_state=0,min_samples=X_train.shape[1]+1).fit(X_train,y_train_noisy)
+            theta_crr = CRR(X_train,y_train_noisy,max_iters=3000)
             theta_stir = stir(X_train,y_train_noisy,500)
 
             loss_subq = np.sqrt(np.mean((np.dot(X_test, theta_subq) - y_test) ** 2))
@@ -103,15 +103,6 @@ if __name__ == "__main__":
             print(f"ransac loss:\t{loss_ransac}")
             print(f"erm loss:\t{loss_erm}")
             print(f"genie loss:\t{loss_genie}")
-
-
-            # x_test = np.linspace(np.min(x),np.max(x),300)
-            # y_sever = theta_sever[0]*x_test + theta_sever[1]
-            # y_huber = theta_huber[0]*x_test + theta_huber[1]
-            # y_erm = theta_erm[0]*x_test + theta_erm[1]
-            # y_term = theta_term[0]*x_test + theta_term[1]
-            # y_subq = theta_subq[0]*x_test + theta_subq[1]
-            # y_genie = theta_genie[0]*x_test + theta_genie[1]
 
             means_subq.append(loss_subq)
             means_ransac.append(loss_ransac)
@@ -215,7 +206,7 @@ if __name__ == "__main__":
     plt.plot(x_,meta_means_huber,color='purple')
     plt.plot(x_,meta_means_erm,color='cyan')
     plt.plot(x_,meta_means_crr,color='blue')
-    #plt.plot(x_,meta_means_stir,color='teal')
+    plt.plot(x_,meta_means_stir,color='teal')
     plt.plot(x_,meta_means_quantile,color='gray')
     # plt.fill_between(x_,meta_means_subq-meta_std_subq,meta_means_subq+meta_std_subq,color='black',alpha=0.5)
     # plt.fill_between(x_,meta_means_sever-meta_std_sever,meta_means_sever+meta_std_sever,color='green',alpha=0.5)
@@ -224,5 +215,5 @@ if __name__ == "__main__":
     # plt.fill_between(x_,meta_means_huber-meta_std_huber,meta_means_huber+meta_std_huber,color='purple',alpha=0.5)
     # plt.fill_between(x_,meta_means_erm-meta_std_erm,meta_means_erm+meta_std_erm,color='cyan',alpha=0.5)
     plt.ylim([0, 3])
-    tikzplotlib.save("drug-discovery.tex")
+    tikzplotlib.save("fig-drug.tex")
     plt.show()

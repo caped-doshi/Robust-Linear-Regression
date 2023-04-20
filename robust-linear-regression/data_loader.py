@@ -93,4 +93,4 @@ def gaussian(n,d):
         t = np.random.normal(np.dot(np.transpose(m),x[i,0:d]) + b,0.01)
         y[i] = t
 
-    return x, y
+    return x, y, m, b

@@ -37,7 +37,7 @@ def TERM(train_X, train_y, t, alpha, num_iters):
 from data_loader import *
 from noise import *
 if __name__ == "__main__":
-    X,y = data_loader_drug()
+    X,y = gaussian(100000,500)
 
     x_ = np.linspace(0.1,0.4,4)
     for eps in x_:
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         means = []
         for j in range(10):
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
-            y_train_noisy = addUnstructuredNoise(X_train, y_train, eps)
+            X_train, y_train_noisy = addObliviousNoise(X_train, y_train, eps)
             theta = TERM(X_train,y_train_noisy, -2, 0.01, 1000)
             loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
             means.append(loss)
