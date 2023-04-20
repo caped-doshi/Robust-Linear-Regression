@@ -5,7 +5,7 @@
 % Optional math commands from https://github.com/goodfeli/dlbook_notation.
 \input{math_commands.tex}
 
-\usepackage{amsmath,amsthm}
+\usepackage{amsmath,amsthm,amssymb}
 \usepackage{thmtools}
 \usepackage{thm-restate}
 \usepackage{mathtools}
@@ -21,6 +21,8 @@
 \DeclareMathOperator{\proj}{proj}
 
 \newcommand\cauchyschwarz{\stackrel{\mathclap{\normalfont\mbox{Cauchy-Schwarz}}}{\leq}}
+
+\newcommand\woodbury{\stackrel{\mathclap{\normalfont\mbox{Woodbury}}}{=}}
 
 \newenvironment{proofsketch}{%
 	\renewcommand{\proofname}{Proof Sketch}\proof}{\endproof}
@@ -294,7 +296,7 @@
 			{
 				$\vnu \gets (\mX \vtheta_{(k)} - \vy)^2$\\
 				$t_{(k+1)} \gets \hat{\vnu}_{np}$\\
-				$\mS_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^\top \vx_i - y_i)^2 \leq t_{(k+1)}$\\
+				$\mS_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^\top \vx_i - y_i)^2 \leq t_{(k+1)} \text{ where $\concat$ represents the concatenation operator}$\\
 				$\vtheta_{(k+1)} \gets (\mS^\top\mS + \lambda\mI)^{-1}\mS^\top\vy_S$\\
 			}
 			\KwRet{$ \vtheta_T $}
@@ -456,18 +458,30 @@
 	\begin{align*}
 		\mathbb{E}\left[\nabla_\vtheta g(t_{k+1},\vtheta_k)\right] &= 0 &&\\
 		2(\vmu\vmu^\top + \mSigma)(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) &= 0&&
-		\intertext{Since the first term is non-zero, the equality is satisfied when:}
-		(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) &= 0&&\\
-		\vtheta_k &= (1-\varepsilon)\vbeta_P + \varepsilon\vbeta_P &&
 	\end{align*}
+	Since the first term is non-zero, the equality is satisfied when:
+	\begin{equation*}
+		(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) = 0
+	\end{equation*}	
+	\begin{equation*}
+		\vtheta_k = (1-\varepsilon)\vbeta_P + \varepsilon\vbeta_P 
+	\end{equation*}
 	Note this aligns with the results of Theorem \ref{thm:expected-value-corrupted}.
 	This means that for a subset of $np$ points from $\mX$, the least squares error is minimized. What we are interested in is how many points within those $np$ points come from $\mathbb{P}$ and how many of those points from $\mathbb{Q}$. Our goal is to minimize the number of points within the $np$ lowest squared losses from $Q$, as they will introduce error to our predictions on points from $P$. 
 	
-	Now we come to one of the most important theorems of this paper. 
+	
+	
 	\begin{restatable}{thm}{convergence-guarantee}
 		\label{thm:convergence-guarantee}
-		In the case of linear regression, SubQuantile Minimization will converge to a local or global minimum.
+		Let $g(t,\vtheta)$ be differentiable and $g(t,\vtheta)$ be $L$-smooth in $\vtheta$. Let $t_{(k)}$ and $\vtheta_{(k)}$ be iterates from algorithm \ref{alg:sqo-ridge}. Then, $\lim_{k \to \infty} \mathbb{E}\left[\norm{\nabla_\vtheta g(t_{(k+1)},\vtheta_{(k)})}\right] = 0$.
 	\end{restatable}
+	\begin{proofsketch}
+		From the intuitions we have gained on Subquantile Minimization. We can state the following:
+		\begin{equation}
+			\argmin_{\vtheta \in \mathbb{R}^d}\min_{\mS \in \Pi}\norm{\vtheta^\top\mS - \vy_S}_2^2 \iff \argmin_{\vtheta \in \mathbb{R}^d}\max_{t \in \mathbb{R}}\norm{\vtheta^\top\mS - \vy_S}_2^2
+		\end{equation}
+		where $\Pi$ represents the entire distribution of Subquantile matrices. 
+	\end{proofsketch}
 	
 
 	\subsection{Converging to $\beta_P$}
@@ -557,241 +571,241 @@
 					xmin=0.1, xmax=0.4,
 					xtick style={color=darkgray176},
 					y grid style={darkgray176},
-					ymin=0, ymax=100,
+					ymin=0, ymax=1000,
 					ytick style={color=darkgray176},
-					ytick={0, 0.0001, 0.001,0.01,0.1,1,10,100},
+					ytick={0,0.001,0.01,0.1,1,10,100,1000},
 					ymajorgrids=true,
 					grid style=dashed,
 					ymode=log,
 					log ticks with fixed point,
 				]
-			\nextgroupplot[ylabel=Test RMSE,title=\texttt{Structured Linear Regression}]
+			\nextgroupplot[ylabel=Test RMSE,title=\texttt{Adaptive Linear Regression}]
 			\coordinate (c1) at (current axis.left of origin);
 			\addplot [very thick, black,mark=square*]
 			table {%
-				0.1 0.000852145545650274
-				0.13 0.00129906844813377
-				0.16 0.00178685656283051
-				0.19 0.00188247638288885
-				0.22 0.000782711140345782
-				0.25 0.000750583712942898
-				0.28 0.000948104367125779
-				0.31 0.00275319814682007
-				0.34 0.0011527695460245
-				0.37 0.000925726722925901
-				0.4 0.00145544647239149
+				0.1 0.0125554371625185
+				0.13 0.0125358905643225
+				0.16 0.0129381362348795
+				0.19 0.0133792851120234
+				0.22 0.0137144038453698
+				0.25 0.0135425860062242
+				0.28 0.0141213834285736
+				0.31 0.014158477075398
+				0.34 0.0144458776339889
+				0.37 0.0152960792183876
+				0.4 0.0154073610901833
 			};
-			\addplot [very thick, green,mark=*]
+			\addplot [very thick, green,mark=square*]
 			table {%
-				0.1 0.00629269797354937
-				0.13 0.0061719068326056
-				0.16 0.00451502948999405
-				0.19 0.0045745437964797
-				0.22 0.00390702905133367
-				0.25 0.00339963426813483
-				0.28 0.00297703081741929
-				0.31 0.00262199202552438
-				0.34 0.00223128451034427
-				0.37 0.00179957505315542
-				0.4 0.00133641925640404
+				0.1 0.0521650016307831
+				0.13 0.0445362776517868
+				0.16 0.0440022274851799
+				0.19 0.0425776466727257
+				0.22 0.0404041111469269
+				0.25 0.0345044210553169
+				0.28 0.0329911485314369
+				0.31 0.0288031361997128
+				0.34 0.0262199137359858
+				0.37 0.0241425465792418
+				0.4 0.0189416743814945
 			};
-			\addplot [very thick, red,mark=triangle*]
+			\addplot [very thick, red,mark=square*]
 			table {%
-				0.1 0.128094509243965
-				0.13 0.143439918756485
-				0.16 0.114906087517738
-				0.19 0.139956101775169
-				0.22 0.135017454624176
-				0.25 0.138338655233383
-				0.28 0.151504248380661
-				0.31 0.154008060693741
-				0.34 0.157220929861069
-				0.37 0.157950282096863
-				0.4 0.159972473978996
+				0.1 237.896408081055
+				0.13 227.826049804688
+				0.16 230.267791748047
+				0.19 240.226058959961
+				0.22 247.975341796875
+				0.25 229.499435424805
+				0.28 240.464080810547
+				0.31 232.256820678711
+				0.34 231.335601806641
+				0.37 244.49983215332
+				0.4 238.339447021484
 			};
-			\addplot [very thick, orange,mark=diamond*]
+			\addplot [very thick, orange,mark=square*]
 			table {%
-				0.1 510.739837646484
-				0.13 466.140563964844
-				0.16 533.737121582031
-				0.19 596.591674804688
-				0.22 446.616119384766
-				0.25 622.484008789062
-				0.28 1799.46899414062
-				0.31 936.382629394531
-				0.34 871.097473144531
-				0.37 515.640808105469
-				0.4 635.56884765625
+				0.1 0.554122269153595
+				0.13 0.700407743453979
+				0.16 0.853803277015686
+				0.19 1.00364184379578
+				0.22 1.14672327041626
+				0.25 1.29208374023438
+				0.28 1.446732878685
+				0.31 1.58860540390015
+				0.34 1.74065947532654
+				0.37 1.89163446426392
+				0.4 2.03946781158447
 			};
-			\addplot [very thick, purple,mark=*]
+			\addplot [very thick, purple,mark=square*]
 			table {%
-				0.1 2.93145421892405e-05
-				0.13 2.96140842692694e-05
-				0.16 3.09937968268059e-05
-				0.19 2.97305177809903e-05
-				0.22 3.31559785990976e-05
-				0.25 3.43969077221118e-05
-				0.28 3.97973199142143e-05
-				0.31 5.77362079638988e-05
-				0.34 0.0462281405925751
-				0.37 13.9142093658447
-				0.4 27.208044052124
-			};%\addlegendentry{Huber}
+				0.1 2.18698644638062
+				0.13 2.05041885375977
+				0.16 2.53638052940369
+				0.19 1.44385433197021
+				0.22 1.8708907365799
+				0.25 1.2774612903595
+				0.28 2.1888313293457
+				0.31 1.95714855194092
+				0.34 1.51524746417999
+				0.37 1.80507040023804
+				0.4 2.08419466018677
+			};
 			\addplot [very thick, cyan,mark=square*]
 			table {%
-				0.1 17.8012790679932
-				0.13 21.716516494751
-				0.16 25.825403213501
-				0.19 29.0378608703613
-				0.22 31.5523071289062
-				0.25 34.142635345459
-				0.28 41.1342239379883
-				0.31 43.328498840332
-				0.34 48.6398468017578
-				0.37 51.0280075073242
-				0.4 55.499584197998
+				0.1 0.55413419008255
+				0.13 0.70040762424469
+				0.16 0.853901743888855
+				0.19 1.00362634658813
+				0.22 1.14677453041077
+				0.25 1.29210960865021
+				0.28 1.44673705101013
+				0.31 1.58858036994934
+				0.34 1.74076187610626
+				0.37 1.8917053937912
+				0.4 2.03950119018555
 			};
-			\addplot [very thick, blue,mark=pentagon*]
+			\addplot [very thick, blue,mark=square*]
 			table {%
-				0.1 0.000261661480180919
-				0.13 1.51139521598816
-				0.16 3.56023740768433
-				0.19 6.11344909667969
-				0.22 8.43581008911133
-				0.25 10.5926265716553
-				0.28 13.7903270721436
-				0.31 17.0222606658936
-				0.34 21.0675392150879
-				0.37 23.414342880249
-				0.4 26.4523887634277
+				0.1 0.381346136331558
+				0.13 0.567987024784088
+				0.16 0.730611085891724
+				0.19 0.883088111877441
+				0.22 1.02834987640381
+				0.25 1.16971182823181
+				0.28 1.31483685970306
+				0.31 1.45577394962311
+				0.34 1.60332000255585
+				0.37 1.74965143203735
+				0.4 1.91863870620728
 			};
-			\addplot [very thick, teal,mark=*]
+			\addplot [very thick, teal,mark=square*]
 			table {%
-				0.1 0.183794975280762
-				0.13 0.235610246658325
-				0.16 0.290331423282623
-				0.19 0.346185028553009
-				0.22 0.416951268911362
-				0.25 0.445792853832245
-				0.28 0.535794854164124
-				0.31 0.613963186740875
-				0.34 0.743648707866669
-				0.37 0.818836569786072
-				0.4 0.919419944286346
+				0.1 0.167886197566986
+				0.13 0.279087960720062
+				0.16 0.372507721185684
+				0.19 0.495923638343811
+				0.22 0.622189044952393
+				0.25 0.781642854213715
+				0.28 1.02761101722717
+				0.31 1.26646912097931
+				0.34 1.43443489074707
+				0.37 1.68049740791321
+				0.4 1.95596516132355
 			};
-			\nextgroupplot[legend to name={CommonLegend},legend style={legend columns=8},title=\texttt{Noisy Linear Regression}]
+			\nextgroupplot[legend to name={CommonLegend},legend style={legend columns=8},title=\texttt{Oblivious Linear Regression}]
 			\coordinate (c2) at (current axis.right of origin);
 			\addplot [very thick, black,mark=square*]
 			table {%
-				0.1 0.000508047640323639
-				0.13 0.000600834260694683
-				0.16 0.000574608508031815
-				0.19 0.000596674857661128
-				0.22 0.000614110031165183
-				0.25 0.000682530808262527
-				0.28 0.000695097085554153
-				0.31 0.000784151430707425
-				0.34 0.000808773678727448
-				0.37 0.000846001028548926
-				0.4 0.000909996044356376
+				0.1 0.0128471776843071
+				0.13 0.0132497362792492
+				0.16 0.0133665129542351
+				0.19 0.0132069261744618
+				0.22 0.0136235542595387
+				0.25 0.014018764719367
+				0.28 0.0141585795208812
+				0.31 0.0143229514360428
+				0.34 0.0147281233221292
+				0.37 0.0151354484260082
+				0.4 0.0153331179171801
 			};\addlegendentry{SubQuantile}
 			\addplot [very thick, green,mark=square*]
 			table {%
-				0.1 0.00615961756557226
-				0.13 0.0055247014388442
-				0.16 0.00509110558778048
-				0.19 0.00445060804486275
-				0.22 0.00400485005229712
-				0.25 0.00363859860226512
-				0.28 0.00320427562110126
-				0.31 0.0028482973575592
-				0.34 0.00242722942493856
-				0.37 0.00200290651991963
-				0.4 0.00168871856294572
+				0.1 0.0540679693222046
+				0.13 0.0504136011004448
+				0.16 0.0463055409491062
+				0.19 0.0414693579077721
+				0.22 0.0409594476222992
+				0.25 0.0382022894918919
+				0.28 0.0341422967612743
+				0.31 0.0303579084575176
+				0.34 0.0269672852009535
+				0.37 0.0250413306057453
+				0.4 0.022193968296051
 			};\addlegendentry{Sever}
 			\addplot [very thick, red,mark=square*]
 			table {%
-				0.1 0.13422891497612
-				0.13 0.135067075490952
-				0.16 0.141509741544724
-				0.19 0.137706115841866
-				0.22 0.148935377597809
-				0.25 0.161803781986237
-				0.28 0.169931530952454
-				0.31 0.185534000396729
-				0.34 0.198230892419815
-				0.37 0.198150366544724
-				0.4 0.213426992297173
+				0.1 246.295135498047
+				0.13 246.269775390625
+				0.16 247.859344482422
+				0.19 237.750305175781
+				0.22 242.284729003906
+				0.25 251.897003173828
+				0.28 242.425659179688
+				0.31 237.389801025391
+				0.34 237.131713867188
+				0.37 234.046859741211
+				0.4 232.261001586914
 			};\addlegendentry{TERM}
 			\addplot [very thick, orange,mark=square*]
 			table {%
-				0.1 14.5513744354248
-				0.13 14.7917604446411
-				0.16 16.2636299133301
-				0.19 18.6220932006836
-				0.22 19.9921226501465
-				0.25 19.8169021606445
-				0.28 21.4933242797852
-				0.31 22.8510704040527
-				0.34 23.5380153656006
-				0.37 25.6618499755859
-				0.4 26.1038627624512
+				0.1 63.5551452636719
+				0.13 145.981842041016
+				0.16 157.928924560547
+				0.19 225.061798095703
+				0.22 319.59423828125
+				0.25 375.710998535156
+				0.28 390.717224121094
+				0.31 491.960021972656
+				0.34 469.778259277344
+				0.37 414.336395263672
+				0.4 534.187805175781
 			};\addlegendentry{Ransac}
 			\addplot [very thick, purple,mark=square*]
 			table {%
-				0.1 2.73317273240536e-05
-				0.13 2.98583272524411e-05
-				0.16 2.79231990134576e-05
-				0.19 2.9638229534612e-05
-				0.22 3.13204182020854e-05
-				0.25 3.17703852488194e-05
-				0.28 3.35191034537274e-05
-				0.31 3.89986598747782e-05
-				0.34 4.97983892273623e-05
-				0.37 0.111739054322243
-				0.4 0.49724754691124
+				0.1 1.46980595588684
+				0.13 1.87412810325623
+				0.16 3.35894680023193
+				0.19 2.29600596427917
+				0.22 2.45804905891418
+				0.25 2.86910390853882
+				0.28 1.73560845851898
+				0.31 2.57050657272339
+				0.34 2.66841530799866
+				0.37 1.83763372898102
+				0.4 29.6955299377441
 			};\addlegendentry{Huber}
 			\addplot [very thick, cyan,mark=square*]
 			table {%
-				0.1 0.885163426399231
-				0.13 1.10698544979095
-				0.16 1.23684811592102
-				0.19 1.46348571777344
-				0.22 1.53681600093842
-				0.25 1.70243382453918
-				0.28 1.83835387229919
-				0.31 1.94464683532715
-				0.34 2.0887017250061
-				0.37 2.31081819534302
-				0.4 2.4048056602478
+				0.1 28.1231517791748
+				0.13 34.0072326660156
+				0.16 41.1976280212402
+				0.19 47.9778938293457
+				0.22 56.1155090332031
+				0.25 64.5382843017578
+				0.28 69.4678497314453
+				0.31 75.4956512451172
+				0.34 83.6161499023438
+				0.37 87.8404235839844
+				0.4 95.7903823852539
 			};\addlegendentry{ERM}
 			\addplot [very thick, blue,mark=square*]
 			table { 
-				0.1 0.000213400315260515
-				0.13 0.0907949209213257
-				0.16 0.244910925626755
-				0.19 0.390361607074738
-				0.22 0.544912695884705
-				0.25 0.701349496841431
-				0.28 0.821112513542175
-				0.31 1.0323988199234
-				0.34 1.13511443138123
-				0.37 1.39422416687012
-				0.4 1.50587356090546
+				0.1 2.51470565795898
+				0.13 5.41616868972778
+				0.16 9.31512641906738
+				0.19 13.0698957443237
+				0.22 18.0407886505127
+				0.25 23.9833374023438
+				0.28 29.2465381622314
+				0.31 35.9098510742188
+				0.34 42.9741249084473
+				0.37 48.0417175292969
+				0.4 56.2337112426758
 			};\addlegendentry{CRR}
 			\addplot [very thick, teal,mark=square*]
 			table { 
-				0.1 0.178012832999229
-				0.13 0.22173123061657
-				0.16 0.258433789014816
-				0.19 0.309956014156342
-				0.22 0.337734252214432
-				0.25 0.399859398603439
-				0.28 0.425682932138443
-				0.31 0.485260426998138
-				0.34 0.508604168891907
-				0.37 0.596952080726624
-				0.4 0.622355103492737
+				0.1 0.531812369823456
+				0.13 0.662591338157654
+				0.16 0.542104721069336
+				0.19 1.25191402435303
+				0.22 2.22975873947144
+				0.25 2.94694495201111
+				0.28 3.24172282218933
+				0.31 3.70417833328247
+				0.34 226.69775390625
+				0.37 225.584381103516
+				0.4 225.356048583984
 			};\addlegendentry{STIR}
 			\end{groupplot}
 			\coordinate (c3) at ($(c1)!.5!(c2)$);
@@ -836,11 +850,11 @@
 				\coordinate (c1) at (current axis.left of origin);
 				\addplot [very thick, black,mark=square*]
 				table {%
-					0.1 0.960945904254913
-					0.13 1.01557767391205
-					0.16 1.07725870609283
-					0.19 1.01437032222748
-					0.22 1.07702422142029
+					0.1 0.882
+					0.13 0.940
+					0.16 0.980
+					0.19 0.963
+					0.22 0.942
 					0.25 1.03914260864258
 					0.28 1.07516872882843
 					0.31 1.05182552337646
@@ -1050,12 +1064,12 @@
 			&\subhead{$\eps = 0.1$}& \subhead{$\eps = 0.2$}& \subhead{$\eps = 0.3$}& \subhead{$\eps = 0.4$}\\ 
 			\midrule
 			ERM  &$1.303_{(0.0665)}$&$1.790_{(0.0849)}$&$2.198_{(0.0645)}$&$2.623_{(0.1010)}$\\
-			CRR \cite{bhatia2017}  &$\mathbf{1.079_{(0.0899)}}$&$1.125_{(0.0832)}$&$1.385_{(0.1372)}$&$1.725_{(0.1136)}$\\
+			CRR \cite{bhatia2017}  &$1.079_{(0.0899)}$&$1.125_{(0.0832)}$&$1.385_{(0.1372)}$&$1.725_{(0.1136)}$\\
 			STIR \cite{pmlr-v89-mukhoty19a} &$1.087_{(0.1256)}$&$1.167_{(0.0750)}$&$1.403_{(0.0987)}$&$1.668_{(0.1142)}$\\
 			Robust Risk \cite{RRM} &$1.176_{(0.1110)}
 			$&$1.336_{(0.1882)}$&$1.437_{(0.1723)}$&$1.800_{(0.0820)}$\\
 			SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} &$1.094_{(0.1065)}$&$1.323_{(0.0758)}$&$1.578_{(0.0799)}$&$1.984_{(0.2020)}$\\
-			TERM \cite{li2020tilted} &$1.326_{(0.0757)}$&$1.357_{(0.0990)}$&$1.310_{(0.0670)}$&$1.302_{(0.0851)}$\\
+			TERM \cite{li2020tilted} &$\mathbf{1.029_{(0.0707)}}$&$1.126_{(0.0776)}$&$1.191_{(0.1091)}$&$1.201_{(0.1409)}$\\
 			SEVER \cite{DiakonikolasKKLSS19} &$1.111_{(0.0924)}$&$\mathbf{1.067_{(0.0457)}}$&$\mathbf{1.071_{(0.0807)}}$&$\mathbf{1.138_{(0.1162)}}$\\
 			Huber \cite{Huber2009} &$1.412_{(0.0474)}$&$1.501_{(0.2918)}$&$2.231_{(0.9054)}$&$2.247_{(1.0399)}$\\
 			RANSAC \cite{RANSAC1981} &$1.238_{(0.0529)}$&$1.643_{(0.1331)}$&$2.092_{(0.1935)}$&$2.679_{(0.1365)}$\\
@@ -1150,7 +1164,7 @@
 	\subsection{Proof of Theorem~\ref{thm:expected-value-corrupted-different}}
 	\label{app:expected-value-corrupted-different}
 	\begin{proof}
-	The first half of the proof follows from Appendix \ref{app:expected-value-corrupted}. We start by noting new notation. $\displaystyle \mSigma_P$ represents the covariance matrix for $\mathbb{P}$ and $\displaystyle \mSigma_Q$ represents the covariance matrix for $\mathbb{Q}$.\vspace{1em}
+	We start by noting new notation. $\displaystyle \mSigma_P$ represents the covariance matrix for $P$ and $\displaystyle \mSigma_Q$ represents the covariance matrix for $Q$.\vspace{1em}
 	\begin{equation}
 		\mathbb{E}\left[\mP^\top\mP\right] = n(1-\eps)\mSigma_P
 	\end{equation}\openup .5em
@@ -1444,17 +1458,13 @@
 	\begin{equation}
 		\vtheta^*, \mS^* = \argmin_{\vtheta \in \mathbb{R}^d} \argmin_{\mS \in \vPi} \norm{\vtheta^\top\mS - \vy_S}_2^2
 	\end{equation}
-	\textcolor{green}{I think this optimization problem is easier to show to converge.}
 	Note we have a $\mathcal{O}(n)$ oracle for the $\displaystyle \argmin_{S\in \vPi}f(\vtheta_T,\mS_T)$. 
 	\begin{restatable}{lemma}{unique-S-minimizer}
 		\label{lem:unique-S-minimizer}
 		The resultant $\displaystyle \widetilde{\mS} = \argmin_{\mS \in \vPi} f(\vtheta,\mS)$ is a unique minimizer iff all points in $\mX$ are different. 
 	\end{restatable}
 	We will now show $f$ is a monotonically decreasing function.\\
-	First let us define $\phi(\cdot) = \min_{\mS \in \vPi}\left(\cdot,\mS\right)$.
-	\begin{restatable}{lemma}{phi-lower-semi-continuous}
-		If 
-	\end{restatable}
+	First let us define $\phi(\cdot) = \min_{\mS \in \vPi}\left(\cdot,\mS\right)$. 
 	Let us also note $f$ is $\ell$ smooth with respect to $\vtheta$. This is following notation from \cite{Jin_2019}.It thus follows:
 	\begin{align*}
 		f(\vtheta_{k+1}, \mS_k) &\leq f(\vtheta_k, \mS_k) + \langle\nabla_\vtheta f(\vtheta_k,\mS_k), \vtheta_{k+1}-\vtheta_k \rangle + \frac{\ell}{2}\norm{\vtheta_{k+1}-\vtheta_k}_2^2 &&\\
@@ -1471,6 +1481,25 @@
 	\end{proof}
 	
 	\subsection{Expectation of Improvement}
+	We are also interested in expected improvement after choosing a new Subquantile matrix. 
+	\begin{align*}
+		\mathbb{E}&\left[f\left(\vtheta_{(k)}, S^{(k+1)}\right) - f\left(\vtheta_{(k)}, S^{(k)}\right)\right] = \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^\top\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^\top\vq_i - y_i}_2^2\right] &&\\
+		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^\top\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^\top\vq_i - y_i}_2^2\right] &&
+	\end{align*}
+	We can now use reverse triangle inequality.
+	\begin{align*}
+		&\leq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\vtheta_{(k)}^\top\vp_i - \vbeta_P\vp_i - \eps_P - \vtheta^\top_{(k)}\vq_i + \vbeta_Q\vq_i + \eps_Q}_2^2 \right] &&\\
+		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\left(\vtheta^\top_{(k)} - \vbeta_P\right)\vp_i + \left(\vbeta_Q - \vtheta^\top_{(k)}\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&
+	\end{align*}
+	Now we can use theorem \ref{thm:expected-value-corrupted}. To simplify notation, let $\Xi \triangleq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]$
+	\begin{align*}
+		&= \Xi \mathbb{E}\left[\sum_{i=1}^{n\Xi}\norm{\left((1-\varepsilon^{(t)})\vbeta_P + \varepsilon^{(t)}\vbeta_Q - \vbeta_P\right)\vp_i + \left(\vbeta_Q - (1 - \varepsilon^{(t)})\vbeta_P - \varepsilon^{(t)}\vbeta_Q \right)q_i - \eps_P+ \eps_Q}_2^2 \right] &&\\
+		&= \Xi \mathbb{E}\left[\sum_{i=1}^{n\Xi}\norm{\left(-\varepsilon^{(t)}\vbeta_P + \varepsilon^{(t)}\vbeta_Q\right)\vp_i + \left((1 - \varepsilon^{(t)})\vbeta_Q - (1 - \varepsilon^{(t)})\vbeta_P\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&\\
+		&= \Xi \mathbb{E}\left[\sum_{i=1}^{n\Xi}\norm{\varepsilon^{(t)}\left(\vbeta_Q - \vbeta_P\right)\vp_i + (1 - \varepsilon^{(t)})\left(\vbeta_Q - \vbeta_P\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&
+	\end{align*}
+	Here we can use the fact that $\mathbb{E}\left[X^2\right] = \mathbb{E}\left[X\right]^2 + \Var(X)$ for a random variable $X$
+
+	\bigskip
 	Let us define the function $h(\vtheta_k) = f(\vtheta_k,\mS_{k-1}) - f(\vtheta_k,\mS_k)$, a strictly non-negative function. From our results above it follows:
 	\begin{align*}
 		\phi(\vtheta_{k+1}) &\leq \phi(\vtheta_k) - \frac{1}{2\ell}\left(\nabla_\vtheta f(\vtheta_k,\mS_k)\right)^2 &&\\
@@ -1478,17 +1507,15 @@
 		&= f(\vtheta_k, \mS_{k-1}) - h(\vtheta_k) - \frac{\ell}{2}\norm{\vtheta_{k+1} - \frac{1}{\ell} \nabla_\vtheta f(\vtheta_k,\mS_k) - \vtheta_k}_2^2 &&\\
 		&= f(\vtheta_k, \mS_{k-1}) - h(\vtheta_k) - \frac{\ell}{2}\left(\norm{\vtheta_{k+1}-\vtheta_k}_2^2 + \frac{2}{\ell}\norm{\vtheta_{k+1}-\vtheta_k}\nabla_\vtheta f(\vtheta_k,\mS_k) + \frac{1}{\ell^2}\nabla_\vtheta f(\vtheta_k,\mS_k)\right)
 	\end{align*}
-	\textcolor{blue}{The plan is to take a telescopic sum over $f(\vtheta_{k+1},\mS_{k+1}) - f(\vtheta_k,\mS_k)$. This is in the works for the final version of the paper}
 	\newpage
 	
 	\section{Stochastic Sub-Quantile Optimization}
-	In the age of big data, stochastic methods are necessary for fast training of models to handle large amounts of data. In this section we will provide an algorithm for Stochastic Sub-Quantile Optimization and \textcolor{cyan}{prove convergence}.
+	In the age of big data, stochastic methods are necessary for fast training of models to handle large amounts of data. In this section we provide an algorithm for Stochastic Sub-Quantile Optimization.
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
 		
 		\KwInput{Training iterations $T$, Quantile $p$, Corruption Percentage $\eps$, Input Parameters $d$, Batch Size $m$}
 		\KwOutput{Trained Parameters, $\displaystyle \vtheta$}
-		\KwData{Inliers: $\displaystyle y|x \sim \mathcal{N}(x^2-x+2,0.01)$, Outliers: $\displaystyle y|x \sim \mathcal{N}(-x^2+x+4,0.01)$}
 		$\vtheta_1 \gets \mathcal{N}(0,\sigma)^d$\\
 		\For{$k \in 1,2,\ldots,T$}
 		{
@@ -1504,7 +1531,6 @@
 		\caption{Stochastic Sub-Quantile Minimization Optimization Algorithm}
 		\label{alg:sqo-stochastic}
 	\end{algorithm}
-	\textcolor{cyan}{I think a proof of convergence for a stochastic batch algorithm would be nice to add for the final paper if possible}
 	
 	\newpage
 	
@@ -1607,29 +1633,29 @@
 	\newpage
 	\section{Experimental Details}\label{app:experimental-details}
 	
-	\subsection{\texttt{Structured Linear Regression} Dataset}
+	\subsection{\texttt{Adaptive Linear Regression} Dataset}
 	We will describe $\mathbb{P}$ and $\mathbb{Q}$ in the \texttt{Structured Linear Regression} Dataset.\\
-	$\vx \sim \mathcal{N}(4,4)^{100}$\\
-	$\vm \sim \mathcal{N}(4,4)^{100}$\\
+	$\vx \sim \mathcal{N}(4,4)^{200}$\\
+	$\vm \sim \mathcal{N}(4,4)^{200}$\\
 	$b \sim \mathcal{N}(4,4)$\\
-	$\vm' \sim \mathcal{N}(4,4)^{100}$\\
+	$\vm' \sim \mathcal{N}(4,4)^{200}$\\
 	$b' \sim \mathcal{N}(4,4)$\\
-	$n_{\text{train}} = 2\text{e}3$\\
+	$n_{\text{train}} = 1\text{e}4$\\
 	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.1)$\\
 	$\mathbb{Q}: y|\vx \sim \mathcal{N}(\vm^{'\top}\vx + b', 0.1)$\\
 	Please note $\vm$, $b$, $\vm'$, $b'$, are all sampled independently. The noise is added after normalization of the dataset to the standard normal $\mathcal{N}(0,1)$. 
 	
-	\subsection{\texttt{Noisy Linear Regression} Dataset}
+	\subsection{\texttt{Oblivious Linear Regression} Dataset}
 	We will describe $\mathbb{P}$ and $\mathbb{Q}$ in the \texttt{Noisy Linear Regression} Dataset.\\
 	$\vx \sim \mathcal{N}(0,3)^{500}$\\
 	$\vm \sim \mathcal{N}(4,4)^{500}$\\
 	$b \sim \mathcal{N}(4,4)$\\
 	$\vm' = \vzero$\\
 	$b' \sim \mathcal{N}(5,5)$\\
-	$n_{\text{train}} = 5\text{e}3$\\
-	$n_{\text{test}} = 1e2$\\
-	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.1)$\\
-	$\mathbb{Q}: y|\vx \sim \mathcal{N}(b', 4)$\\
+	$n_{\text{train}} = 8\text{e}3$\\
+	$n_{\text{test}} = 2\text{e}3$\\
+	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.01)$\\
+	$\mathbb{Q}: y|\vx \sim \mathcal{N}(5,5)$\\
 	Please note $\vm$, $b$, $\vm'$, $b'$, are all sampled independently. The noise is added after normalization of the dataset to the standard normal. 
 	
 	\subsection{\texttt{Quadratic Regression} Dataset}

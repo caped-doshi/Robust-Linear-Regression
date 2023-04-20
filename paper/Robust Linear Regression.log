@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  16 APR 2023 17:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  20 APR 2023 17:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -192,6 +192,10 @@ Package: amsthm 2020/05/29 v2.20.6
 \thm@postskip=\skip64
 \thm@headsep=\skip65
 \dth@everypar=\toks27
+)
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\a
+mssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/thmtools\t
 hmtools.sty
@@ -1162,7 +1166,7 @@ umn.sty
 Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
 )
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 1
-07.
+09.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 ptm.fd
@@ -1176,24 +1180,24 @@ File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
 ) (Robust Linear Regression.aux)
 \openout1 = `"Robust Linear Regression.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 107.
-LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 109.
+LaTeX Font Info:    ... okay on input line 109.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/context/base/mki
 i\supp-pdf.mkii
@@ -1224,7 +1228,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 107.
+Package hyperref Info: Link coloring OFF on input line 109.
  (Robust Linear Regression.out) (Robust Linear Regression.out)
 \@outlinefile=\write4
 \openout4 = `"Robust Linear Regression.out"'.
@@ -1233,21 +1237,21 @@ Package hyperref Info: Link coloring OFF on input line 107.
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 107.
+ on input line 109.
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 110--110
+Underfull \hbox (badness 1881) in paragraph at lines 112--112
 []\OT1/ptm/m/sc/17.28 Robust Lin-ear Re-gres-sion by Sub-Quantile
  []
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 110
+LaTeX Font Info:    Trying to load font information for U+msa on input line 112
 .
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
 msa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 110
+LaTeX Font Info:    Trying to load font information for U+msb on input line 112
 .
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
@@ -1255,189 +1259,190 @@ msb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-10.
+12.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 1
-10.
+12.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\oms
 pcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 110.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 112.
  [1
 
 {C:/Users/Arvind Rathnashyam/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
  [2]
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
-nput line 222.
+nput line 224.
  [3]
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 268.
+(relsize)                Using 7.0pt instead on input line 270.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 282.
+(relsize)                Using 7.0pt instead on input line 284.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 292.
+(relsize)                Using 7.0pt instead on input line 294.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
+
+
+Overfull \hbox (56.11897pt too wide) in paragraph at lines 302--302
+\OML/cmm/m/it/10 t[][]$  
+ []
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 300.
+(relsize)                Using 7.0pt instead on input line 302.
 
 Package hyperref Info: bookmark level for unknown assumption defaults to 0 on i
-nput line 307.
+nput line 309.
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--330
+Underfull \hbox (badness 10000) in paragraph at lines 329--332
 
  []
 
 Package hyperref Info: bookmark level for unknown thm defaults to 0 on input li
-ne 337.
+ne 339.
 [4]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 357.
+(hyperref)                removing `math shift' on input line 359.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\theta' on input line 357.
+(hyperref)                removing `\theta' on input line 359.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 357.
+(hyperref)                removing `math shift' on input line 359.
 
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
-line 364.
+line 366.
 Package hyperref Info: bookmark level for unknown interpretation defaults to 0 
-on input line 399.
+on input line 401.
 [5]
 Package hyperref Info: bookmark level for unknown proposition defaults to 0 on 
-input line 451.
+input line 453.
  [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 473.
+(hyperref)                removing `math shift' on input line 487.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\beta' on input line 473.
+(hyperref)                removing `\beta' on input line 487.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 473.
+(hyperref)                removing `subscript' on input line 487.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 473.
+(hyperref)                removing `math shift' on input line 487.
 
 Package hyperref Info: bookmark level for unknown corollary defaults to 0 on in
-put line 507.
+put line 521.
 [7]
 
 Package pgfplots Warning: Ignoring illegal input argument ymin=0: cannot apply 
-log. on input line 568.
+log. on input line 582.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
 Package pgfplots Warning: Ignoring illegal input argument ymin=0: cannot apply 
-log. on input line 682.
+log. on input line 696.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
-Overfull \hbox (16.61235pt too wide) in paragraph at lines 800--801
+Overfull \hbox (16.61235pt too wide) in paragraph at lines 814--815
  [][] 
  []
 
 
-LaTeX Warning: Reference `fig:structured-linear-regression' on page 8 undefined
- on input line 806.
+Underfull \vbox (badness 4518) has occurred while \output is active []
 
-
-Overfull \hbox (35.11533pt too wide) in paragraph at lines 1046--1068
+ [8]
+Overfull \hbox (35.11533pt too wide) in paragraph at lines 1060--1082
  [][] 
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[8] [9] (Robust Linear Regression.bbl
+[9] (Robust Linear Regression.bbl
 Underfull \hbox (badness 1728) in paragraph at lines 88--92
 \OT1/ptm/m/n/10 nonconcave min-i-max op-ti-miza-tion?, 2019.  URL []$\OT1/pcr/m
 /n/10 https : / / arxiv . org / abs / 1902 .
@@ -1450,32 +1455,32 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13]
 [14] [15] [16] [17] (residual0.tikz)
-Overfull \hbox (17.07068pt too wide) in paragraph at lines 108--1278
+Overfull \hbox (17.07068pt too wide) in paragraph at lines 108--1292
  [][] 
  []
 
 (residual2.tikz)
-Overfull \hbox (5.61261pt too wide) in paragraph at lines 109--1285
+Overfull \hbox (5.61261pt too wide) in paragraph at lines 109--1299
  [][] 
  []
 
 (residual4.tikz)
-Overfull \hbox (2.50221pt too wide) in paragraph at lines 109--1292
+Overfull \hbox (2.50221pt too wide) in paragraph at lines 109--1306
  [][] 
  []
 
 (residual6.tikz)
-Overfull \hbox (2.49306pt too wide) in paragraph at lines 109--1299
+Overfull \hbox (2.49306pt too wide) in paragraph at lines 109--1313
  [][] 
  []
 
 [18]
-Overfull \hbox (36.53603pt too wide) detected at line 1355
+Overfull \hbox (36.53603pt too wide) detected at line 1369
 []
  []
 
 
-Overfull \hbox (3.34038pt too wide) detected at line 1369
+Overfull \hbox (3.34038pt too wide) detected at line 1383
 []
  []
 
@@ -1483,7 +1488,7 @@ Overfull \hbox (3.34038pt too wide) detected at line 1369
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [19]
-Overfull \hbox (46.77383pt too wide) detected at line 1416
+Overfull \hbox (46.77383pt too wide) detected at line 1430
 []
  []
 
@@ -1492,72 +1497,64 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20]
 [21]
-Overfull \hbox (49.06316pt too wide) detected at line 1480
+Overfull \hbox (64.74622pt too wide) detected at line 1488
 []
  []
 
-[22] [23]
 
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1492.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1503.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1506
-\OT1/ptm/m/n/10 In the age of big data, stochas-tic meth-ods are nec-es-sary fo
-r fast train-ing of
+Overfull \hbox (23.43161pt too wide) detected at line 1499
+[]
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1506
-\OT1/ptm/m/n/10 mod-els to han-dle large amounts of data. In this sec-tion we w
-ill pro-vide
+[22]
+Overfull \hbox (49.06316pt too wide) detected at line 1509
+[]
  []
 
+[23]
 
-Underfull \hbox (badness 10000) in paragraph at lines 1485--1506
-\OT1/ptm/m/n/10 an al-go-rithm for Stochas-tic Sub-Quantile Op-ti-miza-tion and
- []prove con-ver-gence[].
- []
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1519.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1530.
 
 [24]
 
@@ -1568,21 +1565,18 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 \openout5 = `"Robust Linear Regression.ptc"'.
 
  [27] (Robust Linear Regression.aux)
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 229ED275B5E4657F3B17911EF4443A61;6381.
+(rerunfilecheck)             Checksum: 0C0FDC9F3E65140089583698A30DF9C2;6391.
  ) 
 Here is how much of TeX's memory you used:
- 41430 strings out of 478338
- 997122 string characters out of 2830528
- 1489191 words of memory out of 3000000
- 58876 multiletter control sequences out of 15000+600000
+ 41841 strings out of 478338
+ 1001336 string characters out of 2830528
+ 1487814 words of memory out of 3000000
+ 59285 multiletter control sequences out of 15000+600000
  500373 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,19n,104p,12773b,2549s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 100i,23n,104p,12773b,2549s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/ba
 se/8r.enc}<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Prog
@@ -1604,17 +1598,19 @@ rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Users/Arvind Rathna
 shyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C
 :/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmsy7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Arvind Rathnashyam/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm7.pfb><C:/Use
-rs/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucr
-r8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/
-urw/times/utmb8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX
-/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/P
-rograms/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Arvind Rathnashyam/Ap
-pData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "Robust Linear Regression.pdf" (27 pages, 514408 bytes).
+onts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Arvind Rathnashyam/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Us
+ers/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfont
+s/symbols/msbm7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/
+fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/P
+rograms/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Arvind Rathnashyam/Ap
+pData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind 
+Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/
+Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
+mri8a.pfb>
+Output written on "Robust Linear Regression.pdf" (27 pages, 525147 bytes).
 PDF statistics:
- 905 PDF objects out of 1000 (max. 8388607)
- 285 named destinations out of 1000 (max. 500000)
+ 910 PDF objects out of 1000 (max. 8388607)
+ 284 named destinations out of 1000 (max. 500000)
  333 words of extra memory for PDF output out of 10000 (max. 10000000)
 
