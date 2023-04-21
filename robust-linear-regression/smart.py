@@ -42,7 +42,6 @@ def TMLE(X, y, eps, eta, R, f):
         beta_prev = beta.value
 
 from data_loader import *
-# from RMSE import *
 from noise import *
 if __name__ == "__main__":
     
@@ -93,7 +92,7 @@ if __name__ == "__main__":
     means = []
     for j in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
-        y_train_noisy = noise_fn(X_train, y_train, noise)
+        X_train, y_train_noisy = noise_fn(X_train, y_train, noise)
         theta = TMLE(X_train,y_train_noisy, noise, eta_value, R_value,f)
         loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
         means.append(loss)

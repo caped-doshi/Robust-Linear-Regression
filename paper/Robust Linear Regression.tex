@@ -1161,40 +1161,62 @@
 	This concludes the proof. 
 	\end{proof}
 
-	\subsection{Proof of Theorem~\ref{thm:expected-value-corrupted-different}}
-	\label{app:expected-value-corrupted-different}
-	\begin{proof}
-	We start by noting new notation. $\displaystyle \mSigma_P$ represents the covariance matrix for $P$ and $\displaystyle \mSigma_Q$ represents the covariance matrix for $Q$.\vspace{1em}
+	\subsection{Corruption on Ridge Regression}
+	\begin{assumption}\label{asm:normal-sampling}
+		The rows of $\mP$ and $\mQ$ are sampled from $\vzero$ centered Normal Distributions.
+		\begin{equation*}
+			\mP_i \sim \mathcal{N}\left(\vzero, \mSigma_P\right)
+		\end{equation*}
+		\begin{equation}
+			\mQ_i \sim \mathcal{N}\left(\vzero, \mSigma_Q\right)
+		\end{equation}
+	\end{assumption}
+	
+	\begin{assumption}\label{asm:wishart}
+		By assumption \ref{asm:normal-sampling}, it thus follows that the matrices $\mP^\top\mP$ and $\mQ^\top\mQ$ are sampled from Wishart Distributions.
+		\begin{equation}
+			\mP^\top\mP \sim \mathcal{W}\left(n,\mSigma_P\right)
+		\end{equation}
+		\begin{equation}
+			\mQ^\top\mQ \sim \mathcal{W}\left(n, \mSigma_Q\right)
+		\end{equation}
+	\end{assumption}
+
+	\begin{assumption}\label{asm:identity-covariance}
+		Similar to the assumption made in \cite{bhatia2017}, to give theoretical bounds on the our algorithm, we assume the following:
+		\begin{equation}
+			\mSigma_P = \xi_P \mI 
+		\end{equation}
+		\begin{equation} 
+			\mSigma_Q = \xi_Q \mI 
+		\end{equation}
+		where $\xi_P,\xi_Q \geq 0$ 
+	\end{assumption}
+	The closed form solution for Ridge Regression with regularization parameter $\lambda$ is equal to the following:
 	\begin{equation}
-		\mathbb{E}\left[\mP^\top\mP\right] = n(1-\eps)\mSigma_P
-	\end{equation}\openup .5em
-	\begin{equation}
-		\mathbb{E}\left[\mQ^\top\mQ\right] = n\eps\mSigma_Q 
+		\hat{\vbeta} = \left(\mX^\top\mX+ \lambda \mI\right)^{-1}\mX^\top\vy
 	\end{equation}
-	It thus follows
+	We will solve for the expected solution given $\varepsilon^{(t)}$
+	\begin{align*}
+		\mathbb{E}&\left[\left(\mX^\top\mX+ \lambda \mI\right)^{-1}\mX^\top\vy\right] = \mathbb{E}\left[\left(\mP^\top \mP + \mQ^\top \mQ + \lambda \mI\right)^{-1}\mP^\top\vy_p + \left(\mP^\top \mP + \mQ^\top \mQ + \lambda \mI\right)^{-1}\mQ^\top\vy_q\right]&&\\
+		&= \mathbb{E}\left[\left(\mP^\top \mP + \mQ^\top \mQ + \lambda \mI\right)^{-1}\mP^\top\left(\mP \vbeta_P + \eps\right) + \left(\mP^\top \mP + \mQ^\top \mQ + \lambda \mI\right)^{-1}\mQ^\top\left(\mQ \vbeta_Q + \eps\right)\right] &&\\
+		&= \left(n\left(1-\varepsilon^{(t)}\right)\mSigma_P + n\varepsilon^{(t)}\mSigma_Q + \lambda \mI\right)^{-1}n\left(1-\varepsilon^{(t)}\right)\mSigma_P\vbeta_P + \left(n\left(1-\varepsilon^{(t)}\right)\mSigma_P + n\varepsilon^{(t)}\mSigma_Q + \lambda \mI\right)^{-1}n\varepsilon^{(t)}\mSigma_Q \vbeta_Q
+	\end{align*}
+	Now we will utilize assumption \ref{asm:identity-covariance}.
+	\begin{align*}
+		&= \left(n\left(1-\varepsilon^{(t)}\right)\xi_P\mI + n\varepsilon^{(t)}\xi_Q\mI + \lambda \mI\right)^{-1}n\left(1-\varepsilon^{(t)}\right)\xi_P\mI\vbeta_P + \left(n\left(1-\varepsilon^{(t)}\right)\xi_P\mI + n\varepsilon^{(t)}\xi_Q\mI + \lambda \mI\right)^{-1}n\varepsilon^{(t)}\xi_Q\mI \vbeta_Q &&\\
+		&= \left(n\left(\left(1-\varepsilon^{(t)}\right)\xi_P + \varepsilon^{(t)}\xi_Q\right) + \lambda\right)^{-1}n\left(1-\varepsilon^{(t)}\right)\vbeta_P + \left(n\left(\left(1-\varepsilon^{(t)}\right)\xi_P + \varepsilon^{(t)}\xi_Q\right) + \lambda\right)^{-1}n\varepsilon^{(t)}\vbeta_Q &&\\
+	\end{align*}
+	We will now represent the fractional form
+	\begin{align*}
+		&= \frac{n\left(1 - \varepsilon^{(t)}\right)\xi_P\vbeta_P + n\varepsilon^{(t)}\xi_Q\vbeta_Q}{n\left(\left(1-\varepsilon^{(t)}\right)\xi_P + \varepsilon^{(t)}\xi_Q\right) + \lambda} &&\\
+		&= \frac{\left(1 - \varepsilon^{(t)}\right)\xi_P\vbeta_P + \varepsilon^{(t)}\xi_Q\vbeta_Q}{\left(1-\varepsilon^{(t)}\right)\xi_P + \varepsilon^{(t)}\xi_Q + \frac{\lambda}{n}} &&\\
+	\end{align*}
+	In the simple case, where we have $0$ regularization and $\xi_P = \xi_Q = \mI$, the equation simplifies to:
 	\begin{equation}
-		\mathbb{E}\left[\mP^\top\mP + \mQ^\top\mQ\right] = \left(n(1-\eps)\mSigma_P + n\eps \mSigma_Q\right)
+		\hat{\vbeta} = \left(1-\varepsilon^{(t)}\right)\vbeta_P + \varepsilon^{(t)}\vbeta_Q
 	\end{equation}
-	This is where the structure of the proof differs from Theorem \ref{thm:expected-value-corrupted} because we can no longer follow the Inverse Wishart Distribution.
-	\begingroup
-	\addtolength{\jot}{1em}
-	\begin{align}
-		\mathbb{E}\left[\left(\mP^\top\mP + \mQ^\top\mQ\right)^{-1} \right] &= \left(n(1-\eps)\mSigma_P + n\eps \mSigma_Q\right)^{-1} &&
-		\intertext{Now we can use the Woodbury Formula \cite{Matrix-Computations}}
-		&= n(1-\eps)\mSigma_P^{-1} - n(1-\eps)\mSigma_P^{-1}(n\eps\mSigma_Q^{-1}) &&
-	\end{align}
-	\endgroup
-	We will now calculate the expected optimal parameters by plugging this into Equation \ref{eqn:OLS-optimal}:\vspace{1em}
-	\begingroup
-	\addtolength{\jot}{1em}
-	\begin{align}
-		\mathbb{E}\left[\mX^\dagger\vy\right] &= n(1-\eps)\mSigma_P^{-1}(\mP^T\mP)\vbeta_P - n(1-\eps)\mSigma_P^{-1}(n\eps\mSigma_Q^{-1})(\mQ^T\mQ)\vbeta_Q &&\\
-		&= n(1-\eps)\mSigma_P^{-1}(n(1-\eps)\mSigma_P)\vbeta_P - n(1-\eps)\mSigma_P^{-1}(n\eps\mSigma_Q^{-1})(n\eps\mSigma_Q)\vbeta_Q &&\\
-		&= \vbeta_P - n(1-\eps)\mSigma_P^{-1}\vbeta_Q &&
-	\end{align}
-	\endgroup
-	This concludes the proof.
-	\end{proof}
+	With this representation, we will be able to give strong theoretical guarantees for algorithm \ref{alg:sqo-ridge}.
 	
 	\newpage
 	\section{General Properties of Sub-Quantile Minimization}\label{app:general-proofs}

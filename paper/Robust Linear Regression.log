@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  20 APR 2023 17:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  20 APR 2023 23:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1381,6 +1381,10 @@ Package hyperref Info: bookmark level for unknown thm defaults to 0 on input li
 ne 339.
 [4]
 
+LaTeX Warning: Reference `app:expected-value-corrupted-different' on page 5 und
+efined on input line 353.
+
+
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 359.
 
@@ -1454,33 +1458,42 @@ Underfull \hbox (badness 1728) in paragraph at lines 88--92
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13]
-[14] [15] [16] [17] (residual0.tikz)
-Overfull \hbox (17.07068pt too wide) in paragraph at lines 108--1292
- [][] 
- []
-
-(residual2.tikz)
-Overfull \hbox (5.61261pt too wide) in paragraph at lines 109--1299
- [][] 
- []
-
-(residual4.tikz)
-Overfull \hbox (2.50221pt too wide) in paragraph at lines 109--1306
- [][] 
- []
-
-(residual6.tikz)
-Overfull \hbox (2.49306pt too wide) in paragraph at lines 109--1313
- [][] 
- []
-
-[18]
-Overfull \hbox (36.53603pt too wide) detected at line 1369
+Overfull \hbox (102.77187pt too wide) detected at line 1204
 []
  []
 
 
-Overfull \hbox (3.34038pt too wide) detected at line 1383
+Overfull \hbox (107.85533pt too wide) detected at line 1209
+[]
+ []
+
+[14] [15] [16] [17] (residual0.tikz)
+Overfull \hbox (17.07068pt too wide) in paragraph at lines 108--1314
+ [][] 
+ []
+
+(residual2.tikz)
+Overfull \hbox (5.61261pt too wide) in paragraph at lines 109--1321
+ [][] 
+ []
+
+(residual4.tikz)
+Overfull \hbox (2.50221pt too wide) in paragraph at lines 109--1328
+ [][] 
+ []
+
+(residual6.tikz)
+Overfull \hbox (2.49306pt too wide) in paragraph at lines 109--1335
+ [][] 
+ []
+
+[18]
+Overfull \hbox (36.53603pt too wide) detected at line 1391
+[]
+ []
+
+
+Overfull \hbox (3.34038pt too wide) detected at line 1405
 []
  []
 
@@ -1488,7 +1501,7 @@ Overfull \hbox (3.34038pt too wide) detected at line 1383
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [19]
-Overfull \hbox (46.77383pt too wide) detected at line 1430
+Overfull \hbox (46.77383pt too wide) detected at line 1452
 []
  []
 
@@ -1497,64 +1510,64 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [20]
 [21]
-Overfull \hbox (64.74622pt too wide) detected at line 1488
+Overfull \hbox (64.74622pt too wide) detected at line 1510
 []
  []
 
 
-Overfull \hbox (23.43161pt too wide) detected at line 1499
+Overfull \hbox (23.43161pt too wide) detected at line 1521
 []
  []
 
 [22]
-Overfull \hbox (49.06316pt too wide) detected at line 1509
+Overfull \hbox (49.06316pt too wide) detected at line 1531
 []
  []
 
 [23]
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1519.
+(relsize)                Using 7.0pt instead on input line 1541.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1530.
+(relsize)                Using 7.0pt instead on input line 1552.
 
 [24]
 
@@ -1565,15 +1578,18 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 \openout5 = `"Robust Linear Regression.ptc"'.
 
  [27] (Robust Linear Regression.aux)
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 0C0FDC9F3E65140089583698A30DF9C2;6391.
+(rerunfilecheck)             Checksum: 43CAA2E68F6D1483CC0FD031B3262BC3;6451.
  ) 
 Here is how much of TeX's memory you used:
- 41841 strings out of 478338
- 1001336 string characters out of 2830528
- 1487814 words of memory out of 3000000
- 59285 multiletter control sequences out of 15000+600000
+ 41851 strings out of 478338
+ 1001513 string characters out of 2830528
+ 1487891 words of memory out of 3000000
+ 59290 multiletter control sequences out of 15000+600000
  500373 words of font info for 93 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  100i,23n,104p,12773b,2549s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -1608,9 +1624,9 @@ pData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind
 Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/
 Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on "Robust Linear Regression.pdf" (27 pages, 525147 bytes).
+Output written on "Robust Linear Regression.pdf" (27 pages, 527915 bytes).
 PDF statistics:
- 910 PDF objects out of 1000 (max. 8388607)
- 284 named destinations out of 1000 (max. 500000)
+ 913 PDF objects out of 1000 (max. 8388607)
+ 289 named destinations out of 1000 (max. 500000)
  333 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -43,7 +43,7 @@ if __name__ == "__main__":
     
     parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='drug')
     parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
-    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=64)
+    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=10000)
     parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
     parser.add_argument('--learning_rate',help='learning rate for tilted optimization',type=float,default=0.1)
     parser.add_argument('--t', help='hyperparameter for TERM',type=float,default=-2.0)

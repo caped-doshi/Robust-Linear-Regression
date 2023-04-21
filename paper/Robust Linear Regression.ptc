@@ -15,7 +15,7 @@
 \ttl@starttoc {sections@1}
 \contentsline {section}{\numberline {A}Proofs on the effect of Linear Corruption}{13}{appendix.A}%
 \contentsline {subsection}{\numberline {A.1}Proof of Theorem\nobreakspace {}\ref {thm:expected-value-corrupted}}{13}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Proof of Theorem\nobreakspace {}\ref {thm:expected-value-corrupted-different}}{14}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.2}Corruption on Ridge Regression}{14}{subsection.A.2}%
 \contentsline {section}{\numberline {B}General Properties of Sub-Quantile Minimization}{15}{appendix.B}%
 \contentsline {subsection}{\numberline {B.1}Derivation of Lemma\nobreakspace {}\ref {lem:gfermat}}{15}{subsection.B.1}%
 \contentsline {subsection}{\numberline {B.2}Derivation of Lemma\nobreakspace {}\ref {lem:gthetaderiv}}{15}{subsection.B.2}%
