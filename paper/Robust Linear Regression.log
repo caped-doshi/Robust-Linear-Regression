@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  20 APR 2023 23:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  22 APR 2023 02:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -278,6 +278,33 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \xmathstrut@box=\box53
 \xmathstrut@dim=\dimen159
 )
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/geometry\g
+eometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/iftex\if
+vtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/iftex\if
+tex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+))
+\Gm@cnth=\count277
+\Gm@cntv=\count278
+\c@Gm@tempcnt=\count279
+\Gm@bindingoffset=\dimen160
+\Gm@wd@mp=\dimen161
+\Gm@odd@mp=\dimen162
+\Gm@even@mp=\dimen163
+\Gm@layoutwidth=\dimen164
+\Gm@layoutheight=\dimen165
+\Gm@layouthoffset=\dimen166
+\Gm@layoutvoffset=\dimen167
+\Gm@dimlist=\toks31
+
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/geometry\g
+eometry.cfg))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/caption\su
 bcaption.sty
 Package: subcaption 2022/01/07 v1.5 Sub-captions (AR)
@@ -289,21 +316,21 @@ Package: caption 2022/03/01 v3.6b Customizing captions (AR)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/caption\ca
 ption3.sty
 Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
-\caption@tempdima=\dimen160
-\captionmargin=\dimen161
-\caption@leftmargin=\dimen162
-\caption@rightmargin=\dimen163
-\caption@width=\dimen164
-\caption@indent=\dimen165
-\caption@parindent=\dimen166
-\caption@hangindent=\dimen167
+\caption@tempdima=\dimen168
+\captionmargin=\dimen169
+\caption@leftmargin=\dimen170
+\caption@rightmargin=\dimen171
+\caption@width=\dimen172
+\caption@indent=\dimen173
+\caption@parindent=\dimen174
+\caption@hangindent=\dimen175
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count277
-\c@continuedfloat=\count278
+\c@caption@flags=\count280
+\c@continuedfloat=\count281
 )
-\c@subfigure=\count279
-\c@subtable=\count280
+\c@subfigure=\count282
+\c@subtable=\count283
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/bbm\bbm.st
 y
@@ -320,17 +347,17 @@ Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/tools\arra
 y.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen168
+\col@sep=\dimen176
 \ar@mcellbox=\box54
-\extrarowheight=\dimen169
-\NC@list=\toks31
+\extrarowheight=\dimen177
+\NC@list=\toks32
 \extratabsurround=\skip70
 \backup@length=\skip71
 \ar@cellbox=\box55
 )
-\everycr=\toks32
+\everycr=\toks33
 \minrowclearance=\skip72
-\rownum=\count281
+\rownum=\count284
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\h
 yperref.sty
@@ -339,10 +366,6 @@ Package: hyperref 2022-06-20 v7.00s Hypertext links for LaTeX
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\
 ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-)
-(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/iftex\if
-tex.sty
-Package: iftex 2022/02/03 v1.0f TeX engine tests
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcm
 ds\pdftexcmds.sty
@@ -393,11 +416,11 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count282
+\c@section@level=\count285
 )
-\@linkdim=\dimen170
-\Hy@linkcounter=\count283
-\Hy@pagecounter=\count284
+\@linkdim=\dimen178
+\Hy@linkcounter=\count286
+\Hy@pagecounter=\count287
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\p
 d1enc.def
@@ -413,7 +436,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 \etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count285
+\Hy@SavedSpaceFactor=\count288
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\p
 uenc.def
@@ -428,7 +451,7 @@ Package hyperref Info: Plain pages OFF on input line 4177.
 Package hyperref Info: Backreferencing OFF on input line 4182.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4408.
-\c@Hy@tempcnt=\count286
+\c@Hy@tempcnt=\count289
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/url\url.st
 y
@@ -436,7 +459,7 @@ y
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4746.
-\XeTeXLinkMargin=\dimen171
+\XeTeXLinkMargin=\dimen179
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/bitset\b
 itset.sty
@@ -447,9 +470,9 @@ lc\bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count287
-\Field@Width=\dimen172
-\Fld@charsize=\dimen173
+\Fld@menulength=\count290
+\Field@Width=\dimen180
+\Fld@charsize=\dimen181
 Package hyperref Info: Hyper figures OFF on input line 6024.
 Package hyperref Info: Link nesting OFF on input line 6029.
 Package hyperref Info: Hyper index ON on input line 6032.
@@ -463,9 +486,9 @@ shi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count288
-\c@Item=\count289
-\c@Hfootnote=\count290
+\Hy@abspage=\count291
+\c@Item=\count292
+\c@Hfootnote=\count293
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -479,8 +502,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count291
-\c@bookmark@seq@number=\count292
+\Fld@listcount=\count294
+\c@bookmark@seq@number=\count295
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilec
 heck\rerunfilecheck.sty
@@ -519,9 +542,9 @@ ayer\pgf.sty
 ies\pgfrcs.sty
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/util
 ities\pgfutil-common.tex
-\pgfutil@everybye=\toks33
-\pgfutil@tempdima=\dimen174
-\pgfutil@tempdimb=\dimen175
+\pgfutil@everybye=\toks34
+\pgfutil@tempdima=\dimen182
+\pgfutil@tempdimb=\dimen183
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/util
 ities\pgfutil-common-lists.tex))
@@ -557,8 +580,8 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
 )
-\Gin@req@height=\dimen176
-\Gin@req@width=\dimen177
+\Gin@req@height=\dimen184
+\Gin@req@width=\dimen185
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/pgf/system
 layer\pgfsys.sty
@@ -568,33 +591,33 @@ Package: pgfsys 2021/05/15 v3.1.9a (3.1.9a)
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/util
 ities\pgfkeys.code.tex
-\pgfkeys@pathtoks=\toks34
-\pgfkeys@temptoks=\toks35
+\pgfkeys@pathtoks=\toks35
+\pgfkeys@temptoks=\toks36
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/util
 ities\pgfkeysfiltered.code.tex
-\pgfkeys@tmptoks=\toks36
+\pgfkeys@tmptoks=\toks37
 ))
-\pgf@x=\dimen178
-\pgf@y=\dimen179
-\pgf@xa=\dimen180
-\pgf@ya=\dimen181
-\pgf@xb=\dimen182
-\pgf@yb=\dimen183
-\pgf@xc=\dimen184
-\pgf@yc=\dimen185
-\pgf@xd=\dimen186
-\pgf@yd=\dimen187
+\pgf@x=\dimen186
+\pgf@y=\dimen187
+\pgf@xa=\dimen188
+\pgf@ya=\dimen189
+\pgf@xb=\dimen190
+\pgf@yb=\dimen191
+\pgf@xc=\dimen192
+\pgf@yc=\dimen193
+\pgf@xd=\dimen194
+\pgf@yd=\dimen195
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
-\c@pgf@counta=\count293
-\c@pgf@countb=\count294
-\c@pgf@countc=\count295
-\c@pgf@countd=\count296
-\t@pgf@toka=\toks37
-\t@pgf@tokb=\toks38
-\t@pgf@tokc=\toks39
-\pgf@sys@id@count=\count297
+\c@pgf@counta=\count296
+\c@pgf@countb=\count297
+\c@pgf@countc=\count298
+\c@pgf@countd=\count299
+\t@pgf@toka=\toks38
+\t@pgf@tokb=\toks39
+\t@pgf@tokc=\toks40
+\pgf@sys@id@count=\count300
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/syst
 emlayer\pgf.cfg
@@ -613,8 +636,8 @@ File: pgfsys-common-pdf.def 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/syst
 emlayer\pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfsyssoftpath@smallbuffer@items=\count298
-\pgfsyssoftpath@bigbuffer@items=\count299
+\pgfsyssoftpath@smallbuffer@items=\count301
+\pgfsyssoftpath@bigbuffer@items=\count302
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/syst
 emlayer\pgfsysprotocol.code.tex
@@ -632,12 +655,12 @@ Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
 \pgfmathutil.code.tex)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math
 \pgfmathparser.code.tex
-\pgfmath@dimen=\dimen188
-\pgfmath@count=\count300
+\pgfmath@dimen=\dimen196
+\pgfmath@count=\count303
 \pgfmath@box=\box57
-\pgfmath@toks=\toks40
-\pgfmath@stack@operand=\toks41
-\pgfmath@stack@operation=\toks42
+\pgfmath@toks=\toks41
+\pgfmath@stack@operand=\toks42
+\pgfmath@stack@operation=\toks43
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math
 \pgfmathfunctions.code.tex
@@ -659,39 +682,39 @@ Package: pgfcore 2021/05/15 v3.1.9a (3.1.9a)
 \pgfmathfunctions.integerarithmetics.code.tex)))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math
 \pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count301
+\c@pgfmathroundto@lastzeros=\count304
 ))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math
 \pgfint.code.tex)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@picminx=\dimen189
-\pgf@picmaxx=\dimen190
-\pgf@picminy=\dimen191
-\pgf@picmaxy=\dimen192
-\pgf@pathminx=\dimen193
-\pgf@pathmaxx=\dimen194
-\pgf@pathminy=\dimen195
-\pgf@pathmaxy=\dimen196
-\pgf@xx=\dimen197
-\pgf@xy=\dimen198
-\pgf@yx=\dimen199
-\pgf@yy=\dimen256
-\pgf@zx=\dimen257
-\pgf@zy=\dimen258
+\pgf@picminx=\dimen197
+\pgf@picmaxx=\dimen198
+\pgf@picminy=\dimen199
+\pgf@picmaxy=\dimen256
+\pgf@pathminx=\dimen257
+\pgf@pathmaxx=\dimen258
+\pgf@pathminy=\dimen259
+\pgf@pathmaxy=\dimen260
+\pgf@xx=\dimen261
+\pgf@xy=\dimen262
+\pgf@yx=\dimen263
+\pgf@yy=\dimen264
+\pgf@zx=\dimen265
+\pgf@zy=\dimen266
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@path@lastx=\dimen259
-\pgf@path@lasty=\dimen260
+\pgf@path@lastx=\dimen267
+\pgf@path@lasty=\dimen268
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@shorten@end@additional=\dimen261
-\pgf@shorten@start@additional=\dimen262
+\pgf@shorten@end@additional=\dimen269
+\pgf@shorten@start@additional=\dimen270
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcorescopes.code.tex
@@ -699,19 +722,19 @@ File: pgfcorescopes.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgfpic=\box58
 \pgf@hbox=\box59
 \pgf@layerbox@main=\box60
-\pgf@picture@serial@count=\count302
+\pgf@picture@serial@count=\count305
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgflinewidth=\dimen263
+\pgflinewidth=\dimen271
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@pt@x=\dimen264
-\pgf@pt@y=\dimen265
-\pgf@pt@temp=\dimen266
+\pgf@pt@x=\dimen272
+\pgf@pt@y=\dimen273
+\pgf@pt@temp=\dimen274
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcorequick.code.tex
@@ -728,14 +751,14 @@ File: pgfcorepathprocessing.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfarrowsep=\dimen267
+\pgfarrowsep=\dimen275
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@max=\dimen268
-\pgf@sys@shading@range@num=\count303
-\pgf@shadingcount=\count304
+\pgf@max=\dimen276
+\pgf@sys@shading@range@num=\count306
+\pgf@shadingcount=\count307
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basi
 clayer\pgfcoreimage.code.tex
@@ -774,8 +797,8 @@ File: pgfmoduleplot.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compat
 ibility\pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@nodesepstart=\dimen269
-\pgf@nodesepend=\dimen270
+\pgf@nodesepstart=\dimen277
+\pgf@nodesepend=\dimen278
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compat
 ibility\pgfcomp-version-1-18.sty
@@ -797,10 +820,10 @@ Package: pgffor 2021/05/15 v3.1.9a (3.1.9a)
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math
 \pgfmath.code.tex)
-\pgffor@iter=\dimen271
-\pgffor@skip=\dimen272
-\pgffor@stack=\toks43
-\pgffor@toks=\toks44
+\pgffor@iter=\dimen279
+\pgffor@skip=\dimen280
+\pgffor@stack=\toks44
+\pgffor@toks=\toks45
 ))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fron
 tendlayer/tikz\tikz.code.tex
@@ -809,34 +832,34 @@ Package: tikz 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libr
 aries\pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgf@plot@mark@count=\count305
-\pgfplotmarksize=\dimen273
+\pgf@plot@mark@count=\count308
+\pgfplotmarksize=\dimen281
 )
-\tikz@lastx=\dimen274
-\tikz@lasty=\dimen275
-\tikz@lastxsaved=\dimen276
-\tikz@lastysaved=\dimen277
-\tikz@lastmovetox=\dimen278
-\tikz@lastmovetoy=\dimen279
-\tikzleveldistance=\dimen280
-\tikzsiblingdistance=\dimen281
+\tikz@lastx=\dimen282
+\tikz@lasty=\dimen283
+\tikz@lastxsaved=\dimen284
+\tikz@lastysaved=\dimen285
+\tikz@lastmovetox=\dimen286
+\tikz@lastmovetoy=\dimen287
+\tikzleveldistance=\dimen288
+\tikzsiblingdistance=\dimen289
 \tikz@figbox=\box63
 \tikz@figbox@bg=\box64
 \tikz@tempbox=\box65
 \tikz@tempbox@bg=\box66
-\tikztreelevel=\count306
-\tikznumberofchildren=\count307
-\tikznumberofcurrentchild=\count308
-\tikz@fig@count=\count309
+\tikztreelevel=\count309
+\tikznumberofchildren=\count310
+\tikznumberofcurrentchild=\count311
+\tikz@fig@count=\count312
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modu
 les\pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
-\pgfmatrixcurrentrow=\count310
-\pgfmatrixcurrentcolumn=\count311
-\pgf@matrix@numberofcolumns=\count312
+\pgfmatrixcurrentrow=\count313
+\pgfmatrixcurrentcolumn=\count314
+\pgf@matrix@numberofcolumns=\count315
 )
-\tikz@expandcount=\count313
+\tikz@expandcount=\count316
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fron
 tendlayer/tikz/libraries\tikzlibrarytopaths.code.tex
@@ -852,12 +875,12 @@ Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
 \pgfplots.code.tex
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 \pgfplotscore.code.tex
-\t@pgfplots@toka=\toks45
-\t@pgfplots@tokb=\toks46
-\t@pgfplots@tokc=\toks47
-\pgfplots@tmpa=\dimen282
-\c@pgfplots@coordindex=\count314
-\c@pgfplots@scanlineindex=\count315
+\t@pgfplots@toka=\toks46
+\t@pgfplots@tokb=\toks47
+\t@pgfplots@tokc=\toks48
+\pgfplots@tmpa=\dimen290
+\c@pgfplots@coordindex=\count317
+\c@pgfplots@scanlineindex=\count318
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /sys\pgfplotssysgeneric.code.tex))
@@ -875,14 +898,14 @@ aries\pgflibraryfpu.code.tex))
 /liststructure\pgfplotsliststructureext.code.tex)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /liststructure\pgfplotsarray.code.tex
-\c@pgfplotsarray@tmp=\count316
+\c@pgfplotsarray@tmp=\count319
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /liststructure\pgfplotsmatrix.code.tex)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /numtable\pgfplotstableshared.code.tex
-\c@pgfplotstable@counta=\count317
-\t@pgfplotstable@a=\toks48
+\c@pgfplotstable@counta=\count320
+\t@pgfplotstable@a=\toks49
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /liststructure\pgfplotsdeque.code.tex)
@@ -894,7 +917,7 @@ aries\pgflibraryfpu.code.tex))
 /util\pgfplotsutil.verb.code.tex)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /libs\pgflibrarypgfplots.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count318
+\c@pgfplotslibrarysurf@no=\count321
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /sys\pgflibrarypgfplots.surfshading.pgfsys-pdftex.def)))
@@ -926,14 +949,14 @@ aries\pgflibraryfpu.code.tex))
 tendlayer/tikz/libraries\tikzlibrarydecorations.code.tex
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modu
 les\pgfmoduledecorations.code.tex
-\pgfdecoratedcompleteddistance=\dimen283
-\pgfdecoratedremainingdistance=\dimen284
-\pgfdecoratedinputsegmentcompleteddistance=\dimen285
-\pgfdecoratedinputsegmentremainingdistance=\dimen286
-\pgf@decorate@distancetomove=\dimen287
-\pgf@decorate@repeatstate=\count319
-\pgfdecorationsegmentamplitude=\dimen288
-\pgfdecorationsegmentlength=\dimen289
+\pgfdecoratedcompleteddistance=\dimen291
+\pgfdecoratedremainingdistance=\dimen292
+\pgfdecoratedinputsegmentcompleteddistance=\dimen293
+\pgfdecoratedinputsegmentremainingdistance=\dimen294
+\pgf@decorate@distancetomove=\dimen295
+\pgf@decorate@repeatstate=\count322
+\pgfdecorationsegmentamplitude=\dimen296
+\pgfdecorationsegmentlength=\dimen297
 )
 \tikz@lib@dec@box=\box67
 )
@@ -947,13 +970,13 @@ tendlayer/tikz/libraries\tikzlibrarydecorations.pathreplacing.code.tex
 aries/decorations\pgflibrarydecorations.pathreplacing.code.tex))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /libs\tikzlibrarypgfplots.contourlua.code.tex)
-\pgfplots@numplots=\count320
-\pgfplots@xmin@reg=\dimen290
-\pgfplots@xmax@reg=\dimen291
-\pgfplots@ymin@reg=\dimen292
-\pgfplots@ymax@reg=\dimen293
-\pgfplots@zmin@reg=\dimen294
-\pgfplots@zmax@reg=\dimen295
+\pgfplots@numplots=\count323
+\pgfplots@xmin@reg=\dimen298
+\pgfplots@xmax@reg=\dimen299
+\pgfplots@ymin@reg=\dimen300
+\pgfplots@ymax@reg=\dimen301
+\pgfplots@zmin@reg=\dimen302
+\pgfplots@zmax@reg=\dimen303
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fron
 tendlayer/tikz/libraries\tikzlibraryplotmarks.code.tex
@@ -966,10 +989,10 @@ File: pgflibraryplotmarks.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/float\floa
 t.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count321
-\float@exts=\toks49
+\c@float@type=\count324
+\float@exts=\toks50
 \float@box=\box68
-\@float@everytoks=\toks50
+\@float@everytoks=\toks51
 \@floatcapt=\box69
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fron
@@ -989,12 +1012,12 @@ File: pgfmoduledatavisualization.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modu
 les\pgfmoduleoo.code.tex
-\pgfoo@objectcount=\count322
-\pgfoothis@count=\count323
-\pgfoo@toks=\toks51
+\pgfoo@objectcount=\count325
+\pgfoothis@count=\count326
+\pgfoo@toks=\toks52
 )
-\pgf@lib@dv@cache@count=\count324
-\pgf@lib@dv@cache@count=\count325
+\pgf@lib@dv@cache@count=\count327
+\pgf@lib@dv@cache@count=\count328
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fron
 tendlayer/tikz/libraries\tikzlibrarybackgrounds.code.tex
@@ -1002,7 +1025,7 @@ File: tikzlibrarybackgrounds.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \pgf@layerbox@background=\box70
 \pgf@layerboxsaved@background=\box71
 )
-\tikzdvvisualizercounter=\count326
+\tikzdvvisualizercounter=\count329
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libr
 aries/datavisualization\pgflibrarydatavisualization.formats.functions.code.tex
@@ -1017,7 +1040,7 @@ File: pgflibrarydatavisualization.formats.functions.code.tex 2021/05/15 v3.1.9a
 tendlayer/tikz/libraries\tikzlibraryintersections.code.tex
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libr
 aries\pgflibraryintersections.code.tex
-\pgf@intersect@solutions=\count327
+\pgf@intersect@solutions=\count330
 ))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /pgfcontrib\tikzlibrarydecorations.softclip.code.tex
@@ -1027,9 +1050,9 @@ aries\pgflibraryintersections.code.tex
 /libs\tikzlibrarypgfplots.decorations.softclip.code.tex))
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots
 /libs\tikzlibrarypgfplots.groupplots.code.tex
-\pgfplots@group@current@plot=\count328
-\pgfplots@group@current@row=\count329
-\pgfplots@group@current@column=\count330
+\pgfplots@group@current@plot=\count331
+\pgfplots@group@current@row=\count332
+\pgfplots@group@current@column=\count333
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/generic/pgf/fron
 tendlayer/tikz/libraries\tikzlibrarycalc.code.tex
@@ -1039,13 +1062,13 @@ File: tikzlibrarycalc.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 tendlayer/tikz/libraries\tikzlibrarymatrix.code.tex
 File: tikzlibrarymatrix.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 )
-\c@thm=\count331
-\c@lemma=\count332
-\c@definition=\count333
-\c@assumption=\count334
-\c@interpretation=\count335
-\c@proposition=\count336
-\c@corollary=\count337
+\c@thm=\count334
+\c@lemma=\count335
+\c@definition=\count336
+\c@assumption=\count337
+\c@interpretation=\count338
+\c@proposition=\count339
+\c@corollary=\count340
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/algorithmi
 cx\algpseudocode.sty
@@ -1060,15 +1083,15 @@ cx\algorithmicx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count338
-\c@ALG@rem=\count339
-\c@ALG@nested=\count340
+\c@ALG@line=\count341
+\c@ALG@rem=\count342
+\c@ALG@nested=\count343
 \ALG@tlm=\skip74
 \ALG@thistlm=\skip75
-\c@ALG@Lnr=\count341
-\c@ALG@blocknr=\count342
-\c@ALG@storecount=\count343
-\c@ALG@tmpcounter=\count344
+\c@ALG@Lnr=\count344
+\c@ALG@blocknr=\count345
+\c@ALG@storecount=\count346
+\c@ALG@tmpcounter=\count347
 \ALG@tmplength=\skip76
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
@@ -1076,13 +1099,13 @@ Document Style - pseudocode environments for use with the `algorithmicx' style
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/algorithm2
 e\algorithm2e.sty
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count345
+\c@AlgoLine=\count348
 \algocf@hangindent=\skip77
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/ifoddpage\
 ifoddpage.sty
 Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
-\c@checkoddpage=\count346
+\c@checkoddpage=\count349
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/tools\xspa
 ce.sty
@@ -1100,12 +1123,12 @@ Package: relsize 2013/03/29 ver 4.1
 \skiplength=\skip83
 \algomargin=\skip84
 \skipalgocfslide=\skip85
-\algowidth=\dimen296
-\inoutsize=\dimen297
-\inoutindent=\dimen298
-\interspacetitleruled=\dimen299
-\interspacealgoruled=\dimen300
-\interspacetitleboxruled=\dimen301
+\algowidth=\dimen304
+\inoutsize=\dimen305
+\inoutindent=\dimen306
+\interspacetitleruled=\dimen307
+\interspacealgoruled=\dimen308
+\interspacetitleboxruled=\dimen309
 \algocf@ruledwidth=\skip86
 \algocf@inoutbox=\box72
 \algocf@inputbox=\box73
@@ -1122,51 +1145,51 @@ Package: relsize 2013/03/29 ver 4.1
 \algoheightrule=\skip93
 \algotitleheightruledefault=\skip94
 \algotitleheightrule=\skip95
-\c@algocfline=\count347
-\c@algocfproc=\count348
-\c@algocf=\count349
+\c@algocfline=\count350
+\c@algocfproc=\count351
+\c@algocf=\count352
 \algocf@algoframe=\box78
 \algocf@algobox=\box79
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/appendix\a
 ppendix.sty
 Package: appendix 2020/02/08 v1.2c extra appendix facilities
-\c@@pps=\count350
-\c@@ppsavesec=\count351
-\c@@ppsaveapp=\count352
+\c@@pps=\count353
+\c@@ppsavesec=\count354
+\c@@ppsaveapp=\count355
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\t
 itletoc.sty
 Package: titletoc 2021/07/05 v2.14 TOC entries
-\ttl@leftsep=\dimen302
+\ttl@leftsep=\dimen310
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\b
 ooktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen303
-\lightrulewidth=\dimen304
-\cmidrulewidth=\dimen305
-\belowrulesep=\dimen306
-\belowbottomsep=\dimen307
-\aboverulesep=\dimen308
-\abovetopsep=\dimen309
-\cmidrulesep=\dimen310
-\cmidrulekern=\dimen311
-\defaultaddspace=\dimen312
-\@cmidla=\count353
-\@cmidlb=\count354
-\@aboverulesep=\dimen313
-\@belowrulesep=\dimen314
-\@thisruleclass=\count355
-\@lastruleclass=\count356
-\@thisrulewidth=\dimen315
+\heavyrulewidth=\dimen311
+\lightrulewidth=\dimen312
+\cmidrulewidth=\dimen313
+\belowrulesep=\dimen314
+\belowbottomsep=\dimen315
+\aboverulesep=\dimen316
+\abovetopsep=\dimen317
+\cmidrulesep=\dimen318
+\cmidrulekern=\dimen319
+\defaultaddspace=\dimen320
+\@cmidla=\count356
+\@cmidlb=\count357
+\@aboverulesep=\dimen321
+\@belowrulesep=\dimen322
+\@thisruleclass=\count358
+\@lastruleclass=\count359
+\@thisrulewidth=\dimen323
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/tools\dcol
 umn.sty
 Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
 )
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 1
-09.
+11.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 ptm.fd
@@ -1175,44 +1198,44 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\
 l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count357
+\l__color_backend_stack_int=\count360
 \l__pdf_internal_box=\box80
 ) (Robust Linear Regression.aux)
 \openout1 = `"Robust Linear Regression.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 109.
-LaTeX Font Info:    ... okay on input line 109.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 111.
+LaTeX Font Info:    ... okay on input line 111.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/context/base/mki
 i\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count358
-\scratchdimen=\dimen316
+\scratchcounter=\count361
+\scratchdimen=\dimen324
 \scratchbox=\box81
-\nofMPsegments=\count359
-\nofMParguments=\count360
-\everyMPshowfont=\toks52
-\MPscratchCnt=\count361
-\MPscratchDim=\dimen317
-\MPnumerator=\count362
-\makeMPintoPDFobject=\count363
-\everyMPtoPDFconversion=\toks53
+\nofMPsegments=\count362
+\nofMParguments=\count363
+\everyMPshowfont=\toks53
+\MPscratchCnt=\count364
+\MPscratchDim=\dimen325
+\MPnumerator=\count365
+\makeMPintoPDFobject=\count366
+\everyMPtoPDFconversion=\toks54
 )
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-p
 kg\epstopdf-base.sty
@@ -1224,34 +1247,64 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 pstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
+* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=430.00462pt
+* \textheight=556.47656pt
+* \oddsidemargin=19.8752pt
+* \evensidemargin=19.8752pt
+* \topmargin=-31.94011pt
+* \headheight=12.0pt
+* \headsep=43.06749pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=5.05942pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 109.
- (Robust Linear Regression.out) (Robust Linear Regression.out)
+Package hyperref Info: Link coloring OFF on input line 111.
+(Robust Linear Regression.out) (Robust Linear Regression.out)
 \@outlinefile=\write4
 \openout4 = `"Robust Linear Regression.out"'.
+
 
 
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 109.
+ on input line 111.
 
-
-Underfull \hbox (badness 1881) in paragraph at lines 112--112
-[]\OT1/ptm/m/sc/17.28 Robust Lin-ear Re-gres-sion by Sub-Quantile
- []
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 112
+LaTeX Font Info:    Trying to load font information for U+msa on input line 114
 .
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
 msa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 112
+LaTeX Font Info:    Trying to load font information for U+msb on input line 114
 .
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\u
@@ -1259,340 +1312,339 @@ msb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-12.
+14.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
 pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 1
-12.
+14.
 
 (C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\oms
 pcr.fd
 File: omspcr.fd 
 )
 LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 112.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 114.
  [1
 
 {C:/Users/Arvind Rathnashyam/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
  [2]
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
-nput line 224.
+nput line 226.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [3]
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 270.
+(relsize)                Using 7.0pt instead on input line 272.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 284.
+(relsize)                Using 7.0pt instead on input line 286.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 294.
+(relsize)                Using 7.0pt instead on input line 296.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 
-Overfull \hbox (56.11897pt too wide) in paragraph at lines 302--302
+Overfull \hbox (40.50969pt too wide) in paragraph at lines 304--304
 \OML/cmm/m/it/10 t[][]$  
  []
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 302.
+(relsize)                Using 7.0pt instead on input line 304.
 
 Package hyperref Info: bookmark level for unknown assumption defaults to 0 on i
-nput line 309.
+nput line 311.
 
-Underfull \hbox (badness 10000) in paragraph at lines 329--332
+Underfull \vbox (badness 4621) has occurred while \output is active []
+
+ [4]
+Underfull \hbox (badness 10000) in paragraph at lines 331--334
 
  []
 
 Package hyperref Info: bookmark level for unknown thm defaults to 0 on input li
-ne 339.
-[4]
+ne 341.
 
 LaTeX Warning: Reference `app:expected-value-corrupted-different' on page 5 und
-efined on input line 353.
+efined on input line 355.
+
+
+Underfull \vbox (badness 1946) has occurred while \output is active []
+
+ [5]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 361.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 359.
+(hyperref)                removing `\theta' on input line 361.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\theta' on input line 359.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 359.
+(hyperref)                removing `math shift' on input line 361.
 
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
-line 366.
+line 368.
 Package hyperref Info: bookmark level for unknown interpretation defaults to 0 
-on input line 401.
-[5]
-Package hyperref Info: bookmark level for unknown proposition defaults to 0 on 
-input line 453.
+on input line 403.
+
+Underfull \vbox (badness 1281) has occurred while \output is active []
+
  [6]
+Package hyperref Info: bookmark level for unknown proposition defaults to 0 on 
+input line 455.
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 487.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\beta' on input line 487.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 487.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 487.
-
-Package hyperref Info: bookmark level for unknown corollary defaults to 0 on in
-put line 521.
 [7]
 
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 489.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\beta' on input line 489.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 489.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 489.
+
+Package hyperref Info: bookmark level for unknown corollary defaults to 0 on in
+put line 523.
+[8]
+
 Package pgfplots Warning: Ignoring illegal input argument ymin=0: cannot apply 
-log. on input line 582.
+log. on input line 584.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
 Package pgfplots Warning: Ignoring illegal input argument ymin=0: cannot apply 
-log. on input line 696.
+log. on input line 698.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
-Overfull \hbox (16.61235pt too wide) in paragraph at lines 814--815
+Overfull \hbox (2.59569pt too wide) in paragraph at lines 1062--1084
  [][] 
  []
 
-
-Underfull \vbox (badness 4518) has occurred while \output is active []
-
- [8]
-Overfull \hbox (35.11533pt too wide) in paragraph at lines 1060--1082
- [][] 
- []
-
-[9] (Robust Linear Regression.bbl
-Underfull \hbox (badness 1728) in paragraph at lines 88--92
-\OT1/ptm/m/n/10 nonconcave min-i-max op-ti-miza-tion?, 2019.  URL []$\OT1/pcr/m
-/n/10 https : / / arxiv . org / abs / 1902 .
- []
-
-[10]) [11]
-\c@ttl@toc@sections=\count364
- (Robust Linear Regression.ptc) [12]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [13]
-Overfull \hbox (102.77187pt too wide) detected at line 1204
-[]
- []
-
-
-Overfull \hbox (107.85533pt too wide) detected at line 1209
-[]
- []
-
-[14] [15] [16] [17] (residual0.tikz)
-Overfull \hbox (17.07068pt too wide) in paragraph at lines 108--1314
- [][] 
- []
-
-(residual2.tikz)
-Overfull \hbox (5.61261pt too wide) in paragraph at lines 109--1321
- [][] 
- []
-
-(residual4.tikz)
-Overfull \hbox (2.50221pt too wide) in paragraph at lines 109--1328
- [][] 
- []
-
-(residual6.tikz)
-Overfull \hbox (2.49306pt too wide) in paragraph at lines 109--1335
- [][] 
- []
-
-[18]
-Overfull \hbox (36.53603pt too wide) detected at line 1391
-[]
- []
-
-
-Overfull \hbox (3.34038pt too wide) detected at line 1405
-[]
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [19]
-Overfull \hbox (46.77383pt too wide) detected at line 1452
-[]
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [20]
-[21]
-Overfull \hbox (64.74622pt too wide) detected at line 1510
-[]
- []
-
-
-Overfull \hbox (23.43161pt too wide) detected at line 1521
-[]
- []
-
-[22]
-Overfull \hbox (49.06316pt too wide) detected at line 1531
-[]
- []
-
-[23]
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1541.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-
-Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1552.
-
-[24]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(final-epsilon-base-learner.tex) [25] [26]
+[9] [10] [11] (Robust Linear Regression.bbl [12]) [13]
+\c@ttl@toc@sections=\count367
+
+(Robust Linear Regression.ptc) [14]
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 500.484pt, 56.9055pt)
+* v-part:(T,H,B)=(95.39737pt, 642.66711pt, 56.9055pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=500.484pt
+* \textheight=642.66711pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-31.94011pt
+* \headheight=12.0pt
+* \headsep=43.06749pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=5.05942pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+ [15
+
+]
+Overfull \hbox (42.39172pt too wide) detected at line 1198
+[]
+ []
+
+[16]
+Underfull \vbox (badness 1082) has occurred while \output is active []
+
+ [17]
+[18] [19] (residual0.tikz) (residual2.tikz) (residual4.tikz) (residual6.tikz)
+Underfull \vbox (badness 1383) has occurred while \output is active []
+
+ [20]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [22]
+[23] [24] [25]
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1524.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Package relsize Warning: Font size 6.94446pt is too small.
+(relsize)                Using 7.0pt instead on input line 1535.
+
+
+Underfull \hbox (badness 7740) in paragraph at lines 1518--1538
+\OT1/ptm/m/n/10 In the age of big data, stochas-tic meth-ods are nec-es-sary fo
+r fast train-ing of mod-els to han-dle large
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1518--1538
+\OT1/ptm/m/n/10 amounts of data. In this sec-tion we pro-vide an al-go-rithm fo
+r Stochas-tic Sub-Quantile Op-ti-miza-tion.
+ []
+
+[26]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(final-epsilon-base-learner.tex) [27] [28]
 \tf@ptc=\write5
 \openout5 = `"Robust Linear Regression.ptc"'.
 
- [27] (Robust Linear Regression.aux)
+ [29] (Robust Linear Regression.aux)
 
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 43CAA2E68F6D1483CC0FD031B3262BC3;6451.
+(rerunfilecheck)             Checksum: 54005E61918CC4E0174251B7959A83BA;6548.
  ) 
 Here is how much of TeX's memory you used:
- 41851 strings out of 478338
- 1001513 string characters out of 2830528
- 1487891 words of memory out of 3000000
- 59290 multiletter control sequences out of 15000+600000
- 500373 words of font info for 93 fonts, out of 8000000 for 9000
+ 42317 strings out of 478338
+ 1009031 string characters out of 2830528
+ 1497482 words of memory out of 3000000
+ 59765 multiletter control sequences out of 15000+600000
+ 501469 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,23n,104p,12773b,2549s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 100i,23n,104p,12773b,2544s stack positions out of 10000i,1000n,20000p,200000b,80000s
 {C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/ba
 se/8r.enc}<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Prog
@@ -1624,9 +1676,9 @@ pData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind
 Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/
 Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mri8a.pfb>
-Output written on "Robust Linear Regression.pdf" (27 pages, 527915 bytes).
+Output written on "Robust Linear Regression.pdf" (29 pages, 525432 bytes).
 PDF statistics:
- 913 PDF objects out of 1000 (max. 8388607)
- 289 named destinations out of 1000 (max. 500000)
+ 888 PDF objects out of 1000 (max. 8388607)
+ 271 named destinations out of 1000 (max. 500000)
  333 words of extra memory for PDF output out of 10000 (max. 10000000)
 

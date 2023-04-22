@@ -44,7 +44,6 @@ def SubQ2(X, y, T, p):
     ridge = Ridge(2, fit_intercept=True, solver='cholesky')
     ridge.fit(X[:, :-1], y)
     theta = np.append(ridge.coef_, [ridge.intercept_])
-    #theta = np.matmul(np.linalg.pinv(X),y)
     L = np.linalg.norm(np.matmul(np.transpose(X_np),X_np),2)
     t = 0
     for i in range(T):
@@ -102,7 +101,7 @@ if __name__ == "__main__":
     elif dataset == 'synthetic':
         n = parsed['n']
         d = parsed['d']
-        X, y = gaussian(n, d) 
+        X, y, m, b = gaussian(n, d) 
 
     if noise_type == "oblivious":
         noise_fn = addObliviousNoise

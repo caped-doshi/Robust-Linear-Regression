@@ -83,14 +83,14 @@ def gaussian(n,d):
     x = np.zeros((n,d+1))
     y = np.zeros((n))
     for i in range(n):
-        X = np.random.normal(0, 3,d)
+        X = np.random.normal(0, 1,d)
         x[i,0:d] = X
         x[i,d] = 1
-    m = np.random.normal(4,4,d)
-    b = np.random.normal(4,4)
+    m = np.random.normal(4,0,d)
+    b = np.random.normal(4,0)
 
     for i in range(n):
         t = np.random.normal(np.dot(np.transpose(m),x[i,0:d]) + b,0.01)
         y[i] = t
-
+    print(f"m:\t{m}\tb:\t{b}")
     return x, y, m, b
