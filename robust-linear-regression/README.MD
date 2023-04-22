@@ -25,6 +25,28 @@ options:
   --d D                 dim for synthetic data
 ```
 
+Term 
+```
+usage: term.py [-h] [--dataset DATASET] [--num_trials NUM_TRIALS] [--num_iters NUM_ITERS] [--noise_type NOISE_TYPE]
+               [--learning_rate LEARNING_RATE] [--t T] [--noise NOISE] [--n N] [--d D]
+
+options:
+  -h, --help            show this help message and exit
+  --dataset DATASET     dataset; drug, cal_housing, abalone, or synthetic
+  --num_trials NUM_TRIALS
+                        run how many times
+  --num_iters NUM_ITERS
+                        how many iterations of algorithm
+  --noise_type NOISE_TYPE
+                        oblivious, adaptive, or feature
+  --learning_rate LEARNING_RATE
+                        learning rate for tilted optimization
+  --t T                 hyperparameter for TERM
+  --noise NOISE         noise ratio in range (0, 1)
+  --n N                 samples for synthetic data
+  --d D                 dim for synthetic data
+```
+
 Sever
 ```
 usage: sever.py [-h] [--num_trials NUM_TRIALS] [--iters ITERS] [--reg REG] [--p P] [--noise NOISE]
@@ -41,6 +63,25 @@ options:
   --noise_type NOISE_TYPE
                         oblivious, adaptive, or feature
   --dataset DATASET     dataset; drug, cal_housing, abalone, or synthetic
+  --n N                 samples for synthetic data
+  --d D                 dim for synthetic data
+```
+
+SMART 
+```
+usage: smart.py [-h] [--dataset DATASET] [--num_trials NUM_TRIALS] [--R_val R_VAL] [--eta_val ETA_VAL]
+                [--noise_type NOISE_TYPE] [--noise NOISE] [--n N] [--d D]
+
+options:
+  -h, --help            show this help message and exit
+  --dataset DATASET     dataset; drug, cal_housing, abalone, or synthetic
+  --num_trials NUM_TRIALS
+                        run how many times
+  --R_val R_VAL         hyperparameter for SMART
+  --eta_val ETA_VAL     hyperparameter for SMART
+  --noise_type NOISE_TYPE
+                        oblivious, adaptive, or feature
+  --noise NOISE         noise ratio in range (0, 1)
   --n N                 samples for synthetic data
   --d D                 dim for synthetic data
 ```
