@@ -61,6 +61,7 @@
 \declaretheorem[name=Interpretation]{interpretation}
 \declaretheorem[name=Proposition]{proposition}
 \declaretheorem[name=Corollary,numberwithin=thm]{corollary}
+\declaretheorem[name=Fact]{fact}
 
 \usepackage{algpseudocode}
 \usepackage{xcolor}
@@ -194,7 +195,7 @@
 	
 	SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} proposes the \textit{iterative trimmed maximum likelihood estimator} against adversarially corrupted samples in General Linear Models (GLM). The estimator is defined as follows, where $S = \{(\vx_i,y_i)\}_{i=1}^n$ represents the training data. \vspace{1em}
 	\begin{equation}
-		\hat{\vtheta}(S) = \min_{\vtheta} \min_{\hat{S} \subset S, |\hat{S}| = (1-\eps)n} \sum_{(\vx_i,y_i) \in S} -\log f(y_i|\vtheta^\top\vx_i)
+		\hat{\vtheta}(S) = \min_{\vtheta} \min_{\hat{S} \subset S, |\hat{S}| = (1-\eps)n} \sum_{(\vx_i,y_i) \in S} -\log f(y_i|\vtheta^T\vx_i)
 	\end{equation}
 	This estimator is proven to return near-optimal risk on a variety of linear models, including Gaussian regression, Poisson regression, and binomial regression; these achievements can be demonstrated on label and covariate corruptions.
 	
@@ -232,10 +233,9 @@
 	\begin{definition}
 		Let $\ell$ be the loss function. \textbf{Risk} is defined as follows
 		\begin{equation}
-			U = \mathbb{E}\left[\ell \left( f(\vx;\vtheta,y)\right)\right]
+			U = \mathbb{E}_{(\vx,y) \sim \mathbb{P}}\left[\ell \left( f(\vx;\vtheta,y)\right)\right]
 		\end{equation}
 	\end{definition}
-	
 	The $\mathbf{p}$-\textbf{Quantile} of the Empirical Risk is given
 	\begin{equation}\label{eqn:sub-quantile}
 		\mathbb{L}_p(U) = \frac{1}{p}\int_0^p \mathcal{Q}_q(U)\,dq = \mathbb{E}\left[U|U \leq \mathcal{Q}_p(U) \right] = \max_{t\in \mathbb{R}}\left\{t - \frac{1}{p}\mathbb{E}\left[(t-U)^+\right]\right\}
@@ -249,7 +249,7 @@
 	For the linear regression case, this equation becomes 
 	\begin{equation}
 		\label{eqn:theta_sm}
-		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vtheta^\top\vx_i - y_i)^2)^+\right\}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vtheta^T\vx_i - y_i)^2)^+\right\}
 	\end{equation}
 		
 	The two-step optimization for Sub-Quantile optimization is given as follows \vspace{1em}
@@ -269,7 +269,7 @@
 		
 		\KwInput{Training iterations $T$, Quantile $p$, SubQuantile Update: $j$}
 		\KwOutput{Trained Parameters, $\displaystyle \vtheta_{(T)}$}
-		$\vtheta_{(0)} \gets (X^\top X)^{-1}X^\top y$\\
+		$\vtheta_{(0)} \gets (X^T X)^{-1}X^T y$\\
 		\For{$k \in 1,2,\ldots,T$}
 		{
 			$\displaystyle \vnu \gets \left(X\vtheta_{(k)} - y\right)^2$\\
@@ -278,8 +278,8 @@
 				$\hat{\vnu} \gets sorted(\vnu)$\\
 				$\displaystyle t_{(k+1)} \gets \hat{\vnu}_{np}$\\
 			}
-			$S_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^\top \vx_i - y_i)^2 \leq t_{(k+1)}$\\
-			$L_{(k)} \gets \frac{1}{np}\norm{S^\top S}_2$\\
+			$S_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^T \vx_i - y_i)^2 \leq t_{(k+1)}$\\
+			$L_{(k)} \gets \frac{1}{np}\norm{S^T S}_2$\\
 			$\alpha_{(k)} \gets \frac{1}{2L_{(k)}}$\\
 			$\displaystyle \vtheta_{(k+1)} \gets \vtheta_k - \alpha_{(k)} \nabla_\vtheta g(t_{(k+1)},\vtheta_{(k)})$
 		}
@@ -293,13 +293,13 @@
 		\begin{algorithm}[H]
 			\KwInput{Training Iterations $T$,Quantile $p$}
 			\KwOutput{Trained Parameters, $\vtheta_{(T)}$}
-			$\vtheta_{(0)} \gets (X^\top X + \lambda I)^{-1}X^\top y$\\
+			$\vtheta_{(0)} \gets (X^T X + \lambda I)^{-1}X^T y$\\
 			\For{$k \in \left\{1,2,\dots,T\right\}$}
 			{
 				$\vnu \gets (X \vtheta_{(k)} - y)^2$\\
 				$t_{(k+1)} \gets \hat{\vnu}_{np}$\\
-				$S_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^\top \vx_i - y_i)^2 \leq t_{(k+1)} \text{ where $\concat$ represents the concatenation operator}$\\
-				$\vtheta_{(k+1)} \gets (S^\top S + \lambda I)^{-1}S^\top y_S$\\
+				$S_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^T \vx_i - y_i)^2 \leq t_{(k+1)} \text{ where $\concat$ represents the concatenation operator}$\\
+				$\vtheta_{(k+1)} \gets (S^T S + \lambda I)^{-1}S^T y_S$\\
 			}
 			\KwRet{$ \vtheta_T $}
 			\caption{Sub-Quantile Minimization for Ridge Regression}
@@ -311,11 +311,11 @@
 	\begin{assumption}\label{asm:normal-corruption}
 		To provide theoretical bounds on the effectiveness of Sub-Quantile Minimization, we make the General Linear Model Assumption that
 		\begin{equation}\vspace{1em}
-			\vy_P = \vbeta_P^\top P  + \eps_P
+			\vy_P = P\vbeta_P  + \eps_P
 		\end{equation}
 		and similarly 
 		\begin{equation}
-			\vy_Q = \vbeta_Q^\top Q + \eps_Q
+			\vy_Q = Q \vbeta_Q + \eps_Q
 		\end{equation}
 		where $\vbeta_P$ and $\vbeta_Q$ the \textit{oracle} regressors for $\mathbb{P}$ and $\mathbb{Q}$ and $\eps_P$ and $\eps_Q$ are both Normally Distributed with mean $0$.  
 	\end{assumption}
@@ -328,9 +328,9 @@
 		\end{equation}
 	\end{assumption}
 	
-	We will use our assumptions to quantify the effect of the corrupted data on an optimal least squares regression model. We are interested in $\displaystyle (X^\top X)^{-1}X^\top y - (P^\top P)^{-1}P^\top y$.
-	It is know the least squares optimal solution for $X$ is equal to $(X^\top X)^{-1}X^\top y$\\
-	Note $\displaystyle X = \begin{pmatrix}P \\ Q \end{pmatrix}$ and $\displaystyle y = \begin{pmatrix} \vy_P \\ \vy_Q \end{pmatrix} $so $X^\top = \begin{pmatrix}P^\top & Q^\top \end{pmatrix}$\\
+	We will use our assumptions to quantify the effect of the corrupted data on an optimal least squares regression model. We are interested in $\displaystyle (X^T X)^{-1}X^T y - (P^T P)^{-1}P^T y$.
+	It is know the least squares optimal solution for $X$ is equal to $(X^T X)^{-1}X^T y$\\
+	Note $\displaystyle X = \begin{pmatrix}P \\ Q \end{pmatrix}$ and $\displaystyle y = \begin{pmatrix} \vy_P \\ \vy_Q \end{pmatrix} $so $X^T = \begin{pmatrix}P^T & Q^T \end{pmatrix}$\\
 	
 	\begin{restatable}{thm}{expected-value-corrupted}\label{thm:expected-value-corrupted}
 		The expected optimal parameters of the corrupted model $\hat{\mathbb{P}}$\vspace{1em}
@@ -345,14 +345,6 @@
 	Here we utilize the idea of \textit{influence} from \cite{McWilliams2014}.
 	
 	Theorem \ref{thm:expected-value-corrupted} finds the optimal model when the corrupted distribution is sampled from the same distribution as the target distribution but has different optimal parameters. We will now look at the case of feature corruption. This is where the optimal parameters of the two distributions are the same but the data from $\mathbb{P}$ and $\mathbb{Q}$ are sampled differently. 
-	
-	\begin{restatable}{thm}{expected-value-corrupted-different}\label{thm:expected-value-corrupted-different}
-		In the case of $\mathbb{P}$ and $\mathbb{Q}$ being from different Normal Distributions. The expected optimal parameters of the corrupted model $\hat{\mathbb{P}}$\vspace{1em}
-		\begin{equation}
-			\mathbb{E}\left[X^{\dagger}y \right] = \vbeta_P - n(1-\eps)\Sigma_P^{-1}\vbeta_Q
-		\end{equation}
-	\end{restatable}
-	The proof can be found in Appendix \ref{app:expected-value-corrupted-different}.
 	
 	In equation \ref{eqn:corrupted-optimal}, note as $\displaystyle \eps \to 0$ we are returned $\vbeta_P$. This is the intuition behind SubQuantile Minimization. By minimizing over the SubQuantile, we seek to reduce $\eps$, and thus our model will return a model which is by expectation closer to $\vbeta_P$. 	
 
@@ -376,7 +368,7 @@
 	\end{restatable}
 		\begin{proof}
 		Since $\displaystyle g(t,\vtheta)$ with respect to $t$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
-		Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^\top X - y)^2\right)$ and note $\displaystyle 0 < p < 1$
+		Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^T X - y)^2\right)$ and note $\displaystyle 0 < p < 1$
 		\begin{align}
 			\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) 
 			&= -1 + \frac{1}{np}\sum_{i=1}^{n}
@@ -395,7 +387,7 @@
 	\begin{restatable}{lemma}{gthetaderiv}\label{lem:gthetaderiv}
 		Let $t = \hat{\vnu}_{np}$. The $\vtheta$-update step described in Equation \ref{eqn:theta_sm} is equivalent to minimizing the least squares loss of the $np$ elements with the lowest squared loss.
 	   \begin{equation}
-			\nabla_{\vtheta}g(t_{k+1},\vtheta_k) = \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i)
+			\nabla_{\vtheta}g(t_{k+1},\vtheta_k) = \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T\vx_i - y_i)
 		\end{equation}
 	\end{restatable}
 	We provide a proof in Appendix \ref{app:gthetaderiv}. However, this result is quite intuitive as it shows we are optimizing over the $p$ Sub-Quantile of the Risk.
@@ -412,9 +404,9 @@
 	\begin{proof}
 		We see by lemma \ref{lem:gfermat} and interpretation \ref{int:minimize-small}, we are optimizing by the $np$ points with the lowest squared error. Mathematically, 
 		\begin{align*}
-			g(t_{k+1},\vtheta_k) &= t_{k+1} - \frac{1}{np}\sum_{i=1}^{n}\left(t_{k+1} - (\vtheta^\top\vx_i - y_i)^2\right)^+ &&\\
-			&= t - t + \frac{1}{np}\sum_{i=1}^{np}(\vtheta^\top\vx_i - y_i)^2 &&\\
-			&= \frac{1}{np}\sum_{i=1}^{np}(\vtheta^\top\vx_i - y_i)^2 &&
+			g(t_{k+1},\vtheta_k) &= t_{k+1} - \frac{1}{np}\sum_{i=1}^{n}\left(t_{k+1} - (\vtheta^T\vx_i - y_i)^2\right)^+ &&\\
+			&= t - t + \frac{1}{np}\sum_{i=1}^{np}(\vtheta^T\vx_i - y_i)^2 &&\\
+			&= \frac{1}{np}\sum_{i=1}^{np}(\vtheta^T\vx_i - y_i)^2 &&
 		\end{align*}
 		Now we can make a simple argument for convexity. We have a non-negative multiple of the sum of the composition of an affine function with a convex function. Thus $g(t,\vtheta)$ is convex with respect to $\vtheta$.
 	\end{proof}
@@ -459,7 +451,7 @@
 	We are now interested in what it means to be at a Local Nash Equilibrium. By Proposition \ref{prop:first-order-nash}, this means both first-order partial derivatives are equal to $0$. By lemma \ref{lem:gfermat}, we have shown $\nabla_tg(t,\vtheta) = 0$ when $\vnu_{np} \leq t < \vnu_{np+1}$. Furthermore, by lemma \ref{lem:gthetaderiv}, we have shown $\nabla_\vtheta(g,\vtheta) = 0$ when the least squares error is minimized for the $np$ points with lowest squared error. In other words:
 	\begin{align*}
 		\mathbb{E}\left[\nabla_\vtheta g(t_{k+1},\vtheta_k)\right] &= 0 &&\\
-		2(\vmu\vmu^\top + \Sigma)(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) &= 0&&
+		2(\vmu\vmu^T + \Sigma)(\vtheta_k - (1-\varepsilon)\vbeta_P-\varepsilon\vbeta_Q) &= 0&&
 	\end{align*}
 	Since the first term is non-zero, the equality is satisfied when:
 	\begin{equation*}
@@ -480,7 +472,7 @@
 	\begin{proofsketch}
 		From the intuitions we have gained on Subquantile Minimization. We can state the following:
 		\begin{equation}
-			\argmin_{\vtheta \in \mathbb{R}^d}\min_{S \in \Pi}\norm{\vtheta^\top S - y_S}_2^2 \iff \argmin_{\vtheta \in \mathbb{R}^d}\max_{t \in \mathbb{R}}\norm{\vtheta^\top S - y_S}_2^2
+			\argmin_{\vtheta \in \mathbb{R}^d}\min_{S \in \Pi}\norm{\vtheta^T S - y_S}_2^2 \iff \argmin_{\vtheta \in \mathbb{R}^d}\max_{t \in \mathbb{R}}\norm{\vtheta^T S - y_S}_2^2
 		\end{equation}
 		where $\Pi$ represents the entire distribution of Subquantile matrices. 
 	\end{proofsketch}
@@ -536,20 +528,12 @@
 		\end{equation}
 		Then if $\Var(\epsilon_P) \leq \Var(\epsilon_Q)$, it follows 
 		\begin{equation*}
-			\mathbb{E}\left[\left(\vtheta_{(0)}^\top \vp - y_i\right)^2\right] \leq \mathbb{E}\left[\left(\vtheta_{(0)}^\top \vq - y_i\right)^2\right]
+			\mathbb{E}\left[\left(\vtheta_{(0)}^T \vp - y_i\right)^2\right] \leq \mathbb{E}\left[\left(\vtheta_{(0)}^T \vq - y_i\right)^2\right]
 		\end{equation*}	
 		This concludes the proof.
 	\end{proofsketch}
 	
 	Note theorem \ref{thm:ridge-algorithm-convergence} is enough to show the final subquantile matrix will have more elements from $P$. It thus follows, in the case of no feature noise, by expectation, $\vtheta$ will move towards $\vbeta_P$ faster than it moves to $\vbeta_Q$. We instead calculate the probability in theorem \ref{thm:probability-epsilon-decreasing}. 
-
-	\begin{restatable}{thm}{probability-epsilon-decreasing}
-		\label{thm:probability-epsilon-decreasing}
-		The probability the Subquantile matrix contains fewer elements of $Q$ is equivalent to the following:
-		\begin{equation}
-			\mathbb{P}\left[\varepsilon^{(t+1)} < \varepsilon^{(t)}\right] \geq \frac{1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)}{\varepsilon^{(t)}}
-		\end{equation} where \begin{equation*} \lambda = \frac{\zeta_Q}{\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2}\end{equation*}
-	\end{restatable}
 	
 	We are now interested in theoretical guarantees with no distributional assumptions. First we will consider some intuition on why this problem is not as hard as compared to when the corruption is linearly structured. Let us say the noise is of non-linear regression, in other words $\vy_Q \sim f(X,\vbeta_Q)$, where $f$ is a non-linear combination of features of $X$. In this case, it is not possible to model the non-linear regression by a linear combination of the features, thus, if we have elements from $\mathbb{Q}$ within the lowest $np$ losses, then training on these points will not generalize well to points from $\mathbb{Q}$, so their error will not decrease. 
 
@@ -1076,7 +1060,7 @@
 			Huber \cite{Huber2009} &$1.412_{(0.0474)}$&$1.501_{(0.2918)}$&$2.231_{(0.9054)}$&$2.247_{(1.0399)}$\\
 			RANSAC \cite{RANSAC1981} &$1.238_{(0.0529)}$&$1.643_{(0.1331)}$&$2.092_{(0.1935)}$&$2.679_{(0.1365)}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 1-\eps$) &$\mathbf{0.887_{(0.1046)}}$&$\mathbf{0.936_{(0.1051)}}$&$\mathbf{0.927_{(0.0729)}}$&$\mathbf{1.015_{(0.0978)}}$\\
+			SubQuantile($p = 1-\eps$) &$\mathbf{0.887_{(0.1046)}}$&$\mathbf{0.976_{(0.0892)}}$&$\mathbf{0.933_{(0.1137)}}$&$\mathbf{1.028_{(0.1142)}}$\\
 			\midrule 
 			Genie ERM &$0.986_{(0.1039)}$&$0.955_{(0.0698)}$&$1.038_{(0.0886)}$&$1.030_{(0.0578)}$\\
 			\bottomrule
@@ -1107,13 +1091,24 @@
 	
 	\section{Linear Algebra and Probability Theory Preliminaries}
 	
-	\begin{lemma} For a hermitian matrix, it follows:
-		\begin{equation*}
-			\norm{\mA}_2 = |\lambda_1|
-		\end{equation*}
-	\end{lemma}
+	\begin{fact} The spectral norm of a matrix, $A$, an $(m \times n)$ matrix, is defined as follows
+		\begin{equation}
+			\norm{A}_2 = \sqrt{\lambda_{\max}\left(A^T A\right)} = \sigma_{\max}(A)
+		\end{equation}
+		It similarly follows:
+		\begin{equation}
+			\norm{A^T A}_2 = \norm{A}^2_2
+		\end{equation}
+		Let $\ve_1, \ve_2, \dots, \ve_d$ denote the canonical basis of $\mathbb{R}^d$. It therefore follows as:
+		\begin{align*}
+			\sigma_{\max} &= \max_{\norm{\vx} = 1}\norm{A\vx}\\
+			&\geq \norm{A\ve_i} \text{ for } i= 1,\dots,d \\
+			&= \sqrt{\sum_{j=1}^n (A_{ji})^2} \\
+			&\geq |A_{ji}| \,\forall j = 1,\dots,n, i=1,\dots,m
+		\end{align*}
+	\end{fact}
 
-	\begin{lemma}
+	\begin{fact}
 		\textbf{Weyl's Inequality} states the following:\\ If $M$, $N$, and $R$ are $n \times n$ Hermitian Matrices with the following eigenvalues where $M = N + R$:
 		\begin{equation*}
 			M: \mu_1 \geq \cdots \geq \mu_n
@@ -1128,7 +1123,30 @@
 		\begin{equation*}
 			\nu_i + \rho_n \leq \mu_i \leq \nu_i + \rho_1 \text { for } i = 1,\dots,n
 		\end{equation*}
-	\end{lemma}
+	\end{fact}
+
+	\begin{fact}
+		Let $A$ be a $n \times m$ matrix with $n \gg m$. It then follows:
+		\begin{equation}
+			A^T A = \left(U \Sigma V^T\right)^T \left(U \Sigma V^T \right) = \left(V\Sigma^T U^T\right)\left(U \Sigma V^T\right) = V \Sigma^T \Sigma V^T = V D V^T
+		\end{equation}
+		where $D = \Sigma^T \Sigma = \begin{pmatrix} \sigma_1^2 & & & \\ & \sigma_2^2 & & \\ & & \ddots & \\ & & & \sigma_m^2 \end{pmatrix}$
+	\end{fact}
+
+	\begin{fact}
+		This is a restatement from \cite{Wackerly2008}.\\
+		Let $X_1,\cdots, X_n$ be i.i.d continuous random variables with common distribution function $F(y)$ and common probability density function $f(x)$. If $X_{(k)}$ denotes the $k$th-order statistic, then the density function of $X_{(k)}$ is given by:
+		\begin{equation}
+			g_{(k)}(x_k) = \frac{n!}{(k-1)!(n-k)!}[F(x_k)]^{k-1}[1 - F(x_k)]^{n-k}f(x_k)
+		\end{equation}
+	\end{fact}
+
+	\begin{fact}
+		The cdf of the $k$th order statistic from a sample of $n$ is:
+		\begin{equation}
+			F_{(k,n)} = \mathbb{P}\left[X_{(k)}\leq x \right] = \sum_{j=k}^n \begin{pmatrix} n \\ j\end{pmatrix} \left(1 - F(x)\right)^{n-j} F(x)^j
+		\end{equation}
+	\end{fact}
 
 	\newpage
 	
@@ -1146,12 +1164,12 @@
 	\end{assumption}
 	
 	\begin{assumption}\label{asm:wishart}
-		By assumption \ref{asm:normal-sampling}, it thus follows that the matrices $P^\top P$ and $Q^\top Q$ are sampled from Wishart Distributions.
+		By assumption \ref{asm:normal-sampling}, it thus follows that the matrices $P^T P$ and $Q^T Q$ are sampled from Wishart Distributions.
 		\begin{equation}
-			P^\top P \sim \mathcal{W}\left(n,\Sigma_P\right)
+			P^T P \sim \mathcal{W}\left(n,\Sigma_P\right)
 		\end{equation}
 		\begin{equation}
-			Q^\top Q \sim \mathcal{W}\left(n, \Sigma_Q\right)
+			Q^T Q \sim \mathcal{W}\left(n, \Sigma_Q\right)
 		\end{equation}
 	\end{assumption}
 
@@ -1167,11 +1185,11 @@
 	\end{assumption}
 	The closed form solution for Ridge Regression with regularization parameter $\lambda$ is equal to the following:
 	\begin{equation}
-		\hat{\vbeta} = \left(X^\top X+ \lambda I\right)^{-1}X^\top y
+		\hat{\vbeta} = \left(X^T X+ \lambda I\right)^{-1}X^T y
 	\end{equation}
 	We will use this to bound the difference of the $\vbeta_P$ and $\vtheta_{(k)}$.
 	\begin{align*}
-		\norm{\vbeta_P - \vtheta_{(k)}}_2 &= \norm{\vbeta_P - \left(S^\top S + \lambda I\right)^{-1}S^\top \vy}_2 &&\\
+		\norm{\vbeta_P - \vtheta_{(k)}}_2 &= \norm{\vbeta_P - \left(S^T S + \lambda I\right)^{-1}S^T \vy}_2 &&\\
 	\end{align*}
 	Note the subquantile matrix $S$, consists of data points from $P$ and $Q$, we will reorganize $S$ into the following:
 	\begin{equation*}
@@ -1185,28 +1203,94 @@
 			\leftarrow & \vq_{n\varepsilon^{(t)}} & \rightarrow
 		\end{pmatrix}\text{ and } \vy = \begin{pmatrix}\vy_P \\ \vy_Q \end{pmatrix} = \begin{pmatrix} \vbeta_P\vp_1 + \eps_P \\ \vdots \\ \vbeta_P\vp_{(n(1-\varepsilon^{(t)}))} + \eps_P \\ \vbeta_Q\vq_1 + \eps_Q\\ \vdots \\ \vbeta_Q\vq_{n\varepsilon^{(t)}} + \eps_Q\end{pmatrix}
 	\end{equation*}
-	Then we can make the following manipulations:
+	Let us also assume $\Var(\eps_P) = \eta_P$ and $\Var(\eps_Q) = \eta_Q$. Then we can make the following manipulations:
 	\begin{align*}
-		= &\norm{\vbeta_P -  \left(P^\top P + Q^\top Q + \lambda I\right)^{-1}\begin{pmatrix}P^\top Q^\top\end{pmatrix}\begin{pmatrix}\vy_P \\ \vy_Q \end{pmatrix}}_2 &&\\
-		= &\norm{\vbeta_P -  \left(P^\top P + Q^\top Q + \lambda I\right)^{-1}P^\top \vy_P  - \left(P^\top P + Q^\top Q + \lambda I\right)^{-1}Q^\top \vy_Q}_2 &&\\
-		\leq &\norm{\vbeta_P}_2 + \norm{\left(P^\top P + Q^\top Q+ \lambda I\right)^{-1}P^\top \vy_P}_2 + \norm{\left(P^\top P + Q^\top Q+ \lambda I\right)^{-1}Q^\top \vy_Q}_2 &&\\
-		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\vbeta_P}_2 + \norm{\left(P^\top P + Q^\top Q + \lambda I\right)^{-1}}_2\norm{P^\top \vy_P}_2 + \norm{\left(P^\top P + Q^\top Q + \lambda I\right)^{-1}}_2\norm{Q^\top \vy_Q}_2&&\\
-		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\vbeta_P}_2 + \sqrt{\lambda_{\max}\left(P^\top P\right)}\norm{\left(P^\top P + Q^\top Q + \lambda I\right)^{-1}}_2\norm{\vy_P}_2 + \sqrt{\lambda_{\max}\left(Q^\top Q\right)}\norm{\left(P^\top P + Q^\top Q + \lambda I\right)^{-1}}_2\norm{\vy_Q}_2 &&\\
-		= &\norm{\vbeta_P}_2 + \frac{\sqrt{\lambda_{\max}\left(P^\top P\right)}\norm{\vy_P}_2}{\lambda_{\max}\left(P^\top P + Q^\top Q + \lambda I\right)} + \frac{\sqrt{\lambda_{\max}\left(Q^\top Q\right)}\norm{\vy_Q}_2}{\lambda_{\max}\left(P^\top P + Q^\top Q + \lambda I\right)} &&\\
-		= &\norm{\vbeta_P} + \frac{\sqrt{\lambda_{\max}\left(P^\top P\right)}\norm{\vy_P}_2 + \sqrt{\lambda_{\max}\left(Q^\top Q\right)}\norm{\vy_Q}_2}{\lambda_{\max}\left(P^\top P + Q^\top Q + \lambda I\right)} &&\\
-		\leq & \norm{\vbeta_P}_2  + \frac{\sqrt{\lambda_{\max}\left(P^\top P\right)}\norm{\vy_P}_2 + \sqrt{\lambda_{\max}\left(Q^\top Q\right)}\norm{\vy_Q}_2}{\lambda_{\min}\left(P^\top P\right) + \lambda_{\min}\left(Q^\top Q\right) + \lambda} &&
+		= &\norm{\vbeta_P - \left(P^T P + Q^T Q + \lambda I\right)^{-1}\begin{pmatrix}P^T Q^T\end{pmatrix}\begin{pmatrix}\vy_P \\ \vy_Q \end{pmatrix}}_2 &&\\
+		= &\norm{\left(P^T P + \lambda I\right)^{-1} P^T \vy_P - \left(P^T P + Q^T Q + \lambda I\right)^{-1}P^T \vy_P  - \left(P^T P + Q^T Q + \lambda I\right)^{-1}Q^T \vy_Q}_2 &&\\
+		\leq &\norm{\left(P^T P + \lambda I\right)^{-1} P^T \vy_P -\left(P^T P + Q^T Q+ \lambda I\right)^{-1}P^T \vy_P}_2 + \norm{\left(P^T P + Q^T Q+ \lambda I\right)^{-1}Q^T \vy_Q}_2 &&\\
+		\leq& \norm{\left(P^T P + \lambda I\right)^{-1}}_2 \norm{P^T\vy_P}_2 + \norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\norm{P^T \vy_P}_2 + \norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\norm{Q^T \vy_Q}_2&&\\
+		\leq & \sqrt{\lambda_{\max}\left(P^T P\right)}\left(\norm{\left(P^TP + \lambda I\right)^{-1}}_2+\norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\right)\norm{\vy_P}_2 + \sqrt{\lambda_{\max}\left(Q^T Q\right)}\norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\norm{\vy_Q}_2 &&\\
+		= &\frac{\sigma_{\max}(P)\norm{\vy_P}}{\sqrt{\lambda_{\max}(P^TP + \lambda I)}} + \frac{\sigma_{\max}(P)\norm{\vy_P}_2}{\sqrt{\lambda_{\max}\left(P^T P + Q^T Q + \lambda I\right)}} + \frac{\sigma_{\max}(Q)\norm{\vy_Q}_2}{\sqrt{\lambda_{\max}\left(P^T P + Q^T Q + \lambda I\right)}} &&\\
+		\overset{\mathrm{(a)}}{\leq} &\frac{2\sigma_{\max}(P)\norm{P\vbeta_P + \veps_P}_2 + \sigma_{\max}{Q}\norm{Q\vbeta_Q + \veps_Q}_2}{\sqrt{\lambda_{\max}\left(P^T P + \lambda I\right)}} &&\\
+		\overset{\mathrm{(b)}}{\leq} & \frac{\left(2\sigma^2_{\max}(P)\norm{\vbeta_P}\right) + 2n\eta_P}{A} &&\\
 	\end{align*}
-	To simplify $\vy_P$ and $\vy_Q$ we will utilize 	
 	
+	(a) is due to $Q^TQ$ being a positive semi definite symmetric matrix. \\ 
+	(b) holds with probability $\left(1 - (\Phi(2) - \Phi(-2))\right)^{n(1-\varepsilon^{(t)})}$
+	
+	Thus we have shown that $\vbeta_P - \vtheta_{(t)}$
 	
 	\end{proof}
+
+	\newpage
+	
+	\section{Proofs for $\varepsilon^{(t)}$}
+	Let us note the Subquantile Matrix $\displaystyle S = \begin{pmatrix} P \\ Q \end{pmatrix} = \begin{pmatrix} \leftarrow & \vp_1 & \rightarrow \\ \vdots & \vdots & \vdots \\ \leftarrow & \vp_{\eta_P} & \rightarrow \\ \leftarrow & \vq_1 & \rightarrow \\ \vdots & \vdots & \vdots \\ \leftarrow & \vq_{\eta_Q} & \rightarrow\end{pmatrix}$. Thus we can define: $\displaystyle \varepsilon^{(t)} = \frac{\eta_Q}{\eta_P + \eta_Q} = \frac{\eta_Q}{np}$. Where $n$ is the number of training examples and $p$ is the Subquantile we are minimizing over. In this section, we want to provide a theoretical upper bound on $\eta_Q$, from where we can upper bound $\varepsilon^{(t)}$ which is stronger than the trivial upper bound of $\displaystyle \frac{\epsilon}{p}$. We will approach this problem with Order Statistics.
+	\begin{assumption}
+		The optimal regressors are linearly independent, i.e. $\vbeta_P \neq \gamma \vbeta_Q\, \forall \gamma \in \mathbb{R}$
+	\end{assumption}
+	Let $\displaystyle \vtheta_{(t)} = \alpha_1 \vbeta_P + \alpha_2 \vbeta_Q + \sum_{i=3}^{d}\vr_i$.
+	
+	Let us denote $P_1 < P_2 < \dots < P_{n(1 - \epsilon)}$ as the order statistics of the random variable $P \sim \left(\vp_i \vtheta - (\vp_i \vbeta_P + \epsilon_P)\right)^2$ where $ \vp_i \sim \mathcal{N}_d(\vzero, \xi_P I)$. Let us also denote $Q_1 < Q_2 < \dots < Q_{n(1 - \epsilon)}$ as the order statistics of the random variable $Q \sim \left(\vq_i \vtheta - (\vp_i \vbeta_Q + \epsilon_Q)\right)^2$ where $ \vq_i \sim \mathcal{N}_d(\vzero, \xi_P I)$.\\
+	First we will formalize the CDF of $P$ and $Q$. Note $\vp_i$ and $\vq_i$ represent the normally sampled gaussian data. 
+	\begin{align}
+		P_i = &\left(\vp_i\vtheta_{(t)} - (\vp_i \vbeta_P + \eps_P)\right)^2 &&\\
+		 = &\left(\vp_i(\vtheta_{(t)} - \vbeta_P) - \eps_P\right)^2 &&\\
+		= &\left(\vp_i(\vtheta_{(t)} - \vbeta_P)\right)^2 - 2 \eps_P \left(\vp_i(\vtheta_{(t)} - \vbeta_P)\right) + \eps_P^2 &&
+	\end{align}
+	As $\mathbb{E}\left[\epsilon_P\right] = 0$, we will only consider the case $\epsilon_P = 0$. This simplifies $P_i$ and $Q_i$:
+	\begin{equation}
+		P_i = \left(\mP_i(\vtheta_{(t)} - \vbeta_P)\right)^2 
+	\end{equation}
+	\begin{equation}
+		Q_i = \left(\mQ_i(\vtheta_{(t)} - \vbeta_Q)\right)^2
+	\end{equation}
+	Let us note all the entries of $\mP_i$ are sampled from $\mathcal{N}(0,\xi_P)$ and all entries of $\mQ_i$ are sampled from $\mathcal{N}(0,\xi_Q)$.
+	It thus follows:
+	\begin{align*}
+		\left(\mP_i(\vtheta_{(t)} - \vbeta_P)\right)^2 &= \left(\sum_{j=1}^d\mathcal{N}(0,\xi_P)\left(\theta^{(t)}_j - \beta_{Pj}\right)\right)^2 &&\\
+		&= \left(\sum_{j=1}^d \mathcal{N}\left(0,\xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)^2\right)\right)^2  &&\\
+		&= \left(\mathcal{N}\left(0, \sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)\right)\right)^2
+	\end{align*}
+	It thus similarly follows for $Q_i$:
+	\begin{equation*}
+		\left(\mQ_i(\vtheta_{(t)} - \vbeta_Q)\right)^2 = \left(\mathcal{N}\left(0, \sum_{j=1}^d \xi_Q\left(\theta_j^{(t)} - \beta_{Qj}\right)\right)\right)^2
+	\end{equation*}
+	Now we can define the cumulative distribution functions.
+	\begin{align}
+		F_P(z) &= \frac{1}{\sqrt{2\pi}}\int_{-\sqrt{z}}^{\sqrt{z}}\exp\left(-\frac{u^2}{2\sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)}\right)du &&\\
+		&= \Phi\left(\frac{\sqrt{z}}{\sqrt{\sum_{j=1}^d \xi_P\left(\theta_j^{(t)}-\beta_{Pj}\right)}}\right) - \Phi\left(\frac{-\sqrt{z}}{\sqrt{\sum_{j=1}^d \xi_Q\left(\theta_j^{(t)}-\beta_{Pj}\right)}}\right) &&
+	\end{align}
+	Let us define $\displaystyle \phi = \sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)$ and $\displaystyle \psi = \sum_{j=1}^d \xi_Q\left(\theta_j^{(t)} - \beta_{Qj}\right)$
+	Therefore it follows:
+	\begin{equation}
+		F_P(z) = \Phi\left(\frac{\sqrt{z}}{\sqrt{\phi}}\right) - \Phi\left(\frac{-\sqrt{z}}{\sqrt{\phi}}\right)
+	\end{equation}
+	Similarly for $F_Q(z)$ it follows:
+	\begin{equation}
+		F_Q(z) = \Phi\left(\frac{\sqrt{z}}{\sqrt{\psi}}\right) - \Phi\left(\frac{-\sqrt{z}}{\sqrt{\psi}}\right)
+	\end{equation}
+	Here we can note if $\phi < \psi$, then for all $z > 0$, it follows $F_P(z) > F_Q(z)$.
+	
+	We now want to find the max integer, $\eta$ such that with probability greater than $0.9$, $Q_{\eta} < P_{np - \eta}$ and for all $m \in \mathbb{N}$ such that $m > \eta$, $Q_{m} > P_{np - \eta}$. This is equivalent to the probability there will be $\eta$ elements within the Subquantile matrix.
+
+	\begin{align*}
+		\mathbb{P}\left[Q_\eta < P_{np - \eta} \bigcap_{i=1}^{n\epsilon - \eta} Q_{\eta+ i} > P_{np - \eta}\right] &= \mathbb{P}\left[Q_\eta < P_{np - \eta}\right] \prod_{i=1}^{n\epsilon - \eta} \mathbb{P}\left[Q_{n+i} > P_{np - \eta}\right] &&\\
+		&= \mathbb{P}\left[Q_n < P_{np - \eta}\right]\prod_{i=1}^{n\epsilon - \eta}\left(1 - \mathbb{P}\left[Q_{n+i} < P_{np - \eta}\right]\right) &&\\
+		&= \mathbb{P}\left[Q_n - P_{np-\eta} < 0\right]\prod_{i=1}^{n\epsilon - \eta} \left(1 - \mathbb{P}\left[Q_{n+i} - P_{np-\eta} < 0\right]\right) &&\\
+	\end{align*}
+	\begin{align*}
+		\mathbb{P}\left[Q_\eta - P_{np-\eta} < 0 \right]&= \int_{-\infty}^\infty \int_{-\infty}^y \frac{(n\epsilon)!}{(\eta-1)!(n\epsilon - \eta)!}\left[F_P(y)\right]^{\eta-1}\left[1 - F_P(y)\right]^{n\epsilon - \eta}\frac{1}{\xi_P\sqrt{2\pi}}\exp\left(-\frac{1}{2}\left(\frac{y}{\xi_P}\right)^2\right) dx\,dy &&\\
+		&= 
+	\end{align*}
+
 	
 	\newpage
 	\section{General Properties of Sub-Quantile Minimization}\label{app:general-proofs}
 	\subsection{Derivation of Lemma~\ref{lem:gfermat}}
 	\label{app:gfermat}
 	Since $\displaystyle g(t,\vtheta)$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
-	Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^\top X - y)^2\right)$ and note $\displaystyle 0 < p < 1$
+	Let $\displaystyle \hat{\vnu} = sorted\left((\vtheta^T X - y)^2\right)$ and note $\displaystyle 0 < p < 1$
 	\begin{align}
 		\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) &= \partial{\left(-t + \frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)} &&\\
 		&= \partial{(-t)} + \partial{\left(\frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)}&&\\
@@ -1224,20 +1308,20 @@
 	This is the $p$-quantile of $\displaystyle \vnu$. Assuming no two points are equal in the dataset, this means the minimizing value for $t$ has a range of values, $\hat{\vnu}_{np} \leq t < \hat{\vnu}_{np+1}$. This means $g(t,\vtheta)$ is not strongly convex with respect to $t$. 
 	\subsection{Derivation of Lemma~\ref{lem:gthetaderiv}}
 	\label{app:gthetaderiv}
-		Note that $t_k = \vnu_{np}$ which is equivalent to $(\vtheta_k^\top\vx_{np} - y_{np})^2$
+		Note that $t_k = \vnu_{np}$ which is equivalent to $(\vtheta_k^T\vx_{np} - y_{np})^2$
 		\begin{align*}
-			\nabla_{\vtheta_k} g(t_{k+1},\vtheta_k) &= \nabla_{\vtheta_k}\left(\vnu_{np} - \frac{1}{np}\sum_{i=1}^n(\vnu_{np} - (\vtheta_k^\top\vx_i - y_i)^2)^+\right) &&\\
-			&= \nabla_{\vtheta_k}\left((\vtheta_k^\top\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\left((\vtheta_k^\top\vx_{np} - y_{np})^2 - (\vtheta_k^\top\vx_i - y_i)^2\right)^+\right) &&\\
-			&= \nabla_{\vtheta_k}(\vtheta_k^\top\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\nabla_{\vtheta_k}\left((\vtheta_k^\top\vx_{np} - y_{np})^2 - (\vtheta_k^\top\vx_i - y_i)^2\right)^+ &&\\				
-			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{n}2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) \notag\\ &\qquad-2\vx_i(\vtheta_k^\top\vx_i - y_i) \left\{
+			\nabla_{\vtheta_k} g(t_{k+1},\vtheta_k) &= \nabla_{\vtheta_k}\left(\vnu_{np} - \frac{1}{np}\sum_{i=1}^n(\vnu_{np} - (\vtheta_k^T\vx_i - y_i)^2)^+\right) &&\\
+			&= \nabla_{\vtheta_k}\left((\vtheta_k^T\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\left((\vtheta_k^T\vx_{np} - y_{np})^2 - (\vtheta_k^T\vx_i - y_i)^2\right)^+\right) &&\\
+			&= \nabla_{\vtheta_k}(\vtheta_k^T\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\nabla_{\vtheta_k}\left((\vtheta_k^T\vx_{np} - y_{np})^2 - (\vtheta_k^T\vx_i - y_i)^2\right)^+ &&\\				
+			&= 2\vx_{np}(\vtheta_k^T\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{n}2\vx_{np}(\vtheta_k^T\vx_{np} - y_{np}) \notag\\ &\qquad-2\vx_i(\vtheta_k^T\vx_i - y_i) \left\{
 			\begin{array}{lr}
 				1, & \text{if } t > v_i\\
 				0, & \text{if } t < v_i \\
 				\left[0,1\right], & \text{if } t = v_i \\
 			\end{array} \right\} &&\\
-			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{np}2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -2\vx_i(\vtheta_k^\top\vx_i - y_i) &&\\	
-			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) - 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) + \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i) &&\\
-			&= \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i)&&
+			&= 2\vx_{np}(\vtheta_k^T\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{np}2\vx_{np}(\vtheta_k^T\vx_{np} - y_{np}) -2\vx_i(\vtheta_k^T\vx_i - y_i) &&\\	
+			&= 2\vx_{np}(\vtheta_k^T\vx_{np} - y_{np}) - 2\vx_{np}(\vtheta_k^T\vx_{np} - y_{np}) + \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T\vx_i - y_i) &&\\
+			&= \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T\vx_i - y_i)&&
 		\end{align*}
 		This is the derivative of the $np$ samples with lowest error with respect to $\vtheta$.
 
@@ -1248,13 +1332,13 @@
 		||  \nabla_\vtheta g(\vtheta',t) - \nabla_\vtheta g(\vtheta,t) || \leq L|| \vtheta' - \vtheta || 
 	\end{equation}
 	\begin{align}
-		\norm{ \nabla_{\vtheta} g(\vtheta^{'},t) - \nabla_{\vtheta} g(\vtheta,t) } = &\norm{ \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top} \vx_i - y_i) - \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top \vx_i - y_i) } &&\\
-		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top}\vx_i - \vtheta_k^\top\vx_i)}&&\\
-		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i\vx_i^\top(\vtheta_k^{'\top} - \vtheta_k^\top)} &&\\
-		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\frac{2}{np}\sum_{i=1}^{np}\vx_i\vx_i^\top}\norm{\vtheta_k^{'\top} - \vtheta_k^\top} &&\\
-		= &L\norm{\vtheta_k^{'\top} - \vtheta_k^\top} &&
+		\norm{ \nabla_{\vtheta} g(\vtheta^{'},t) - \nabla_{\vtheta} g(\vtheta,t) } = &\norm{ \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top} \vx_i - y_i) - \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T \vx_i - y_i) } &&\\
+		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top}\vx_i - \vtheta_k^T\vx_i)}&&\\
+		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i\vx_i^T(\vtheta_k^{'\top} - \vtheta_k^T)} &&\\
+		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\frac{2}{np}\sum_{i=1}^{np}\vx_i\vx_i^T}\norm{\vtheta_k^{'\top} - \vtheta_k^T} &&\\
+		= &L\norm{\vtheta_k^{'\top} - \vtheta_k^T} &&
 	\end{align}
-	where $\displaystyle L = \norm{\frac{2}{np}X^\top X}$\\
+	where $\displaystyle L = \norm{\frac{2}{np}X^T X}$\\
 	This concludes the derivation.
 	\subsection{Proof of Lemma~\ref{lem:g-change-wrt-t}}
 	\label{app:g-change-wrt-t}
@@ -1283,9 +1367,9 @@
   	
   	\newpage
 	\section{Theory for Adaptive Linear Corruption}
-	In this section, we provide rigorous theory for why Sub-Quantile Minimization works so well in the case of corruption of the form $\displaystyle \vbeta_Q^\top \vmu = y_p + \eps_Q$.
+	In this section, we provide rigorous theory for why Sub-Quantile Minimization works so well in the case of corruption of the form $\displaystyle \vbeta_Q^T \vmu = y_p + \eps_Q$.
 	\begin{assumption}\label{asm:normal-error}
-		The residuals of $\vtheta_k$ are normally distributed with respect to $\mathbb{P}$ and $\mathbb{Q}$. In other words, $\vtheta_k^\top \vp - \vy_P$ and $\vtheta_k^\top \vq - \vy_Q$ are normally distributed.
+		The residuals of $\vtheta_k$ are normally distributed with respect to $\mathbb{P}$ and $\mathbb{Q}$. In other words, $\vtheta_k^T \vp - \vy_P$ and $\vtheta_k^T \vq - \vy_Q$ are normally distributed.
 	\end{assumption}
 	Assumption \ref{asm:normal-error} can be visually verified in figure \ref{fig:normal-residual}. Even after multiple iteration steps the residuals with respect to $\mathbb{P}$ and $\mathbb{Q}$ are still normal. Thus it follows by decreasing $\norm{\vtheta - \vbeta_P}_1$ more relative to $\norm{\vtheta - \vbeta_Q}_1$ then the SubQuantile will contain more points from $P$ by expectation. 
 	\begin{figure}
@@ -1319,43 +1403,6 @@
 		\caption{Residuals with respect to $\mathbb{P}$ and $\mathbb{Q}$, $k$ represents optimization step.}
 		\label{fig:normal-residual}
 	\end{figure}
-	
-	\subsection{Proof of Lemma~\ref{lem:effect-of-projection}}
-	\label{app:effect-of-projection}
-	\begin{proof}
-		\begin{assumption}
-			\label{asm:p-q-linear-independence}
-			We assume $\vbeta_P \neq \alpha \vbeta_Q\,\, \forall \alpha \in \mathbb{R}$.
-		\end{assumption}
-		First let us define the projections of $\vtheta$ onto both $\vbeta_P$ and $\vbeta_Q$. We will define a basis of the $\vtheta$-space which is $\mathbb{R}^d$. Let the basis,
-		\begin{equation}
-			\mB = \begin{bmatrix} \vbeta_P & \vbeta_Q & \mR \end{bmatrix} \text{ where } \mR= \begin{bmatrix}	\vr_3 & \vr_4 & \dots & \vr_{d} \end{bmatrix}
-		\end{equation}
-		Thus we can represent $\vtheta$ as a linear combination of the basis 
-		\begin{equation}
-			\vtheta = \alpha_1 \vbeta_P + \alpha_2 \vbeta_Q + \sum_{i=3}^d \alpha_i \vr_i 
-		\end{equation}
-		Now we will calculate the projections of $\vtheta$ on to $\vbeta_P$ and $\vbeta_Q$.
-		\begin{align*}
-			\proj_{\vbeta_P}(\vtheta) &= \left(\frac{\vtheta^\top \vbeta_P}{\norm{\vbeta_P}^2_2}\right)\vbeta_P &&\\
-			&= \left(\frac{\norm{\vtheta}\norm{\vbeta_P}\cos(\omega_P)}{\norm{\vbeta_P}^2_2}\right)\vbeta_P &&\\
-			&= \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right)\vbeta_P &&
-		\end{align*}
-		We can use the same derivation for $\vbeta_Q$:
-		\begin{equation}
-			\proj_{\vbeta_Q}(\vtheta) = \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right)\vbeta_Q
-		\end{equation}
-		Now we can prove the lemma.\\
-		Let us set $\displaystyle \alpha_1 = \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right)$ and $\displaystyle \alpha_2 = \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right)$. Therefore we can rewrite $\vtheta$ as the following:
-		\begin{equation}
-			\vtheta = \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right) \vbeta_P + \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right) \vbeta_Q + \sum_{i=3}^d\alpha_i\vr_i 
-		\end{equation}
-		From a simple algebraic manipulation we have:
-		\begin{equation}
-			\vtheta - \vbeta_P = \left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}} - 1\right) \vbeta_P + \left(\frac{\norm{\vtheta}\cos(\omega_Q)}{\norm{\vbeta_Q}}\right) \vbeta_Q + \sum_{i=3}^d\alpha_i\vr_i 
-		\end{equation}
-		It thus follows, if $\displaystyle \left|\left(\frac{\norm{\vtheta'}\cos(\omega_P)}{\norm{\vbeta_P}}\right)-1\right| < \left|\left(\frac{\norm{\vtheta}\cos(\omega_P)}{\norm{\vbeta_P}}\right)-1\right|$ then $\displaystyle |\vtheta' - \vbeta_P| < |\vtheta - \vbeta_P|$ due to our formation of the basis. This concludes the proof. 
-	\end{proof}
 
 	\subsection{Proof of Theorem~\ref{thm:improvement-of-theta}}
 	\label{app:improvement-of-theta}
@@ -1365,12 +1412,12 @@
 		%\addtolength{\jot}{0.5em}
 		\begin{align*}
 			\mathbb{E}\left[\vtheta_{k+1}\right] &= \vtheta_k - \mathbb{E}\left[\alpha \nabla g(\vtheta_k,t_{k+1})\right] &&\\
-			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vx \in \mathcal{S}}\vx(\vtheta^\top\vx - y) \right] &&\\
-			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vx \in \mathcal{S}}\vx\vx^\top\vtheta_k - \vx y \right] &&\\
-			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^\top\vtheta_k - \vp y_p + \sum_{\vq \in \mathcal{S}} \vq\vq^\top\vtheta_k - \vq y_q \right] &&
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vx \in \mathcal{S}}\vx(\vtheta^T\vx - y) \right] &&\\
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vx \in \mathcal{S}}\vx\vx^T\vtheta_k - \vx y \right] &&\\
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^T\vtheta_k - \vp y_p + \sum_{\vq \in \mathcal{S}} \vq\vq^T\vtheta_k - \vq y_q \right] &&
 			\intertext{We will use Assumption \ref{asm:normal-corruption} to rewrite $y_p$ and $y_q$}
-			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^\top\vtheta_k - \vp (\vbeta_P \vp + \eps_P) + \sum_{\vq \in \mathcal{S}} \vq\vq^\top\vtheta_k - \vq (\vbeta_Q \vp + \eps_Q) \right] &&\\
-			&= \vtheta_k - \alpha\left(\sum_{\vp \in \mathcal{S}} \left(\vmu \vmu^\top + \Sigma\right)\vtheta_k - \left(\vmu \vmu^\top + \Sigma\right)\vbeta_P - \sum_{\vq \in \mathcal{S}} \left(\vmu \vmu^\top + \Sigma\right)\vtheta_k + \left(\vmu \vmu^\top + \Sigma\right)\vbeta_Q\right) &&
+			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^T\vtheta_k - \vp (\vbeta_P \vp + \eps_P) + \sum_{\vq \in \mathcal{S}} \vq\vq^T\vtheta_k - \vq (\vbeta_Q \vp + \eps_Q) \right] &&\\
+			&= \vtheta_k - \alpha\left(\sum_{\vp \in \mathcal{S}} \left(\vmu \vmu^T + \Sigma\right)\vtheta_k - \left(\vmu \vmu^T + \Sigma\right)\vbeta_P - \sum_{\vq \in \mathcal{S}} \left(\vmu \vmu^T + \Sigma\right)\vtheta_k + \left(\vmu \vmu^T + \Sigma\right)\vbeta_Q\right) &&
 		\end{align*}
 		 \vspace{1em}
 		\begin{equation}\vspace{1em}
@@ -1379,7 +1426,7 @@
 		
 		\endgroup
 		Now that we have the expected update for $\vtheta$ in terms of the linear regression coefficients, we now want to utilize Lemma \ref{lem:effect-of-projection}.\\
-		Let $\displaystyle \vtheta_k = \alpha_1\vbeta_P + \alpha_2\vbeta_Q + \sum_{i=3}^{d}\alpha_i \vr_i$ in the same basis $\mB$ defined in Lemma \ref{lem:effect-of-projection}. Note in the case of data that is normally distributed about $0$ with no covariance amongst the predictor variables, then $\mC$ is a multiple of the identity. If we proprocess the data using a standard normal scalar such that all features follow a $\mathcal{N}(0,1)$ distribution, then we can assume it follows $\displaystyle \mC = (\vzero\vzero^\top + I) = I$. Let $\gamma \coloneqq \alpha np$. Then the following manipulations hold:
+		Let $\displaystyle \vtheta_k = \alpha_1\vbeta_P + \alpha_2\vbeta_Q + \sum_{i=3}^{d}\alpha_i \vr_i$ in the same basis $\mB$ defined in Lemma \ref{lem:effect-of-projection}. Note in the case of data that is normally distributed about $0$ with no covariance amongst the predictor variables, then $\mC$ is a multiple of the identity. If we proprocess the data using a standard normal scalar such that all features follow a $\mathcal{N}(0,1)$ distribution, then we can assume it follows $\displaystyle \mC = (\vzero\vzero^T + I) = I$. Let $\gamma \coloneqq \alpha np$. Then the following manipulations hold:
 		\begin{align*}
 			\mathbb{E}\left[\vtheta_{(t+1)}\right] &= \vtheta_{(t)} - \gamma\left(\vtheta_{(t)} - (1-\varepsilon^{(t)})\vbeta_P - \varepsilon^{(t)} \vbeta_Q\right) &&\\
 			&= \vtheta_{(t)}(1-\gamma) + \gamma (1-\varepsilon^{(t)})\vbeta_P + (1-\gamma)\varepsilon^{(t)}\vbeta_Q &&\\
@@ -1403,40 +1450,40 @@
 	\begin{proof}
 		To calculate the probability $\varepsilon^{(t+1)} < \varepsilon^{(t)}$, we will first calculate $\mathbb{E}\left[\varepsilon^{(t+1)}\right]$. We will start by calculating the expectation of the loss. 
 		\begin{align*}
-			\mathbb{E}\left[\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right)^2\right] &= \mathbb{E}\left[\vtheta_{(t+1)}^\top\vp_i - y_i\right]^2 + \Var\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right) &&\\
-			&= \mathbb{E}\left[\vtheta_{(t+1)}^\top\vp_i - \vbeta_P^\top\vp_i - \eps_P\right]^2 + \Var\left(\vtheta_{(t+1)}^\top\vp_i - \vbeta_P^\top\vp_i - \eps_P\right) &&\\
-			&= \left(\left(\vtheta^\top_{(t+1)} - \vbeta_P^\top\right)\mathbb{E}\left[\vp_i\right]\right)^2 + \Var\left(\left(\vtheta^\top_{(t+1)}-\vbeta_P^\top\right)\vp_i\right) + \Var\left(\eps_P\right)	&&\\	
-			&= \left(\left(\vtheta^\top_{(t+1)}-\vbeta_P^\top\right)\vmu\right)^2 + \left(\vtheta^\top_{(t+1)} - \vbeta_P^\top\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_P\right) + \Var\left(\eps_P\right)
+			\mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right] &= \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]^2 + \Var\left(\vtheta_{(t+1)}^T\vp_i - y_i\right) &&\\
+			&= \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - \vbeta_P^T\vp_i - \eps_P\right]^2 + \Var\left(\vtheta_{(t+1)}^T\vp_i - \vbeta_P^T\vp_i - \eps_P\right) &&\\
+			&= \left(\left(\vtheta^T_{(t+1)} - \vbeta_P^T\right)\mathbb{E}\left[\vp_i\right]\right)^2 + \Var\left(\left(\vtheta^T_{(t+1)}-\vbeta_P^T\right)\vp_i\right) + \Var\left(\eps_P\right)	&&\\	
+			&= \left(\left(\vtheta^T_{(t+1)}-\vbeta_P^T\right)\vmu\right)^2 + \left(\vtheta^T_{(t+1)} - \vbeta_P^T\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_P\right) + \Var\left(\eps_P\right)
 		\end{align*}
 		It thus follows similarly:
 		\begin{equation*}
-			\mathbb{E}\left[\left(\vtheta_{(t+1)}^\top\vq_i - y_i\right)^2\right] =  \left(\left(\vtheta^\top_{(t+1)}-\vbeta_Q^\top\right)\vmu\right)^2 + \left(\vtheta^\top_{(t+1)} - \vbeta_Q^\top\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_Q\right) + \Var\left(\eps_Q\right)
+			\mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right] =  \left(\left(\vtheta^T_{(t+1)}-\vbeta_Q^T\right)\vmu\right)^2 + \left(\vtheta^T_{(t+1)} - \vbeta_Q^T\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_Q\right) + \Var\left(\eps_Q\right)
 		\end{equation*}
-		To simplify our notation, let $\zeta_P \coloneqq \mathbb{E}\left[\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right)^2\right]$ and $\zeta_Q \coloneqq \mathbb{E}\left[\left(\vtheta_{(t+1)}^\top\vq_i - y_i\right)^2\right]$ and let $\eta_P \coloneqq \mathbb{E}\left[\vtheta_{(t+1)}^\top\vp_i - y_i\right]$ and $\eta_Q \coloneqq \mathbb{E}\left[\vtheta_{(t+1)}^\top\vq_i - y_i\right]$
+		To simplify our notation, let $\zeta_P \coloneqq \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right]$ and $\zeta_Q \coloneqq \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right]$ and let $\eta_P \coloneqq \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]$ and $\eta_Q \coloneqq \mathbb{E}\left[\vtheta_{(t+1)}^T\vq_i - y_i\right]$
 		We are now interested in calculating the variance of the loss. \\
-		Let $\sigma^2_P \coloneqq \Var\left(\vtheta^\top_{(t+1)}\vp_i - y_i\right) = \left(\vtheta^\top_{(t+1)} - \vbeta_P^\top\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_P\right) + \Var\left(\eps_P\right)$. 
+		Let $\sigma^2_P \coloneqq \Var\left(\vtheta^T_{(t+1)}\vp_i - y_i\right) = \left(\vtheta^T_{(t+1)} - \vbeta_P^T\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_P\right) + \Var\left(\eps_P\right)$. 
 		\begin{align*}
-			\Var\left(\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right)^2\right)&= \mathbb{E}\left[\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right)^4\right] - \mathbb{E}\left[\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right)^2\right]^2 &&\\
-			&= \mathbb{E}\left[\vtheta_{(t+1)}^\top\vp_i - y_i\right]^4 + 6 \mathbb{E}\left[\vtheta_{(t+1)}^\top\vp_i - y_i\right]^2\sigma_P^2 + 3\sigma_P^4 - \zeta_P^2&&\\
+			\Var\left(\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right)&= \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^4\right] - \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right]^2 &&\\
+			&= \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]^4 + 6 \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]^2\sigma_P^2 + 3\sigma_P^4 - \zeta_P^2&&\\
 			&= \eta_P^4 + 6 \eta_P^2 \sigma_P^2 + 3\sigma_P^4 - \zeta_P^2 &&
 		\end{align*}
 		It similarly follows:
 		\begin{align*}
-			\Var\left(\left(\vtheta_{(t+1)}^\top\vq_i - y_i\right)^2\right)&=\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2 &&
+			\Var\left(\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right)&=\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2 &&
 		\end{align*}
 		Recall that the expected value of $\varepsilon^{(t+1)}$ is equal to the expected number of elements from $Q$ within the $p$-Quantile, $\mathcal{Q}_p$. So we will now calculate $\mathcal{Q}_p$. To this we will utilize the  loss of the distribution. 
 		\begin{align*}
-			\mathbb{E}\left[\left(\vtheta_{(t+1)}^\top \vx_i - y_i\right)^2\right] &= (1-\varepsilon^{(t)})\mathbb{E}\left[\left(\vtheta_{(t+1)}^\top \vp_i - y_i\right)^2\right] + \varepsilon^{(t)}\mathbb{E}\left[\left(\vtheta_{(t+1)}^\top \vq_i - y_i\right)^2\right] &&\\
+			\mathbb{E}\left[\left(\vtheta_{(t+1)}^T \vx_i - y_i\right)^2\right] &= (1-\varepsilon^{(t)})\mathbb{E}\left[\left(\vtheta_{(t+1)}^T \vp_i - y_i\right)^2\right] + \varepsilon^{(t)}\mathbb{E}\left[\left(\vtheta_{(t+1)}^T \vq_i - y_i\right)^2\right] &&\\
 			&= (1-\varepsilon^{(t)})\zeta_P + \varepsilon^{(t)}\zeta_Q &&
 		\end{align*}
 		\begin{align*}
-			\Var\left(\left(\vtheta_{(t+1)}^\top\vx_i - y_i\right)^2\right) &= (1-\varepsilon^{(t)})^2\Var\left(\left(\vtheta_{(t+1)}^\top\vp_i - y_i\right)^2\right) + \varepsilon^{(t)2}\Var\left(\left(\vtheta_{(t+1)}^\top\vq_i - y_i\right)^2\right) &&\\
+			\Var\left(\left(\vtheta_{(t+1)}^T\vx_i - y_i\right)^2\right) &= (1-\varepsilon^{(t)})^2\Var\left(\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right) + \varepsilon^{(t)2}\Var\left(\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right) &&\\
 			&= (1-\varepsilon^{(t)})^2\left(\eta_P^4 + 6 \eta_P^2 \sigma_P^2 + 3\sigma_P^4 - \zeta_P^2\right) + (\varepsilon^{(t)})^2\left(\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2\right) &&
 		\end{align*}
-		It thus follows $\displaystyle \left(\vtheta_{(t+1)}^\top\vq_i - y_i\right)$ follows a $\chi^2$ distribution with $1$ degree of freedom and \begin{equation*} \lambda = \frac{\zeta_Q}{\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2}\end{equation*}
+		It thus follows $\displaystyle \left(\vtheta_{(t+1)}^T\vq_i - y_i\right)$ follows a $\chi^2$ distribution with $1$ degree of freedom and \begin{equation*} \lambda = \frac{\zeta_Q}{\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2}\end{equation*}
 		Let $\mathcal{Q}_p^{(t+1)}$ be given as the $np$ greatest loss of the data, i.e. $\mathcal{Q}_p^{(t+1)} = \vnu_{np}^{(t+1)}$. It then follows:
 		\begin{equation*}
-			\mathbb{P}\left[\left(\vtheta^\top_{(t+1)}\vq_i -y_i\right)^2 \leq \mathcal{Q}_p\right] = 1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)
+			\mathbb{P}\left[\left(\vtheta^T_{(t+1)}\vq_i -y_i\right)^2 \leq \mathcal{Q}_p\right] = 1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)
 		\end{equation*}
 		It thus follows:
 		\begin{equation*}
@@ -1459,9 +1506,9 @@
 	\label{app:convergence-proofs}
 	\subsection{Proof of Theorem ~\ref{thm:convergence-guarantee}}
 	\begin{proof}
-	We will first start by introducing new notation. Let $S$ represent a matrix with $np$ data points from $X$, in other words it is a possible SubQuantile Matrix. Let $\displaystyle\vPi$ represent the set of all such possible matrices $S$ of $X$. Note $\displaystyle \left|\vPi\right| = \binom{n}{np}$. We can now redefine the min-max optimization problem of $g$ to a min-min optimization problem. Let us define the function $f(\vtheta, S) = \norm{\vtheta^\top S - y_S}_2^2$
+	We will first start by introducing new notation. Let $S$ represent a matrix with $np$ data points from $X$, in other words it is a possible SubQuantile Matrix. Let $\displaystyle\vPi$ represent the set of all such possible matrices $S$ of $X$. Note $\displaystyle \left|\vPi\right| = \binom{n}{np}$. We can now redefine the min-max optimization problem of $g$ to a min-min optimization problem. Let us define the function $f(\vtheta, S) = \norm{\vtheta^T S - y_S}_2^2$
 	\begin{equation}
-		\vtheta^*, S^* = \argmin_{\vtheta \in \mathbb{R}^d} \argmin_{S \in \vPi} \norm{\vtheta^\top S - y_S}_2^2
+		\vtheta^*, S^* = \argmin_{\vtheta \in \mathbb{R}^d} \argmin_{S \in \vPi} \norm{\vtheta^T S - y_S}_2^2
 	\end{equation}
 	Note we have a $\mathcal{O}(n)$ oracle for the $\displaystyle \argmin_{S\in \vPi}f(\vtheta_T,S_T)$. 
 	\begin{restatable}{lemma}{unique-S-minimizer}
@@ -1488,13 +1535,13 @@
 	\subsection{Expectation of Improvement}
 	We are also interested in expected improvement after choosing a new Subquantile matrix. 
 	\begin{align*}
-		\mathbb{E}&\left[f\left(\vtheta_{(k)}, S^{(k+1)}\right) - f\left(\vtheta_{(k)}, S^{(k)}\right)\right] = \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^\top\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^\top\vq_i - y_i}_2^2\right] &&\\
-		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^\top\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^\top\vq_i - y_i}_2^2\right] &&
+		\mathbb{E}&\left[f\left(\vtheta_{(k)}, S^{(k+1)}\right) - f\left(\vtheta_{(k)}, S^{(k)}\right)\right] = \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&\\
+		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&
 	\end{align*}
 	We can now use reverse triangle inequality.
 	\begin{align*}
-		&\leq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\vtheta_{(k)}^\top\vp_i - \vbeta_P\vp_i - \eps_P - \vtheta^\top_{(k)}\vq_i + \vbeta_Q\vq_i + \eps_Q}_2^2 \right] &&\\
-		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\left(\vtheta^\top_{(k)} - \vbeta_P\right)\vp_i + \left(\vbeta_Q - \vtheta^\top_{(k)}\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&
+		&\leq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\vtheta_{(k)}^T\vp_i - \vbeta_P\vp_i - \eps_P - \vtheta^T_{(k)}\vq_i + \vbeta_Q\vq_i + \eps_Q}_2^2 \right] &&\\
+		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\left(\vtheta^T_{(k)} - \vbeta_P\right)\vp_i + \left(\vbeta_Q - \vtheta^T_{(k)}\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&
 	\end{align*}
 	Now we can use theorem \ref{thm:expected-value-corrupted}. To simplify notation, let $\Xi \triangleq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]$
 	\begin{align*}
@@ -1528,7 +1575,7 @@
 			$\displaystyle \vnu = \left(X_I\vtheta_k - y_I\right)^2$\\
 			$\hat{\vnu} = sorted(\vnu)$\\
 			$\displaystyle t_{k+1} = \hat{\vnu}_{mp}$\\
-			$L \coloneqq \sum_{i=1}^{mp} \vx_i^\top\vx_i$\\
+			$L \coloneqq \sum_{i=1}^{mp} \vx_i^T\vx_i$\\
 			$\alpha \coloneqq \frac{1}{2L}$\\
 			$\displaystyle \vtheta_{k+1} = \vtheta_k - \alpha \nabla_{\vtheta_k}g(t_{k+1},\vtheta_k)$
 		}
@@ -1625,16 +1672,6 @@
 	
 	In both the \texttt{Cal-Housing} and \texttt{Abalone} datasets there exists feature and label noise that exist with $5\%$ probability. In this the case, the probability is low, however since the noise is very large, even having a few points from $\mathbb{Q}$ in the final subquantile matrix can largely the bias the predictions away from the optimal parameters for $\mathbb{P}$. Therefore, we reduce $p$, the size of the subquantile to reduce the probability of obtaining corrupted samples within the subquantile. However, what we get in a decrease in variance, we do increase the bias error, albeit very slightly. 
 	
-		The results in figure \ref{fig:structure-subquantile} demonstrate the percentage of elements from $\mathbb{Q}$ in the final subquantile matrix $S_T$ from different theta initializations after $T$ iterations of subquantile minimization in the \texttt{Noisy Linear Regression} Dataset. 
-	
-	\begin{figure}
-		\begin{center}
-			\input{final-epsilon-base-learner.tex}
-		\end{center}
-		\caption{Probability of points from $\mathbb{Q}$ in the final subquantile}
-		\label{fig:structure-subquantile}
-	\end{figure}
-	
 	\newpage
 	\section{Experimental Details}\label{app:experimental-details}
 	
@@ -1646,7 +1683,7 @@
 	$\vm' \sim \mathcal{N}(4,4)^{200}$\\
 	$b' \sim \mathcal{N}(4,4)$\\
 	$n_{\text{train}} = 1\text{e}4$\\
-	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.1)$\\
+	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^T\vx + b, 0.1)$\\
 	$\mathbb{Q}: y|\vx \sim \mathcal{N}(\vm^{'\top}\vx + b', 0.1)$\\
 	Please note $\vm$, $b$, $\vm'$, $b'$, are all sampled independently. The noise is added after normalization of the dataset to the standard normal $\mathcal{N}(0,1)$. 
 	
@@ -1659,7 +1696,7 @@
 	$b' \sim \mathcal{N}(5,5)$\\
 	$n_{\text{train}} = 8\text{e}3$\\
 	$n_{\text{test}} = 2\text{e}3$\\
-	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^\top\vx + b, 0.01)$\\
+	$\mathbb{P}: y|\vx \sim \mathcal{N}(\vm^T\vx + b, 0.01)$\\
 	$\mathbb{Q}: y|\vx \sim \mathcal{N}(5,5)$\\
 	Please note $\vm$, $b$, $\vm'$, $b'$, are all sampled independently. The noise is added after normalization of the dataset to the standard normal. 
 	

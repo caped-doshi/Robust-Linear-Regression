@@ -70,7 +70,7 @@ if __name__ == "__main__":
             q = mod.fit(q=1-eps-0.1,max_iter=500)
             theta_quantile = q.params
             theta_sever = SEVER(X_train, y_train_noisy,iter=64)
-            theta_term = TERM(X_train, y_train_noisy, -2, 0.01, 3000)
+            theta_term = TERM(X_train, y_train_noisy, -2, 0.1, 10000)
             theta_erm = LM(X_train, y_train_noisy)
             theta_subq = SubQ2(X_train,y_train_noisy, 64, 1-eps)
             theta_huber = HuberRegressor(max_iter=1500).fit(X_train,y_train_noisy).coef_
