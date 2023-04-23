@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.linear_model import Ridge, LinearRegression
 import argparse
 
-def SEVER(x_train, y_train, reg=2, p=0.01, iter=64):
+def SEVER(x_train, y_train, reg=4, p=0.01, iter=64):
     for _ in range(iter):
 
         ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
@@ -14,7 +14,7 @@ def SEVER(x_train, y_train, reg=2, p=0.01, iter=64):
 
         #extract gradients for each point
         losses = y_train - x_train @ w
-        grads = 2 * np.diag(losses) @ x_train #+ (reg * w)[None, :]
+        grads = 2 * np.diag(losses) @ x_train + (reg * w)[None, :]
 
         #center gradients
         grad_avg = np.mean(grads, axis=0)
@@ -74,6 +74,8 @@ if __name__ == "__main__":
     print('Arguments:')
     for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
 
+    m = None
+    b = None
     if dataset == 'cal_housing':
         X, y = data_loader_cal_housing()
     elif dataset == 'abalone':
@@ -83,7 +85,7 @@ if __name__ == "__main__":
     elif dataset == 'synthetic':
         n = parsed['n']
         d = parsed['d']
-        X, y = gaussian(n, d)
+        X, y, m, b = gaussian(n, d)
 
     if noise_type == "oblivious":
         noise_fn = addObliviousNoise
@@ -97,7 +99,7 @@ if __name__ == "__main__":
     for _ in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
-        X_train, y_train_noisy = noise_fn(X_train, y_train, noise)
+        X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m , b)
 
         theta = SEVER(X_train,y_train_noisy, reg=reg, p=p, iter=iters)
         loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))

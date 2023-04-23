@@ -41,28 +41,30 @@ def SubQ2(X, y, T, p):
     n = X.shape[0]
     X_np = X[np.random.permutation(n)[:int(n*p)]]
     y_np = y[np.random.permutation(n)[:int(n*p)]]
-    ridge = Ridge(2, fit_intercept=True, solver='cholesky')
+    ridge = Ridge(4, fit_intercept=True, solver='cholesky')
     ridge.fit(X[:, :-1], y)
     theta = np.append(ridge.coef_, [ridge.intercept_])
-    L = np.linalg.norm(np.matmul(np.transpose(X_np),X_np),2)
     t = 0
-    for i in range(T):
+    iter_diff = 1
+    while iter_diff > 1e-8:
+        theta_prev = theta.copy()
         pred = np.matmul(X,theta)
         v = (pred - y)**2
         partition_number = int(n*p)
         v_arg_hat = np.argpartition(v, partition_number)
         X_np = X[v_arg_hat[:int(n*p)]]
         y_np = y[v_arg_hat[:int(n*p)]]
-        L = np.linalg.norm(np.matmul(np.transpose(X_np),X_np),2)
         t = np.max(v[v_arg_hat[:int(n*p)]])
         P_num = np.count_nonzero(v_arg_hat[:int(n*p)] < int(n*p))
         Q_num = np.count_nonzero(v_arg_hat[:int(n*p)] > int(n*p))
 
-        ridge = Ridge(2, fit_intercept=True, solver='cholesky')
+        ridge = Ridge(4, fit_intercept=True, solver='cholesky')
         ridge.fit(X_np[:, :-1], y_np)
         theta = np.append(ridge.coef_, [ridge.intercept_])
+
+        iter_diff = np.linalg.norm(theta-theta_prev,2)
     
-    ridge = Ridge(2, fit_intercept=True, solver='cholesky')
+    ridge = Ridge(4, fit_intercept=True, solver='cholesky')
     ridge.fit(X_np[:, :-1], y_np)
     theta = np.append(ridge.coef_, [ridge.intercept_])
     return theta

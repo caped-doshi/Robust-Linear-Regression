@@ -1055,12 +1055,12 @@
 			Robust Risk \cite{RRM} &$1.176_{(0.1110)}
 			$&$1.336_{(0.1882)}$&$1.437_{(0.1723)}$&$1.800_{(0.0820)}$\\
 			SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} &$1.094_{(0.1065)}$&$1.323_{(0.0758)}$&$1.578_{(0.0799)}$&$1.984_{(0.2020)}$\\
-			TERM \cite{li2020tilted} &$1.029_{(0.0707)}$&$1.126_{(0.0776)}$&$1.191_{(0.1091)}$&$1.201_{(0.1409)}$\\
-			SEVER \cite{DiakonikolasKKLSS19} &$\mathbf{1.011_{(0.0838)}}$&$\mathbf{1.067_{(0.0457)}}$&$\mathbf{1.071_{(0.0807)}}$&$\mathbf{1.138_{(0.1162)}}$\\
+			TERM \cite{li2020tilted} &$\mathbf{1.029_{(0.0707)}}$&$1.126_{(0.0776)}$&$1.191_{(0.1091)}$&$1.201_{(0.1409)}$\\
+			SEVER \cite{DiakonikolasKKLSS19} &$1.043_{(0.0970)}$&$\mathbf{1.067_{(0.0457)}}$&$\mathbf{1.071_{(0.0807)}}$&$\mathbf{1.138_{(0.1162)}}$\\
 			Huber \cite{Huber2009} &$1.412_{(0.0474)}$&$1.501_{(0.2918)}$&$2.231_{(0.9054)}$&$2.247_{(1.0399)}$\\
 			RANSAC \cite{RANSAC1981} &$1.238_{(0.0529)}$&$1.643_{(0.1331)}$&$2.092_{(0.1935)}$&$2.679_{(0.1365)}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 1-\eps$) &$\mathbf{0.966_{(0.1119)}}$&$\mathbf{1.002_{(0.1025)}}$&$\mathbf{1.010_{(0.0630)}}$&$\mathbf{1.089_{(0.1129)}}$\\
+			SubQuantile($p = 1-\eps$) &$\mathbf{0.966_{(0.1119)}}$&$\mathbf{1.002_{(0.1025)}}$&$\mathbf{1.010_{(0.0630)}}$&$\mathbf{1.082_{(0.1066)}}$\\
 			\midrule 
 			Genie ERM &$0.960_{(0.0845)}$&$0.982_{(0.0842)}$&$1.006_{(0.0879)}$&$1.030_{(0.0578)}$\\
 			\bottomrule
@@ -1205,12 +1205,12 @@
 		\leq & \sqrt{\lambda_{\max}\left(P^T P\right)}\left(\norm{\left(P^TP + \lambda I\right)^{-1}}_2+\norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\right)\norm{\vy_P}_2 + \sqrt{\lambda_{\max}\left(Q^T Q\right)}\norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\norm{\vy_Q}_2 &&\\
 		= &\frac{\sigma_{\max}(P)\norm{\vy_P}}{\sqrt{\lambda_{\max}(P^TP + \lambda I)}} + \frac{\sigma_{\max}(P)\norm{\vy_P}_2}{\sqrt{\lambda_{\max}\left(P^T P + Q^T Q + \lambda I\right)}} + \frac{\sigma_{\max}(Q)\norm{\vy_Q}_2}{\sqrt{\lambda_{\max}\left(P^T P + Q^T Q + \lambda I\right)}} &&\\
 		\overset{\mathrm{(a)}}{\leq} &\frac{2\sigma_{\max}(P)\norm{P\vbeta_P + \veps_P}_2 + \sigma_{\max}{Q}\norm{Q\vbeta_Q + \veps_Q}_2}{\sqrt{\lambda_{\max}\left(P^T P + \lambda I\right)}} &&\\
-		\overset{\mathrm{(b)}}{\leq} & \frac{2\sigma^2_{\max}(P)\norm{\vbeta_P} + 4\sigma_{\max}(P)n(1-\varepsilon^{(t)})\eta_P + 2\sigma^2_{\max}(Q)\norm{\vbeta_Q} + 4\sigma_{\max}(Q)n\varepsilon^{(t)}\eta_Q}{\sqrt{\lambda_{\max}(P^T P) + \lambda_{\min}(\lambda I)}} &&\\
-		\leq &\frac{2\sigma^2_{\max}(P)\norm{\vbeta_P} + 4\sigma_{\max}(P)n(1-\varepsilon^{(t)})\eta_P + 2\sigma^2_{\max}(Q)\norm{\vbeta_Q} + 4\sigma_{\max}(Q)n\varepsilon^{(t)}\eta_Q}{\sqrt{\sigma^2_{\max}(P) + \lambda}} &&\\
+		\overset{\mathrm{(b)}}{\leq} & \frac{2\sigma^2_{\max}(P)\norm{\vbeta_P} + 6\sigma_{\max}(P)n(1-\varepsilon^{(t)})\eta_P + \sigma^2_{\max}(Q)\norm{\vbeta_Q} + 3\sigma_{\max}(Q)n\varepsilon^{(t)}\eta_Q}{\sqrt{\lambda_{\max}(P^T P) + \lambda_{\min}(\lambda I)}} &&\\
+		\leq &\frac{2\sigma^2_{\max}(P)\norm{\vbeta_P} + 6\sigma_{\max}(P)n(1-\varepsilon^{(t)})\eta_P + \sigma^2_{\max}(Q)\norm{\vbeta_Q} + 3\sigma_{\max}(Q)n\varepsilon^{(t)}\eta_Q}{\sqrt{\sigma^2_{\max}(P) + \lambda}} &&\\
 	\end{align*}
 	
 	(a) is due to $Q^TQ$ being a positive semi definite symmetric matrix. \\ 
-	(b) holds with probability $\left(1 - (\Phi(2) - \Phi(-2))\right)^{n(1-\varepsilon^{(t)})}$
+	(b) holds with high probability due to the variance of the $\chi^2$ distribution\\
 	
 	Thus we have shown that $\norm{\vbeta_P - \vtheta_{(t)}}_2$ is bounded above at any time-step $(t)$ in terms of the maximal singular values of the data matrices and the variance of the white noise. 
 	
@@ -1646,7 +1646,7 @@
 			STIR \cite{pmlr-v89-mukhoty19a}  &$\mathbf{0.604_{(0.0070)}}$&$65.555_{(2.1899)}$\\
 			Huber \cite{Huber2009} &$\mathbf{0.601_{(0.0077)}}$&$71.813_{(2.0755)}$\\
 			RANSAC \cite{RANSAC1981} &$0.681_{(0.0389)}$&$0.679_{(0.0253)}$\\
-			TERM \cite{li2020tilted} &$0.737_{(0.0070)}$&$0.741_{(0.0155)}$\\
+			TERM \cite{li2020tilted} &$0.737_{(0.0070)}$&$0.625_{(0.0083)}$\\
 			SEVER \cite{DiakonikolasKKLSS19} &$0.640_{(0.0067)}$&$0.642_{(0.0088)}$\\
 			\rowcolor{LightCyan}
 			SubQuantile($p = 0.9$) &$\mathbf{0.615_{(0.0076)}}$&$\mathbf{0.612_{(0.0096)}}$\\
