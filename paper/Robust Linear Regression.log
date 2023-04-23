@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  23 APR 2023 00:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  23 APR 2023 01:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1674,7 +1674,7 @@ ged.
 Here is how much of TeX's memory you used:
  42342 strings out of 478338
  1008544 string characters out of 2830528
- 1496130 words of memory out of 3000000
+ 1497131 words of memory out of 3000000
  59773 multiletter control sequences out of 15000+600000
  506401 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1713,7 +1713,7 @@ onts/type1/urw/times/utmb8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Prog
 rams/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind Rathnashyam/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Arvind Rat
 hnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "Robust Linear Regression.pdf" (30 pages, 558053 bytes).
+Output written on "Robust Linear Regression.pdf" (30 pages, 558138 bytes).
 PDF statistics:
  914 PDF objects out of 1000 (max. 8388607)
  281 named destinations out of 1000 (max. 500000)

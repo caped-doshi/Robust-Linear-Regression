@@ -1055,14 +1055,14 @@
 			Robust Risk \cite{RRM} &$1.176_{(0.1110)}
 			$&$1.336_{(0.1882)}$&$1.437_{(0.1723)}$&$1.800_{(0.0820)}$\\
 			SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} &$1.094_{(0.1065)}$&$1.323_{(0.0758)}$&$1.578_{(0.0799)}$&$1.984_{(0.2020)}$\\
-			TERM \cite{li2020tilted} &$\mathbf{1.029_{(0.0707)}}$&$1.126_{(0.0776)}$&$1.191_{(0.1091)}$&$1.201_{(0.1409)}$\\
-			SEVER \cite{DiakonikolasKKLSS19} &$1.111_{(0.0924)}$&$\mathbf{1.067_{(0.0457)}}$&$\mathbf{1.071_{(0.0807)}}$&$\mathbf{1.138_{(0.1162)}}$\\
+			TERM \cite{li2020tilted} &$1.029_{(0.0707)}$&$1.126_{(0.0776)}$&$1.191_{(0.1091)}$&$1.201_{(0.1409)}$\\
+			SEVER \cite{DiakonikolasKKLSS19} &$\mathbf{1.011_{(0.0838)}}$&$\mathbf{1.067_{(0.0457)}}$&$\mathbf{1.071_{(0.0807)}}$&$\mathbf{1.138_{(0.1162)}}$\\
 			Huber \cite{Huber2009} &$1.412_{(0.0474)}$&$1.501_{(0.2918)}$&$2.231_{(0.9054)}$&$2.247_{(1.0399)}$\\
 			RANSAC \cite{RANSAC1981} &$1.238_{(0.0529)}$&$1.643_{(0.1331)}$&$2.092_{(0.1935)}$&$2.679_{(0.1365)}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 1-\eps$) &$\mathbf{0.887_{(0.1046)}}$&$\mathbf{0.976_{(0.0892)}}$&$\mathbf{0.933_{(0.1137)}}$&$\mathbf{1.028_{(0.1142)}}$\\
+			SubQuantile($p = 1-\eps$) &$\mathbf{0.966_{(0.1119)}}$&$\mathbf{1.002_{(0.1025)}}$&$\mathbf{1.010_{(0.0630)}}$&$\mathbf{1.089_{(0.1129)}}$\\
 			\midrule 
-			Genie ERM &$0.986_{(0.1039)}$&$0.955_{(0.0698)}$&$1.038_{(0.0886)}$&$1.030_{(0.0578)}$\\
+			Genie ERM &$0.960_{(0.0845)}$&$0.982_{(0.0842)}$&$1.006_{(0.0879)}$&$1.030_{(0.0578)}$\\
 			\bottomrule
 		\end{tabular}
 		\caption{\texttt{Drug Discovery} Dataset. Empirical Risk over $P$ with oblivious noise}
@@ -1212,7 +1212,7 @@
 	(a) is due to $Q^TQ$ being a positive semi definite symmetric matrix. \\ 
 	(b) holds with probability $\left(1 - (\Phi(2) - \Phi(-2))\right)^{n(1-\varepsilon^{(t)})}$
 	
-	Thus we have shown that $\norm{\vbeta_P - \vtheta_{(t)}}_2$ is bounded above at any time-step $(t)$. 
+	Thus we have shown that $\norm{\vbeta_P - \vtheta_{(t)}}_2$ is bounded above at any time-step $(t)$ in terms of the maximal singular values of the data matrices and the variance of the white noise. 
 	
 	\end{proof}
 
