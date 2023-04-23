@@ -65,7 +65,7 @@ if __name__ == "__main__":
     for _ in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
-        X_train, y_train_noisy = noise_fn(X, y, noise)
+        X_train, y_train_noisy = noise_fn(X_train, y_train, noise)
 
         theta = stir(X_train,y_train_noisy,num_iters)
         loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))

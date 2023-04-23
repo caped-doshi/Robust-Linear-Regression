@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  22 APR 2023 23:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  23 APR 2023 00:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1559,26 +1559,26 @@ ine 1094.
  [14
 
 ]
-Overfull \hbox (53.20686pt too wide) detected at line 1216
+Overfull \hbox (53.20686pt too wide) detected at line 1210
 []
  []
 
 [15] [16]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1227.
+(hyperref)                removing `math shift' on input line 1221.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\varepsilon' on input line 1227.
+(hyperref)                removing `\varepsilon' on input line 1221.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `superscript' on input line 1227.
+(hyperref)                removing `superscript' on input line 1221.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 1227.
+(hyperref)                removing `math shift' on input line 1221.
 
 [17] [18]
 Underfull \vbox (badness 1097) has occurred while \output is active []
@@ -1588,7 +1588,7 @@ Underfull \vbox (badness 1097) has occurred while \output is active []
 [22]
 
 LaTeX Warning: Reference `thm:probability-epsilon-decreasing' on page 23 undefi
-ned on input line 1448.
+ned on input line 1439.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1597,56 +1597,56 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [24] [25] [26]
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1571.
+(relsize)                Using 7.0pt instead on input line 1562.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
 Package relsize Warning: Font size 6.94446pt is too small.
-(relsize)                Using 7.0pt instead on input line 1582.
+(relsize)                Using 7.0pt instead on input line 1573.
 
 
-Underfull \hbox (badness 7740) in paragraph at lines 1565--1585
+Underfull \hbox (badness 7740) in paragraph at lines 1556--1576
 \OT1/ptm/m/n/10 In the age of big data, stochas-tic meth-ods are nec-es-sary fo
 r fast train-ing of mod-els to han-dle large
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1565--1585
+Underfull \hbox (badness 10000) in paragraph at lines 1556--1576
 \OT1/ptm/m/n/10 amounts of data. In this sec-tion we pro-vide an al-go-rithm fo
 r Stochas-tic Sub-Quantile Op-ti-miza-tion.
  []
@@ -1669,12 +1669,12 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 5976B07CCE1A6F106520F417A6FA82B1;6522.
+(rerunfilecheck)             Checksum: 99456FEC9CABDF22BEABD30A6FF4EDD8;6446.
  ) 
 Here is how much of TeX's memory you used:
  42342 strings out of 478338
  1008544 string characters out of 2830528
- 1497131 words of memory out of 3000000
+ 1496130 words of memory out of 3000000
  59773 multiletter control sequences out of 15000+600000
  506401 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1713,9 +1713,9 @@ onts/type1/urw/times/utmb8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Prog
 rams/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Users/Arvind Rathnashyam/AppD
 ata/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Arvind Rat
 hnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "Robust Linear Regression.pdf" (30 pages, 558149 bytes).
+Output written on "Robust Linear Regression.pdf" (30 pages, 558053 bytes).
 PDF statistics:
- 912 PDF objects out of 1000 (max. 8388607)
+ 914 PDF objects out of 1000 (max. 8388607)
  281 named destinations out of 1000 (max. 500000)
  333 words of extra memory for PDF output out of 10000 (max. 10000000)
 

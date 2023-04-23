@@ -54,6 +54,8 @@ if __name__ == "__main__":
     print('Arguments:')
     for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
 
+    m = None
+    b = None
     if dataset == 'cal_housing':
         X, y = data_loader_cal_housing()
     elif dataset == 'abalone':
@@ -63,7 +65,7 @@ if __name__ == "__main__":
     elif dataset == 'synthetic':
         n = parsed['n']
         d = parsed['d']
-        X, y = gaussian(n, d) 
+        X, y, m, b = gaussian(n, d) 
 
     if noise_type == "oblivious":
         noise_fn = addObliviousNoise
@@ -76,7 +78,7 @@ if __name__ == "__main__":
     for _ in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
-        X_train, y_train_noisy = noise_fn(X, y, noise)
+        X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
 
         theta = CRR(X_train,y_train_noisy,num_iters)
         loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))

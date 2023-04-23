@@ -14,10 +14,10 @@
 \contentsline {section}{\numberline {6}Conclusion}{10}{section.6}%
 \ttl@starttoc {sections@1}
 \contentsline {section}{\numberline {A}Linear Algebra and Probability Theory Preliminaries}{14}{appendix.A}%
-\contentsline {section}{\numberline {B}Proofs on the effect of Linear Corruption}{15}{appendix.B}%
+\contentsline {section}{\numberline {B}Theory for Ridge Regression Algorithm \ref {alg:sqo-ridge}}{15}{appendix.B}%
 \contentsline {subsection}{\numberline {B.1}Proof of Theorem\nobreakspace {}\ref {thm:expected-value-corrupted}}{15}{subsection.B.1}%
 \contentsline {section}{\numberline {C}Proofs for $\varepsilon ^{(t)}$}{17}{appendix.C}%
-\contentsline {section}{\numberline {D}General Properties of Sub-Quantile Minimization}{19}{appendix.D}%
+\contentsline {section}{\numberline {D}Theory for Subquantile Minimization}{19}{appendix.D}%
 \contentsline {subsection}{\numberline {D.1}Derivation of Lemma\nobreakspace {}\ref {lem:gfermat}}{19}{subsection.D.1}%
 \contentsline {subsection}{\numberline {D.2}Derivation of Lemma\nobreakspace {}\ref {lem:gthetaderiv}}{19}{subsection.D.2}%
 \contentsline {subsection}{\numberline {D.3}Derivation of Lemma\nobreakspace {}\ref {lem:g-lsmooth}}{19}{subsection.D.3}%

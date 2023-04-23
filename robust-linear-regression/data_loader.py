@@ -86,8 +86,8 @@ def gaussian(n,d):
         X = np.random.normal(0, 1, d)
         x[i,0:d] = X
         x[i,d] = 1
-    m = np.random.normal(4,0,d)
-    b = np.random.normal(4,0)
+    m = np.random.normal(4,4,d)
+    b = np.random.normal(4,4)
 
     for i in range(n):
         t = np.random.normal(np.dot(np.transpose(m),x[i,0:d]) + b,0.01)

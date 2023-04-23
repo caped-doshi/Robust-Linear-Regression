@@ -1099,13 +1099,6 @@
 		\begin{equation}
 			\norm{A^T A}_2 = \norm{A}^2_2
 		\end{equation}
-		Let $\ve_1, \ve_2, \dots, \ve_d$ denote the canonical basis of $\mathbb{R}^d$. It therefore follows as:
-		\begin{align*}
-			\sigma_{\max} &= \max_{\norm{\vx} = 1}\norm{A\vx}\\
-			&\geq \norm{A\ve_i} \text{ for } i= 1,\dots,d \\
-			&= \sqrt{\sum_{j=1}^n (A_{ji})^2} \\
-			&\geq |A_{ji}| \,\forall j = 1,\dots,n, i=1,\dots,m
-		\end{align*}
 	\end{fact}
 
 	\begin{fact}
@@ -1150,7 +1143,7 @@
 
 	\newpage
 	
-	\section{Proofs on the effect of Linear Corruption}\label{app:sub-quantile-optimization}
+	\section{Theory for Ridge Regression Algorithm \ref{alg:sqo-ridge}}\label{app:sub-quantile-optimization}
 	\subsection{Proof of Theorem~\ref{thm:expected-value-corrupted}}\label{app:expected-value-corrupted}
 	\begin{proof}
 	\begin{assumption}\label{asm:normal-sampling}
@@ -1212,13 +1205,14 @@
 		\leq & \sqrt{\lambda_{\max}\left(P^T P\right)}\left(\norm{\left(P^TP + \lambda I\right)^{-1}}_2+\norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\right)\norm{\vy_P}_2 + \sqrt{\lambda_{\max}\left(Q^T Q\right)}\norm{\left(P^T P + Q^T Q + \lambda I\right)^{-1}}_2\norm{\vy_Q}_2 &&\\
 		= &\frac{\sigma_{\max}(P)\norm{\vy_P}}{\sqrt{\lambda_{\max}(P^TP + \lambda I)}} + \frac{\sigma_{\max}(P)\norm{\vy_P}_2}{\sqrt{\lambda_{\max}\left(P^T P + Q^T Q + \lambda I\right)}} + \frac{\sigma_{\max}(Q)\norm{\vy_Q}_2}{\sqrt{\lambda_{\max}\left(P^T P + Q^T Q + \lambda I\right)}} &&\\
 		\overset{\mathrm{(a)}}{\leq} &\frac{2\sigma_{\max}(P)\norm{P\vbeta_P + \veps_P}_2 + \sigma_{\max}{Q}\norm{Q\vbeta_Q + \veps_Q}_2}{\sqrt{\lambda_{\max}\left(P^T P + \lambda I\right)}} &&\\
-		\overset{\mathrm{(b)}}{\leq} & \frac{\left(2\sigma^2_{\max}(P)\norm{\vbeta_P}\right) + 2n\eta_P}{A} &&\\
+		\overset{\mathrm{(b)}}{\leq} & \frac{2\sigma^2_{\max}(P)\norm{\vbeta_P} + 4\sigma_{\max}(P)n(1-\varepsilon^{(t)})\eta_P + 2\sigma^2_{\max}(Q)\norm{\vbeta_Q} + 4\sigma_{\max}(Q)n\varepsilon^{(t)}\eta_Q}{\sqrt{\lambda_{\max}(P^T P) + \lambda_{\min}(\lambda I)}} &&\\
+		\leq &\frac{2\sigma^2_{\max}(P)\norm{\vbeta_P} + 4\sigma_{\max}(P)n(1-\varepsilon^{(t)})\eta_P + 2\sigma^2_{\max}(Q)\norm{\vbeta_Q} + 4\sigma_{\max}(Q)n\varepsilon^{(t)}\eta_Q}{\sqrt{\sigma^2_{\max}(P) + \lambda}} &&\\
 	\end{align*}
 	
 	(a) is due to $Q^TQ$ being a positive semi definite symmetric matrix. \\ 
 	(b) holds with probability $\left(1 - (\Phi(2) - \Phi(-2))\right)^{n(1-\varepsilon^{(t)})}$
 	
-	Thus we have shown that $\vbeta_P - \vtheta_{(t)}$
+	Thus we have shown that $\norm{\vbeta_P - \vtheta_{(t)}}_2$ is bounded above at any time-step $(t)$. 
 	
 	\end{proof}
 
@@ -1250,18 +1244,18 @@
 	\begin{align*}
 		\left(\mP_i(\vtheta_{(t)} - \vbeta_P)\right)^2 &= \left(\sum_{j=1}^d\mathcal{N}(0,\xi_P)\left(\theta^{(t)}_j - \beta_{Pj}\right)\right)^2 &&\\
 		&= \left(\sum_{j=1}^d \mathcal{N}\left(0,\xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)^2\right)\right)^2  &&\\
-		&= \left(\mathcal{N}\left(0, \sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)\right)\right)^2
+		&= \left(\mathcal{N}\left(0, \sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)^2\right)\right)^2
 	\end{align*}
 	It thus similarly follows for $Q_i$:
 	\begin{equation*}
-		\left(\mQ_i(\vtheta_{(t)} - \vbeta_Q)\right)^2 = \left(\mathcal{N}\left(0, \sum_{j=1}^d \xi_Q\left(\theta_j^{(t)} - \beta_{Qj}\right)\right)\right)^2
+		\left(\mQ_i(\vtheta_{(t)} - \vbeta_Q)\right)^2 = \left(\mathcal{N}\left(0, \sum_{j=1}^d \xi_Q\left(\theta_j^{(t)} - \beta_{Qj}\right)^2\right)\right)^2
 	\end{equation*}
 	Now we can define the cumulative distribution functions.
 	\begin{align}
-		F_P(z) &= \frac{1}{\sqrt{2\pi}}\int_{-\sqrt{z}}^{\sqrt{z}}\exp\left(-\frac{u^2}{2\sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)}\right)du &&\\
-		&= \Phi\left(\frac{\sqrt{z}}{\sqrt{\sum_{j=1}^d \xi_P\left(\theta_j^{(t)}-\beta_{Pj}\right)}}\right) - \Phi\left(\frac{-\sqrt{z}}{\sqrt{\sum_{j=1}^d \xi_Q\left(\theta_j^{(t)}-\beta_{Pj}\right)}}\right) &&
+		F_P(z) &= \frac{1}{\sqrt{2\pi}}\int_{-\sqrt{z}}^{\sqrt{z}}\exp\left(-\frac{u^2}{2\sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)^2}\right)du &&\\
+		&= \Phi\left(\frac{\sqrt{z}}{\sqrt{\sum_{j=1}^d \xi_P\left(\theta_j^{(t)}-\beta_{Pj}\right)^2}}\right) - \Phi\left(\frac{-\sqrt{z}}{\sqrt{\sum_{j=1}^d \xi_Q\left(\theta_j^{(t)}-\beta_{Pj}\right)^2}}\right) &&
 	\end{align}
-	Let us define $\displaystyle \phi = \sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)$ and $\displaystyle \psi = \sum_{j=1}^d \xi_Q\left(\theta_j^{(t)} - \beta_{Qj}\right)$
+	Let us define $\displaystyle \phi = \sum_{j=1}^d \xi_P\left(\theta_j^{(t)} - \beta_{Pj}\right)^2$ and $\displaystyle \psi = \sum_{j=1}^d \xi_Q\left(\theta_j^{(t)} - \beta_{Qj}\right)^2$
 	Therefore it follows:
 	\begin{equation}
 		F_P(z) = \Phi\left(\frac{\sqrt{z}}{\sqrt{\phi}}\right) - \Phi\left(\frac{-\sqrt{z}}{\sqrt{\phi}}\right)
@@ -1272,21 +1266,18 @@
 	\end{equation}
 	Here we can note if $\phi < \psi$, then for all $z > 0$, it follows $F_P(z) > F_Q(z)$.
 	
-	We now want to find the max integer, $\eta$ such that with probability greater than $0.9$, $Q_{\eta} < P_{np - \eta}$ and for all $m \in \mathbb{N}$ such that $m > \eta$, $Q_{m} > P_{np - \eta}$. This is equivalent to the probability there will be $\eta$ elements within the Subquantile matrix.
+	We now want to find the max integer, $\eta$ such that with probability greater than $0.9$, $Q_{\eta} < P_{np - \eta}$ and for all $m \in \mathbb{N}$ such that $m > \eta$, $Q_{m} > P_{np - \eta}$. This is equivalent to the probability there will be $\eta$ elements from $Q$ within the Subquantile matrix.
 
 	\begin{align*}
 		\mathbb{P}\left[Q_\eta < P_{np - \eta} \bigcap_{i=1}^{n\epsilon - \eta} Q_{\eta+ i} > P_{np - \eta}\right] &= \mathbb{P}\left[Q_\eta < P_{np - \eta}\right] \prod_{i=1}^{n\epsilon - \eta} \mathbb{P}\left[Q_{n+i} > P_{np - \eta}\right] &&\\
 		&= \mathbb{P}\left[Q_n < P_{np - \eta}\right]\prod_{i=1}^{n\epsilon - \eta}\left(1 - \mathbb{P}\left[Q_{n+i} < P_{np - \eta}\right]\right) &&\\
 		&= \mathbb{P}\left[Q_n - P_{np-\eta} < 0\right]\prod_{i=1}^{n\epsilon - \eta} \left(1 - \mathbb{P}\left[Q_{n+i} - P_{np-\eta} < 0\right]\right) &&\\
 	\end{align*}
-	\begin{align*}
-		\mathbb{P}\left[Q_\eta - P_{np-\eta} < 0 \right]&= \int_{-\infty}^\infty \int_{-\infty}^y \frac{(n\epsilon)!}{(\eta-1)!(n\epsilon - \eta)!}\left[F_P(y)\right]^{\eta-1}\left[1 - F_P(y)\right]^{n\epsilon - \eta}\frac{1}{\xi_P\sqrt{2\pi}}\exp\left(-\frac{1}{2}\left(\frac{y}{\xi_P}\right)^2\right) dx\,dy &&\\
-		&= 
-	\end{align*}
+	It follows $\eta$ will be lower depending on the difference of $\phi$ and $\psi$. In a further work we will give a tight upper bound on the probability.
 
 	
 	\newpage
-	\section{General Properties of Sub-Quantile Minimization}\label{app:general-proofs}
+	\section{Theory for Subquantile Minimization}\label{app:general-proofs}
 	\subsection{Derivation of Lemma~\ref{lem:gfermat}}
 	\label{app:gfermat}
 	Since $\displaystyle g(t,\vtheta)$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
@@ -1533,7 +1524,7 @@
 	\end{proof}
 	
 	\subsection{Expectation of Improvement}
-	We are also interested in expected improvement after choosing a new Subquantile matrix. 
+	We are also interested in expected improvement after the Subquantile matrix update. 
 	\begin{align*}
 		\mathbb{E}&\left[f\left(\vtheta_{(k)}, S^{(k+1)}\right) - f\left(\vtheta_{(k)}, S^{(k)}\right)\right] = \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&\\
 		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&
@@ -1603,7 +1594,7 @@
 		TERM \cite{li2020tilted} &$0.010_{(0.0001)}$&$0.012_{(0.0008)}$&$0.017_{(0.0016)}$\\
 		SEVER \cite{DiakonikolasKKLSS19} &$0.0166_{(0.007)}$&$0.011_{(0.0004)}$&$0.0267_{(0.036)}$\\
 		\rowcolor{LightCyan}
-		SubQuantile($p = 0.6$,$j=1$) &$\mathbf{0.0099_{(0.0002)}}$&$\mathbf{0.00998_{(0.0002)}}$&$\mathbf{0.010_{(0.0001)}}$\\
+		SubQuantile($p = 0.6$) &$\mathbf{0.0099_{(0.0002)}}$&$\mathbf{0.00998_{(0.0002)}}$&$\mathbf{0.010_{(0.0001)}}$\\
 		\midrule 
 		Genie ERM &$0.0099_{(0.0002)}$&$0.00997_{(0.0002)}$&$0.010_{(0.0001)}$\\
 		\bottomrule
@@ -1630,7 +1621,7 @@
 			TERM \cite{li2020tilted} &$10.686_{(0.2616)}$&$10.853_{(0.4245)}$\\
 			SEVER \cite{DiakonikolasKKLSS19} &$\mathbf{2.238_{(0.0901)}}$&$\mathbf{2.287_{(0.0757)}}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 0.8$,$j = 100$) &$\mathbf{2.292_{(0.0413)}}$&$\mathbf{2.261_{(0.0790)}}$\\
+			SubQuantile($p = 0.8$) &$\mathbf{2.292_{(0.0413)}}$&$\mathbf{2.261_{(0.0790)}}$\\
 			\midrule 
 			Genie ERM &$2.213_{(0.0528)}$&$2.238_{(0.0901)}$\\
 			\bottomrule
@@ -1658,7 +1649,7 @@
 			TERM \cite{li2020tilted} &$0.737_{(0.0070)}$&$0.741_{(0.0155)}$\\
 			SEVER \cite{DiakonikolasKKLSS19} &$0.640_{(0.0067)}$&$0.642_{(0.0088)}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 0.9$, $j = 100$) &$\mathbf{0.615_{(0.0076)}}$&$\mathbf{0.612_{(0.0096)}}$\\
+			SubQuantile($p = 0.9$) &$\mathbf{0.615_{(0.0076)}}$&$\mathbf{0.612_{(0.0096)}}$\\
 			\midrule 
 			Genie ERM &$0.598_{(0.0077)}$&$0.603_{(0.0068)}$\\
 			\bottomrule
