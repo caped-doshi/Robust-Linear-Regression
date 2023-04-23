@@ -46,7 +46,7 @@ def SubQ2(X, y, T, p):
     theta = np.append(ridge.coef_, [ridge.intercept_])
     t = 0
     iter_diff = 1
-    while iter_diff > 1e-8:
+    while iter_diff > 1e-16:
         theta_prev = theta.copy()
         pred = np.matmul(X,theta)
         v = (pred - y)**2

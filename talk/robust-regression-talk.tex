@@ -246,7 +246,6 @@ serif
 		\frametitle{Motivation}
 		
 		\begin{definition}
-			In the Robust Statistics literature:\\
 			\textbf{Oblivious Noise} is noise generated independent of the target distribution\\
 			\textbf{Adaptive Noise} is noise which is generated with knowledge of the target distribution.
 		\end{definition}
@@ -401,6 +400,31 @@ serif
 		\end{lemma}
 		
 	\end{frame}
+
+	\section{Mathematics}
+	
+	\begin{frame}
+		\frametitle{Optimization}
+		
+		Subquantile Optimization continuously optimizes over the $np$ data points with the lowest squared error. In other words, we are trying to minimize the min-loss over the $p$-quantile. This gives a nice characterization of the optimization problem.
+		
+		\smallskip % Vertical whitespace
+		
+		\begin{theorem}
+			The Subquantile min-max optimization problem is equivalent to the following min-min optimization problem:
+			\begin{equation*}
+				\boldsymbol{\theta}_{SM} = \argmin_{\boldsymbol{\theta} \in \mathbb{R}^d}\min_{S \in \prod(X)}\norm{S\boldsymbol{\theta} - y_S}_2^2
+			\end{equation*}
+			where $\Pi$ represents the $\binom{n}{np}$ matrices of $np$ rows of $X$
+		\end{theorem}
+		\begin{proof}
+			If we let the $np$ elements with error less than $t_{(k+1)}$ be rows of the matrix $S$, we see we have the same optimization problem.
+		\end{proof}
+	\end{frame}
+
+	\begin{frame}
+		The reasoning for this characterization of this optimization algorithm is now it is easier to show convergence. There are multiple ways to solve for this algorithm, 
+	\end{frame}
 	
 	\begin{frame}
 		\frametitle{Prior Works }
@@ -409,12 +433,13 @@ serif
 			\cite{DiakonikolasKKLSS19} Sever computes the gradient of losses in each iteration. This incurs a $\mathcal{O}(dn^2)$ time complexity per iteration. Furthermore, points thrown out in early iterations are not resampled. 
 			\item[\ding{228}]
 			\cite{bhatia2017} CRR runs in order complexity $\mathcal{O}(d^3 + nd)$. The theoretical guarantees of CRR are given only in the case of Oblivious Noise.
+			\item[\ding{228}]
+			\cite{li2020tilted} TERM utilizes a tilted empirical risk and empirically takes maximally $2 \times$ the number of iterations a standard ERM algorithm would take to converge.
 			\item[\ding{228}] 
 			Our work computes a $np$ partition of the loss in each iteration. This incurs only a $\mathcal{O}(n)$ time complexity per iteration. Subquantile Minimization is novel in that it resamples points that may not have been in previous Subquantiles.
 		\end{itemize}
 		
-	\end{frame}
-	
+	\end{frame}	
 	
 	%------------------------------------------------
 	
@@ -460,50 +485,17 @@ serif
 	
 	%------------------------------------------------
 	
-	\section{Mathematics}
+
 	
 	\begin{frame}
-		\frametitle{Definitions \& Examples}
-		
-		\begin{definition}
-			A \alert{prime number} is a number that has exactly two divisors.
-		\end{definition}
-		
-		\smallskip % Vertical whitespace
-		
-		\begin{example}
-			\begin{itemize}
-				\item 2 is prime (two divisors: 1 and 2).
-				\item 3 is prime (two divisors: 1 and 3).
-				\item 4 is not prime (\alert{three} divisors: 1, 2, and 4).
-			\end{itemize}
-		\end{example}
-		
-		\smallskip % Vertical whitespace
-		
-		You can also use the \texttt{theorem}, \texttt{lemma}, \texttt{proof} and \texttt{corollary} environments.
-	\end{frame}
-	
-	%------------------------------------------------
-	
-	\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-		\frametitle{Verbatim}
-		
-		\begin{example}[Theorem Slide Code]
-			\begin{verbatim}
-				\begin{frame}
-					\frametitle{Theorem}
-					\begin{theorem}[Mass--energy equivalence]
-						$E = mc^2$
-					\end{theorem}
-			\end{frame}\end{verbatim} % Must be on the same line
-		\end{example}
-	\end{frame}
-	
-	%------------------------------------------------
-	
-	\begin{frame}
-		Slide without title.
+		\frametitle{Further Work}
+		\begin{enumerate}
+			\item In the ridge regression case, experimentally, Subquantile Minimization converges in very few iterations to the optimal solution. Theoretically upper bound the number of iterations it will take given $\boldsymbol{\beta}_P$, $\boldsymbol{\beta}_Q$, and $\epsilon$. 
+			\item 
+			Applications of Subquantile Minimization in other Machine Learning domains such as robust classification in datasets such as CIFAR-10.
+			\item 
+			Proof of convergence for a stochatic Subquantile Minimization Algorithm.
+		\end{enumerate}
 	\end{frame}
 	
 	

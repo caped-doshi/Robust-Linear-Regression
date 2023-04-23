@@ -12,7 +12,7 @@ def addAdaptiveNoise(X, y, noise: float,m=None, b=None):
     noisyY = np.copy(y)
     d = X.shape[1]
     for i in range(int(len(y) * (1-noise)), len(y)):
-        noisyY[i] += 5
+        noisyY[i] *= -1
     return X, noisyY
 
 def addObliviousNoise(X, y, noise: float,m=None,b=None): 

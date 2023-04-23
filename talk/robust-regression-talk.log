@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  23 APR 2023 12:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  23 APR 2023 12:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1353,7 +1353,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [3
 
 ]
-Overfull \vbox (53.6348pt too high) detected at line 287
+Overfull \vbox (40.03479pt too high) detected at line 286
  []
 
 [4
@@ -1361,7 +1361,7 @@ Overfull \vbox (53.6348pt too high) detected at line 287
 ] [5
 
 ]
-Overfull \hbox (6.3805pt too wide) detected at line 329
+Overfull \hbox (6.3805pt too wide) detected at line 328
 \U/msb/m/n/10.95 L[] \OT1/cmr/m/n/10.95 = [] [][] \OMS/cmsy/m/n/10.95 Q[]\OT1/c
 mr/m/n/10.95 (\OMS/cmsy/m/n/10.95 U\OT1/cmr/m/n/10.95 )\OT1/ppl/m/it/10.95 dq \
 OT1/cmr/m/n/10.95 = \U/msb/m/n/10.95 E [] \OT1/cmr/m/n/10.95 = [] []
@@ -1377,28 +1377,29 @@ OT1/cmr/m/n/10.95 = \U/msb/m/n/10.95 E [] \OT1/cmr/m/n/10.95 = [] []
 
 ] [10
 
-] [11
-
 ]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
-57.
+Overfull \vbox (4.1452pt too high) detected at line 423
+ []
 
-(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
-pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [12
+[11
+
+] [12
 
 ] [13
 
 ]
-\openout4 = `robust-regression-talk.vrb'.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
+82.
 
- (robust-regression-talk.vrb) [14
+(C:\Users\Arvind Rathnashyam\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1
+pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [14
 
 ] [15
 
 ]
-Overfull \vbox (81.34758pt too high) detected at line 533
+Overfull \vbox (81.34758pt too high) detected at line 525
  []
 
 [16
@@ -1419,13 +1420,13 @@ americonarticle.pdf>] [17
  (robust-regression-talk.aux)
 Package rerunfilecheck Info: File `robust-regression-talk.out' has not changed.
 
-(rerunfilecheck)             Checksum: C6EF804F19C09040F8FBD887424E10F4;840.
+(rerunfilecheck)             Checksum: B46E82CD575354507EF82BB01A55E694;840.
  ) 
 Here is how much of TeX's memory you used:
- 38610 strings out of 478338
- 978778 string characters out of 2830528
- 1472810 words of memory out of 3000000
- 56234 multiletter control sequences out of 15000+600000
+ 38608 strings out of 478338
+ 978577 string characters out of 2830528
+ 1472478 words of memory out of 3000000
+ 56235 multiletter control sequences out of 15000+600000
  504561 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,18n,104p,8559b,2245s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -1435,30 +1436,31 @@ se/8r.enc}<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
 /Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Users/Arvind Rath
 nashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Arvind Rathnashyam/AppDat
-a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Users/Ar
-vind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cmex
-tra/cmmib8.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/
-Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/Arvind Rathna
-shyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:
-/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/f
-onts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Arvind Rathnashyam/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb><C:/Users/Ar
-vind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symb
-ols/msbm10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
-/type1/urw/courier/ucrr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/Arvind Rathnashyam/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplbi8a.pfb><C:/Users/Arvind
- Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb>
-<C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/pala
-tino/uplri8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fon
-ts/type1/urw/zapfding/uzdr.pfb>
-Output written on robust-regression-talk.pdf (17 pages, 391088 bytes).
+amsfonts/cmextra/cmex8.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Arvind Rathnashyam/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users
+/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/c
+m/cmmib10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/cmextra/cmmib8.pfb><C:/Users/Arvind Rathnashyam/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Arvind 
+Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.p
+fb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/amsfonts/cm/cmr8.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Arvind Rathnashyam/AppDa
+ta/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Arv
+ind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbo
+ls/msam10.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/Arvind Rathnashyam/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Arvind Rathna
+shyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/Use
+rs/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/up
+lbi8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
+1/urw/palatino/uplr8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/M
+iKTeX/fonts/type1/urw/palatino/uplri8a.pfb><C:/Users/Arvind Rathnashyam/AppData
+/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on robust-regression-talk.pdf (17 pages, 392577 bytes).
 PDF statistics:
- 798 PDF objects out of 1000 (max. 8388607)
+ 792 PDF objects out of 1000 (max. 8388607)
  54 named destinations out of 1000 (max. 500000)
- 579 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 543 words of extra memory for PDF output out of 10000 (max. 10000000)
 
