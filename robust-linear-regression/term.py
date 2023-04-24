@@ -13,6 +13,7 @@ def compute_gradients_tilting(theta, X, y, t, reg):  # our objective
     ZZ = np.mean(np.exp(t * loss))
     return grad / (ZZ)
 
+#cvxpy is mostly not supported as the expression is not convex. 
 def TERM_cp(X, y, t, reg):
   theta = cp.Variable(len(X[0]))
   objective = cp.Minimize(cp.sum(cp.exp(t * ((X @ theta - y) ** 2 + reg * theta))))
@@ -21,16 +22,17 @@ def TERM_cp(X, y, t, reg):
   print(result)
   return theta.value
 
+#this function uses the standard gradient descent to approximate the minimum
 def TERM(train_X, train_y, t, alpha, num_iters,reg):
     theta = np.zeros(len(train_X[0]))
     for j in range(num_iters):
         grads_theta = compute_gradients_tilting(theta, train_X, train_y, t,reg)
-
+        #check if objective is reached 
         if np.linalg.norm(grads_theta, ord=2) < 1e-10:
             break
         theta = theta - alpha * grads_theta
-        if j % 1000 == 0:
-            train_error = np.sqrt(np.mean((np.dot(train_X, theta) - train_y) ** 2))
+        # if j % 1000 == 0:
+            # train_error = np.sqrt(np.mean((np.dot(train_X, theta) - train_y) ** 2))
             #print("training error: ", train_error)
     return theta
 
@@ -61,7 +63,7 @@ if __name__ == "__main__":
     alpha = parsed['learning_rate']
     t = parsed['t']
     noise = parsed['noise']
-    reg = paresed['reg']
+    reg = parsed['reg']
     
     m = None
     b = None
@@ -88,7 +90,7 @@ if __name__ == "__main__":
     print('Arguments:')
     for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
 
-
+    #try the TERM method num_trials time and report the average
     print(f"epsilon:\t{noise}")
     means = []
     for j in range(num_trials):

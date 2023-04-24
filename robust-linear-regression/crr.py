@@ -73,7 +73,7 @@ if __name__ == "__main__":
         noise_fn = addAdaptiveNoise
     if noise_type == "feature":
         noise_fn = addFeatureNoise
-
+    #test the algorithm on the selected data num_trials times and report the result
     means = []
     for _ in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)

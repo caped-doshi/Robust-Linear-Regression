@@ -8,8 +8,10 @@ import argparse
 
 def SubQ(X, y, T, p, j):
     n = X.shape[0]
+    #get the first np data points
     X_np = X[:int(n*p)]
     y_np = y[:int(n*p)]
+    #initialize theta as the actual solution to the regression
     ridge = Ridge(2, fit_intercept=True, solver='cholesky')
     ridge.fit(X[:, :-1], y)
     theta = np.append(ridge.coef_, [ridge.intercept_])
@@ -19,6 +21,7 @@ def SubQ(X, y, T, p, j):
         pred = np.matmul(X,theta)
         v = (pred - y)**2
         partition_number = int(n*p)
+        #minimize over the quantile that has the least error
         if i % j == 0:
             v_arg_hat = np.argpartition(v, partition_number)
             X_np = X[v_arg_hat[:int(n*p)]]
@@ -31,7 +34,7 @@ def SubQ(X, y, T, p, j):
         alpha = 1/L
 
         theta = theta - alpha * deriv
-    
+    #return the solution to ridge regression over the computed quantile
     ridge = Ridge(2, fit_intercept=True, solver='cholesky')
     ridge.fit(X_np[:, :-1], y_np)
     theta = np.append(ridge.coef_, [ridge.intercept_])
@@ -131,7 +134,7 @@ if __name__ == "__main__":
         noise_fn = addAdaptiveNoise
     if noise_type == "feature":
         noise_fn = addFeatureNoise
-
+    #test the algorithm on the selected data num_trials times and report the result
     print(f"Epsilon:\t{noise}")
     means = []
     for _ in range(num_trials):
