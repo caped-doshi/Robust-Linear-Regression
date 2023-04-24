@@ -59,7 +59,7 @@
 \setlength{\belowdisplayshortskip}{0pt}
 
 \declaretheorem[name=Theorem]{thm}
-\declaretheorem[name=Lemma,numberwithin=thm]{lemma}
+\declaretheorem[name=Lemma,numberwithin=section]{lemma}
 \declaretheorem[name=Definition]{definition}
 \declaretheorem[name=Assumption]{assumption}
 \declaretheorem[name=Interpretation]{interpretation}
@@ -250,7 +250,7 @@
 	For the linear regression case, this equation becomes 
 	\begin{equation}
 		\label{eqn:theta_sm}
-		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vx_i \vtheta - y_i)^2)^+\right\}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n\left(t-(\vx_i \vtheta - y_i)^2\right)^+\right\}
 	\end{equation}
 	
 	The objective function we define will be: 
@@ -268,25 +268,20 @@
 		\vtheta_{k+1} = \vtheta_k + \alpha \nabla_{\vtheta_k} g(t,\vtheta_k)
 	\end{equation}
 		
-	This algorithm is adopted from \cite{Razaviyayn}. Theoretically, it has been proven to converge in research by \cite{Jin_2019}.\\
+	This algorithm is adopted from \cite{Razaviyayn}. Theoretically, it has been proven to converge to a local nash equilibrium in \cite{Jin_2019} when $g(t,\vtheta)$ is $\ell$-smooth with respect to $\vtheta$ and there exists an $\epsilon$-maximizer for $g(t,\vtheta)$ with respect to $t$ .\\
 	\begin{minipage}{0.48\textwidth}
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
 		
-		\KwInput{Training iterations $T$, Quantile $p$, SubQuantile Update: $j$}
+		\KwInput{Training iterations $T$, Quantile $p$, Data Matrix: $X, (n \times d), n \gg d$}
 		\KwOutput{Trained Parameters, $\displaystyle \vtheta_{(T)}$}
 		$\vtheta_{(0)} \gets (X^T X)^{-1}X^T y$\\
 		\For{$k \in 1,2,\ldots,T$}
 		{
 			$\displaystyle \vnu \gets \left(X\vtheta_{(k)} - y\right)^2$\\
-			\If{$k \% j = 0$}
-			{
-				$\hat{\vnu} \gets sorted(\vnu)$\\
-				$\displaystyle t_{(k+1)} \gets \hat{\vnu}_{np}$\\
-			}
-			$S_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^T \vx_i - y_i)^2 \leq t_{(k+1)}$\\
-			$L_{(k)} \gets \frac{1}{np}\norm{S^T S}_2$\\
-			$\alpha_{(k)} \gets \frac{1}{2L_{(k)}}$\\
+			$S_{(k)} \gets \textsc{Subquantile}(\vtheta_{(k)},X)$\\
+			$L_{(k)} \gets \frac{1}{np}\norm{S_{(k)}^T S_{(k)}}_2$\\
+			$\alpha_{(k)} \gets 1/2L_{(k)}$\\
 			$\displaystyle \vtheta_{(k+1)} \gets \vtheta_k - \alpha_{(k)} \nabla_\vtheta g(t_{(k+1)},\vtheta_{(k)})$
 		}
 		\KwRet{$ \vtheta_T $}
@@ -302,14 +297,22 @@
 			$\vtheta_{(0)} \gets (X^T X + \lambda I)^{-1}X^T y$\\
 			\For{$k \in \left\{1,2,\dots,T\right\}$}
 			{
-				$\vnu \gets (X \vtheta_{(k)} - y)^2$\\
-				$t_{(k+1)} \gets \hat{\vnu}_{np}$\\
-				$S_{(k)} \gets \concat \vx_i\text{ if } (\vtheta_{(k)}^T \vx_i - y_i)^2 \leq t_{(k+1)} \text{ where $\concat$ represents the concatenation operator}$\\
-				$\vtheta_{(k+1)} \gets (S^T S + \lambda I)^{-1}S^T y_S$\\
+				$S_{(k)} \gets \textsc{Subquantile}(\vtheta_{(k)},X)$\\
+				$\vtheta_{(k+1)} \gets (S_{(k)}^T S_{(k)} + \lambda I)^{-1}S_{(k)}^T \vy_S$\\
 			}
 			\KwRet{$ \vtheta_T $}
 			\caption{Subquantile Minimization for Ridge Regression}
 			\label{alg:sqo-ridge}
+		\end{algorithm}
+		\begin{algorithm}[H]
+			\KwInput{Parameters $\vtheta$, Data Matrix: $X, (n \times d)$}
+			\KwOutput{Subquantile Matrix $S$}
+			$\hat{\vnu} \gets \operatorname*{sorted}(X \vtheta_{(k)} - \vy)^2$\\
+			$t \gets \hat{\vnu}_{np}$\\
+			Let $\mX_1,...,\mX_{np}$ be $np$ points such that $\left(\mX_i \vtheta - y_i\right)^2 \leq t$\\
+			$S \gets \begin{pmatrix} \mX_1^T & \dots & \mX_{np}^T\end{pmatrix}^T$\\
+			\KwRet{$ S $}
+			\caption{\textsc{Subquantile}}
 		\end{algorithm}
 	\end{minipage}
 
@@ -465,38 +468,11 @@
 		where $\alpha_1$ and $\alpha_2$ represents the coefficients for the linear combination of $\vtheta$ in the basis defined as $\mB = \begin{bmatrix} \vbeta_P & \vbeta_Q & \mR\end{bmatrix}$
 	\end{restatable}
 
-	We are also interested in Algorithm \ref{alg:sqo-ridge}, so we provide theory for it.
-	\begin{restatable}{corollary}{ridge-algorithm-convergence}
-		\label{thm:ridge-algorithm-convergence}
-		Theorem \ref{alg:sqo-ridge} by expectation converges to a good solution. 
-	\end{restatable}
-	\begin{proofsketch}
-		Let us first note $\varepsilon^{(0)} < 0.5$, and by Theorem \ref{thm:expected-value-corrupted}, $\vtheta_{(0)} = (1-\varepsilon^{(0)})\vbeta_P + \varepsilon^{(0)}\vbeta_Q$. It thus follows:
-		\begin{equation}
-			\norm{\vtheta_{(0)} - \vbeta_P} = \norm{\varepsilon^{(0)}\vbeta_P + \varepsilon^{(0)}\vbeta_Q}
-		\end{equation}
-		and similarly 
-		\begin{equation}
-			\norm{\vtheta_{(0)} - \vbeta_Q} = \norm{(1 - \varepsilon^{(0)})\vbeta_P + (1 - \varepsilon^{(0)}) \vbeta_Q}
-		\end{equation}
-		Therefore in the linear case 
-		\begin{equation}\label{eqn:theta-0-closer-to-p}
-			\norm{\varepsilon^{(0)}\vbeta_P + \varepsilon^{(0)}\vbeta_Q} < \norm{(1 - \varepsilon^{(0)})\vbeta_P + (1 - \varepsilon^{(0)}) \vbeta_Q}
-		\end{equation}
-		Then if $\Var(\epsilon_P) \leq \Var(\epsilon_Q)$, it follows 
-		\begin{equation*}
-			\mathbb{E}\left[\left(\vtheta_{(0)}^T \vp - y_i\right)^2\right] \leq \mathbb{E}\left[\left(\vtheta_{(0)}^T \vq - y_i\right)^2\right]
-		\end{equation*}	
-		This concludes the proof.
-	\end{proofsketch}
-	
-	Note theorem \ref{thm:ridge-algorithm-convergence} is enough to show the final subquantile matrix will have more elements from $P$. It thus follows, in the case of no feature noise, by expectation, $\vtheta$ will move towards $\vbeta_P$ faster than it moves to $\vbeta_Q$. We instead calculate the probability in theorem \ref{thm:probability-epsilon-decreasing}. 
-	
 	We are now interested in theoretical guarantees with no distributional assumptions. First we will consider some intuition on why this problem is not as hard as compared to when the corruption is linearly structured. Let us say the noise is of non-linear regression, in other words $\vy_Q \sim f(X,\vbeta_Q)$, where $f$ is a non-linear combination of features of $X$. In this case, it is not possible to model the non-linear regression by a linear combination of the features, thus, if we have elements from $\mathbb{Q}$ within the lowest $np$ losses, then training on these points will not generalize well to points from $\mathbb{Q}$, so their error will not decrease. 
 
 	
 	\section{Empirical Results}\label{sec:numerical-experiments}
-
+	In all experiments, we utilize Algorithm \ref{alg:sqo-ridge} due to its fast convergence and strong theoretical properties.
 	\subsection{Synthetic Data}
 	
 	\begin{figure}[!b]
@@ -1198,10 +1174,8 @@
 	Thus we have shown that $\norm{\vbeta_P - \vtheta_{(t)}}_2$ is bounded above at any time-step $(t)$ in terms of the maximal singular values of the data matrices and the variance of the white noise. 
 	
 	\end{proof}
-
-	\newpage
 	
-	\section{Proofs for $\varepsilon^{(t)}$}
+	\subsection{Proofs for $\varepsilon^{(t)}$}
 	Let us note the Subquantile Matrix $\displaystyle S = \begin{pmatrix} P \\ Q \end{pmatrix} = \begin{pmatrix} \leftarrow & \vp_1 & \rightarrow \\ \vdots & \vdots & \vdots \\ \leftarrow & \vp_{\eta_P} & \rightarrow \\ \leftarrow & \vq_1 & \rightarrow \\ \vdots & \vdots & \vdots \\ \leftarrow & \vq_{\eta_Q} & \rightarrow\end{pmatrix}$. Thus we can define: $\displaystyle \varepsilon^{(t)} = \frac{\eta_Q}{\eta_P + \eta_Q} = \frac{\eta_Q}{np}$. Where $n$ is the number of training examples and $p$ is the Subquantile we are minimizing over. In this section, we want to provide a theoretical upper bound on $\eta_Q$, from where we can upper bound $\varepsilon^{(t)}$ which is stronger than the trivial upper bound of $\displaystyle \frac{\epsilon}{p}$. We will approach this problem with Order Statistics.
 	\begin{assumption}
 		The optimal regressors are linearly independent, i.e. $\vbeta_P \neq \gamma \vbeta_Q\, \forall \gamma \in \mathbb{R}$
@@ -1260,7 +1234,7 @@
 
 	
 	\newpage
-	\section{Theory for Subquantile Minimization}\label{app:general-proofs}
+	\section{Theory for Subquantile Minimization Algorithm \ref{alg:sqo1}}\label{app:general-proofs}
 	\subsection{Derivation of Lemma~\ref{lem:gfermat}}
 	\label{app:gfermat}
 	Since $\displaystyle g(t,\vtheta)$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
@@ -1381,7 +1355,7 @@
 	\subsection{Proof of Theorem~\ref{thm:improvement-of-theta}}
 	\label{app:improvement-of-theta}
 	\begin{proof}
-		To show the change in $\varepsilon$ we will first calculate the expected change in $\vtheta$ by the $\vtheta$-update described in Equation \ref{eqn:theta-update}. We will also introduce some notation, $\mathcal{S}$ represents all $\vx \in X$ that are within the lowest $np$ losses, i.e. within the subquantile, $\vp \in \mathcal{S}$ represent all data vectors from $\mathbb{P}$ that are within the SubQuantile, similarly $\vq \in \mathbb{Q}$ represent all data vectors from $\mathbb{Q}$ that are within the SubQuantile. Furthermore, $|\mathcal{S}| = np$, there are $\varepsilon n$ points from $\mathbb{Q}$ in $\mathcal{S}$ and $(1-\varepsilon)n$ points from $\mathbb{P}$ within $\mathcal{S}$. 
+		To show the change in $\varepsilon$ we will first calculate the expected change in $\vtheta$ by the $\vtheta$-update described in Equation \ref{eqn:theta-update}. We will also introduce some notation, $\mathcal{S}$ represents all $\vx \in X$ that are within the lowest $np$ losses, i.e. within the subquantile, $\vp \in \mathcal{S}$ represent all data vectors from $\mathbb{P}$ that are within the SubQuantile, similarly $\vq \in \mathbb{Q}$ represent all data vectors from $\mathbb{Q}$ that are within the SubQuantile. Furthermore, $|\mathcal{S}| = np$, there are $\varepsilon np$ points from $\mathbb{Q}$ in $\mathcal{S}$ and $(1-\varepsilon)np$ points from $\mathbb{P}$ within $\mathcal{S}$.  We assume $\vp \sim \mathcal{N}(\vzero, \Sigma_P)$ and $\vq \sim \mathcal{N}(\vzero, \Sigma_Q)$ where $\Sigma_P = \xi_P I$ and $\Sigma_Q = \xi_Q I$ where $\xi_P$ and $\xi_Q$ are greater than $0$, then we can assume it follows $\displaystyle \mC = (\vzero\vzero^T + I) = I$. 
 		\begingroup
 		%\addtolength{\jot}{0.5em}
 		\begin{align*}
@@ -1391,18 +1365,18 @@
 			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^T\vtheta_k - \vp y_p + \sum_{\vq \in \mathcal{S}} \vq\vq^T\vtheta_k - \vq y_q \right] &&
 			\intertext{We will use Assumption \ref{asm:normal-corruption} to rewrite $y_p$ and $y_q$}
 			&= \vtheta_k - \alpha \mathbb{E}\left[\sum_{\vp \in \mathcal{S}}\vp\vp^T\vtheta_k - \vp (\vbeta_P \vp + \eps_P) + \sum_{\vq \in \mathcal{S}} \vq\vq^T\vtheta_k - \vq (\vbeta_Q \vp + \eps_Q) \right] &&\\
-			&= \vtheta_k - \alpha\left(\sum_{\vp \in \mathcal{S}} \left(\vmu \vmu^T + \Sigma\right)\vtheta_k - \left(\vmu \vmu^T + \Sigma\right)\vbeta_P - \sum_{\vq \in \mathcal{S}} \left(\vmu \vmu^T + \Sigma\right)\vtheta_k + \left(\vmu \vmu^T + \Sigma\right)\vbeta_Q\right) &&
+			&= \vtheta_k - \alpha\left(\sum_{\vp \in \mathcal{S}} \left(\vmu \vmu^T + \Sigma_P\right)\vtheta_k - \left(\vmu \vmu^T + \Sigma_P\right)\vbeta_P + \sum_{\vq \in \mathcal{S}} \left(\vmu \vmu^T + \Sigma_Q\right)\vtheta_k + \left(\vmu \vmu^T + \Sigma_Q\right)\vbeta_Q\right) &&
 		\end{align*}
 		 \vspace{1em}
 		\begin{equation}\vspace{1em}
-			\mathbb{E}\left[\vtheta_{(t+1)}\right]= \vtheta_{(t)} - \alpha np \mC\left(\vtheta_{(t)} - (1-\varepsilon)\vbeta_P - \varepsilon\vbeta_Q\right) 
+			\mathbb{E}\left[\vtheta_{(t+1)}\right]= \vtheta_{(t)} - \alpha np \left( (1-\varepsilon^{(t)})\xi_P(\vtheta_{(t)} - \vbeta_P ) + \varepsilon^{(t)}\xi_Q(\vtheta_{(t)} - \vbeta_Q)\right) 
 		\end{equation}
 		
 		\endgroup
 		Now that we have the expected update for $\vtheta$ in terms of the linear regression coefficients, we now want to utilize Lemma \ref{lem:effect-of-projection}.\\
-		Let $\displaystyle \vtheta_k = \alpha_1\vbeta_P + \alpha_2\vbeta_Q + \sum_{i=3}^{d}\alpha_i \vr_i$ in the same basis $\mB$ defined in Lemma \ref{lem:effect-of-projection}. Note in the case of data that is normally distributed about $0$ with no covariance amongst the predictor variables, then $\mC$ is a multiple of the identity. If we proprocess the data using a standard normal scalar such that all features follow a $\mathcal{N}(0,1)$ distribution, then we can assume it follows $\displaystyle \mC = (\vzero\vzero^T + I) = I$. Let $\gamma \coloneqq \alpha np$. Then the following manipulations hold:
+		Let $\displaystyle \vtheta_k = \alpha_1\vbeta_P + \alpha_2\vbeta_Q + \sum_{i=3}^{d}\alpha_i \vr_i$ in the same basis $\mB$ defined in Lemma \ref{lem:effect-of-projection}.Let $\gamma \triangleq \alpha np$. Then the following manipulations hold:
 		\begin{align*}
-			\mathbb{E}\left[\vtheta_{(t+1)}\right] &= \vtheta_{(t)} - \gamma\left(\vtheta_{(t)} - (1-\varepsilon^{(t)})\vbeta_P - \varepsilon^{(t)} \vbeta_Q\right) &&\\
+			\mathbb{E}\left[\vtheta_{(t+1)}\right] &= \vtheta_{(t)} - \gamma\left(\vtheta_{(t)} - (1-\varepsilon^{(t)})\xi_P\vbeta_P - \varepsilon^{(t)}\xi_Q\vbeta_Q\right) &&\\
 			&= \vtheta_{(t)}(1-\gamma) + \gamma (1-\varepsilon^{(t)})\vbeta_P + (1-\gamma)\varepsilon^{(t)}\vbeta_Q &&\\
 			&= (1-\gamma)\left(\alpha_1 \vbeta_P + \alpha_2^{(t)} \vbeta_Q + \sum_{i=3}^d\alpha_i^{(t)}\vr_i\right) + \gamma(1-\varepsilon^{(t)})\vbeta_P + \gamma\varepsilon^{(t)}\vbeta_Q &&\\
 			&= \left(\alpha_1^{(t)}(1-\gamma) + \gamma(1-\varepsilon^{(t)})\right)\vbeta_P + \left(\alpha_2^{(t)}(1-\gamma) + \gamma \varepsilon^{(t)}\right)\vbeta_Q + (1-\gamma)\sum_{i=3}^d\alpha_i^{(t)}\vr_i &&
@@ -1419,61 +1393,6 @@
 		This concludes the proof. 
 	\end{proof}
 
-	\subsection{Proof of Theorem ~\ref{thm:probability-epsilon-decreasing}}
-	\label{app:decrease-of-epsilon}
-	\begin{proof}
-		To calculate the probability $\varepsilon^{(t+1)} < \varepsilon^{(t)}$, we will first calculate $\mathbb{E}\left[\varepsilon^{(t+1)}\right]$. We will start by calculating the expectation of the loss. 
-		\begin{align*}
-			\mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right] &= \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]^2 + \Var\left(\vtheta_{(t+1)}^T\vp_i - y_i\right) &&\\
-			&= \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - \vbeta_P^T\vp_i - \eps_P\right]^2 + \Var\left(\vtheta_{(t+1)}^T\vp_i - \vbeta_P^T\vp_i - \eps_P\right) &&\\
-			&= \left(\left(\vtheta^T_{(t+1)} - \vbeta_P^T\right)\mathbb{E}\left[\vp_i\right]\right)^2 + \Var\left(\left(\vtheta^T_{(t+1)}-\vbeta_P^T\right)\vp_i\right) + \Var\left(\eps_P\right)	&&\\	
-			&= \left(\left(\vtheta^T_{(t+1)}-\vbeta_P^T\right)\vmu\right)^2 + \left(\vtheta^T_{(t+1)} - \vbeta_P^T\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_P\right) + \Var\left(\eps_P\right)
-		\end{align*}
-		It thus follows similarly:
-		\begin{equation*}
-			\mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right] =  \left(\left(\vtheta^T_{(t+1)}-\vbeta_Q^T\right)\vmu\right)^2 + \left(\vtheta^T_{(t+1)} - \vbeta_Q^T\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_Q\right) + \Var\left(\eps_Q\right)
-		\end{equation*}
-		To simplify our notation, let $\zeta_P \coloneqq \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right]$ and $\zeta_Q \coloneqq \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right]$ and let $\eta_P \coloneqq \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]$ and $\eta_Q \coloneqq \mathbb{E}\left[\vtheta_{(t+1)}^T\vq_i - y_i\right]$
-		We are now interested in calculating the variance of the loss. \\
-		Let $\sigma^2_P \coloneqq \Var\left(\vtheta^T_{(t+1)}\vp_i - y_i\right) = \left(\vtheta^T_{(t+1)} - \vbeta_P^T\right)\Sigma\left(\vtheta_{(t+1)} - \vbeta_P\right) + \Var\left(\eps_P\right)$. 
-		\begin{align*}
-			\Var\left(\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right)&= \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^4\right] - \mathbb{E}\left[\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right]^2 &&\\
-			&= \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]^4 + 6 \mathbb{E}\left[\vtheta_{(t+1)}^T\vp_i - y_i\right]^2\sigma_P^2 + 3\sigma_P^4 - \zeta_P^2&&\\
-			&= \eta_P^4 + 6 \eta_P^2 \sigma_P^2 + 3\sigma_P^4 - \zeta_P^2 &&
-		\end{align*}
-		It similarly follows:
-		\begin{align*}
-			\Var\left(\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right)&=\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2 &&
-		\end{align*}
-		Recall that the expected value of $\varepsilon^{(t+1)}$ is equal to the expected number of elements from $Q$ within the $p$-Quantile, $\mathcal{Q}_p$. So we will now calculate $\mathcal{Q}_p$. To this we will utilize the  loss of the distribution. 
-		\begin{align*}
-			\mathbb{E}\left[\left(\vtheta_{(t+1)}^T \vx_i - y_i\right)^2\right] &= (1-\varepsilon^{(t)})\mathbb{E}\left[\left(\vtheta_{(t+1)}^T \vp_i - y_i\right)^2\right] + \varepsilon^{(t)}\mathbb{E}\left[\left(\vtheta_{(t+1)}^T \vq_i - y_i\right)^2\right] &&\\
-			&= (1-\varepsilon^{(t)})\zeta_P + \varepsilon^{(t)}\zeta_Q &&
-		\end{align*}
-		\begin{align*}
-			\Var\left(\left(\vtheta_{(t+1)}^T\vx_i - y_i\right)^2\right) &= (1-\varepsilon^{(t)})^2\Var\left(\left(\vtheta_{(t+1)}^T\vp_i - y_i\right)^2\right) + \varepsilon^{(t)2}\Var\left(\left(\vtheta_{(t+1)}^T\vq_i - y_i\right)^2\right) &&\\
-			&= (1-\varepsilon^{(t)})^2\left(\eta_P^4 + 6 \eta_P^2 \sigma_P^2 + 3\sigma_P^4 - \zeta_P^2\right) + (\varepsilon^{(t)})^2\left(\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2\right) &&
-		\end{align*}
-		It thus follows $\displaystyle \left(\vtheta_{(t+1)}^T\vq_i - y_i\right)$ follows a $\chi^2$ distribution with $1$ degree of freedom and \begin{equation*} \lambda = \frac{\zeta_Q}{\eta_Q^4 + 6 \eta_Q^2 \sigma_Q^2 + 3\sigma_Q^4 - \zeta_Q^2}\end{equation*}
-		Let $\mathcal{Q}_p^{(t+1)}$ be given as the $np$ greatest loss of the data, i.e. $\mathcal{Q}_p^{(t+1)} = \vnu_{np}^{(t+1)}$. It then follows:
-		\begin{equation*}
-			\mathbb{P}\left[\left(\vtheta^T_{(t+1)}\vq_i -y_i\right)^2 \leq \mathcal{Q}_p\right] = 1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)
-		\end{equation*}
-		It thus follows:
-		\begin{equation*}
-			\mathbb{E}\left[\varepsilon^{(t+1)}\right] = 1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)
-		\end{equation*}
-		Now we can calculate the probability of improvement per iteration by invoking Markov's Inequality:
-		\begin{align*}
-			\mathbb{P}\left[\varepsilon^{(t+1)} \geq \varepsilon^{(t)}\right] &\leq \frac{\mathbb{E}\left[\varepsilon^{(t+1)}\right]}{\varepsilon^{(t)}} &&\\
-			&= \frac{1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)}{\varepsilon^{(t)}}
-		\end{align*}
-		It thus follows:
-		\begin{align*}
-			\mathbb{P}\left[\varepsilon^{(t+1)} \leq \varepsilon^{(t)}\right] &\geq 1 - \frac{1 - Q_{1}\left(\sqrt{\lambda},\sqrt{\mathcal{Q}_p}\right)}{\varepsilon^{(t)}}
-		\end{align*} 
-	\end{proof}
-	This concludes the proof.
 	\newpage
 	
 	\section{Proofs for Convergence}
@@ -1555,7 +1474,6 @@
 		\caption{Stochastic Subquantile Minimization Optimization Algorithm}
 		\label{alg:sqo-stochastic}
 	\end{algorithm}
-	
 	\newpage
 	
 	\section{Additional Experiments}
