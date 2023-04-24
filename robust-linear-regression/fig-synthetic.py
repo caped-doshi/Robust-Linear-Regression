@@ -24,7 +24,7 @@ def LM(X, y):
   return theta
 
 if __name__ == "__main__":
-    n = 10000
+    n = 2000
     d = 200
 
     meta_means_sever = []
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     meta_std_huber = []
     meta_std_erm = []
     meta_std_stir = []
-    x_ = np.linspace(0.1,0.4,11)
+    x_ = np.linspace(0.37,0.4,2)
     for eps in x_:
         means_sever = []
         means_term = []
@@ -60,19 +60,22 @@ if __name__ == "__main__":
         means_stir = []
         means_quantile = []
         for j in range(4):
-            X,y,m,b = gaussian(n,d)
+            m = None
+            b = None
+            #X,y,m,b = gaussian(n,d)
+            X,y = data_loader_drug()
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
             X_train,y_train_noisy = addAdaptiveNoise(X_train, y_train, eps, m, b)
             
-            mod = sm.QuantReg(y_train_noisy,X_train)
-            q = mod.fit(q=1-eps-0.1,max_iter=500)
-            theta_quantile = q.params
-            theta_sever = SEVER(X_train, y_train_noisy,iter=64)
-            theta_term = TERM(X_train, y_train_noisy, -2, 0.1, 10000)
+            # mod = sm.QuantReg(y_train_noisy,X_train)
+            # q = mod.fit(q=1-eps-0.1,max_iter=500)
+            # theta_quantile = q.params
+            theta_sever = SEVER(X_train, y_train_noisy,iter=64,reg=2)
+            theta_term = TERM(X_train, y_train_noisy, -2, 0.1, 10000,reg=2)
             theta_erm = LM(X_train, y_train_noisy)
-            theta_subq = SubQ2(X_train,y_train_noisy, 64, 1-eps)
+            theta_subq = SubQ2(X_train,y_train_noisy, 64, 1-eps,2)
             theta_huber = HuberRegressor(max_iter=1500).fit(X_train,y_train_noisy).coef_
             theta_genie = LM(X_train[:int(y_train.shape[0] * (1-eps))], y_train[:int(y_train.shape[0] * (1-eps))])
             base_model = Ridge()
@@ -85,7 +88,7 @@ if __name__ == "__main__":
             loss_huber = np.sqrt(np.mean((np.dot(X_test, theta_huber) - y_test) ** 2))
             loss_erm = np.sqrt(np.mean((np.dot(X_test, theta_erm) - y_test) ** 2))
             loss_ransac = np.sqrt(np.mean((ransac.predict(X_test) - y_test) ** 2))
-            loss_quantile = np.sqrt(np.mean((np.dot(X_test, theta_quantile) - y_test) ** 2))
+            #loss_quantile = np.sqrt(np.mean((np.dot(X_test, theta_quantile) - y_test) ** 2))
             loss_term = np.sqrt(np.mean((np.dot(X_test, theta_term) - y_test) ** 2))
             loss_crr = np.sqrt(np.mean((np.dot(X_test, theta_crr) - y_test) ** 2))
             loss_stir = np.sqrt(np.mean((np.dot(X_test, theta_stir) - y_test) ** 2))
@@ -96,7 +99,7 @@ if __name__ == "__main__":
             print(f"subq loss:\t{loss_subq}")
             print(f"term loss:\t{loss_term}")
             print(f"sever loss:\t{loss_sever}")
-            print(f"Quantile loss:\t{loss_quantile}")
+            #print(f"Quantile loss:\t{loss_quantile}")
             print(f"CRR loss:\t{loss_crr}")
             print(f"STIR loss:\t{loss_stir}")
             print(f"huber loss:\t{loss_huber}")
@@ -112,7 +115,7 @@ if __name__ == "__main__":
             means_huber.append(loss_huber)
             means_erm.append(loss_erm)
             means_crr.append(loss_crr)
-            means_quantile.append(loss_quantile)
+            #means_quantile.append(loss_quantile)
             means_stir.append(loss_stir)
         
         a = 0.5 
@@ -147,11 +150,11 @@ if __name__ == "__main__":
         meta_std_ransac.append(std_ransac)
         print(f"Ransac:\t{mean_ransac:.3f}_{{({std_ransac:.4f})}}")
 
-        mean_quantile = np.mean(np.float32(means_quantile))
-        std_quantile = np.std(np.float32(means_quantile))
-        meta_means_quantile.append(mean_quantile)
-        meta_std_quantile.append(std_quantile)
-        print(f"Quantile:\t{mean_quantile:.3f}_{{({std_quantile:.4f})}}")
+        # mean_quantile = np.mean(np.float32(means_quantile))
+        # std_quantile = np.std(np.float32(means_quantile))
+        # meta_means_quantile.append(mean_quantile)
+        # meta_std_quantile.append(std_quantile)
+        # print(f"Quantile:\t{mean_quantile:.3f}_{{({std_quantile:.4f})}}")
 
         mean_term = np.mean(np.float32(means_term))
         std_term = np.std(np.float32(means_term))
@@ -182,7 +185,7 @@ if __name__ == "__main__":
     meta_means_term = np.float32(meta_means_term)
     meta_means_crr = np.float32(meta_means_crr)
     meta_means_stir = np.float32(meta_means_stir)
-    meta_means_quantile = np.float32(meta_means_quantile)
+    #meta_means_quantile = np.float32(meta_means_quantile)
     meta_means_ransac = np.float32(meta_means_ransac)
     meta_means_huber = np.float32(meta_means_huber)
     meta_means_erm = np.float32(meta_means_erm)
@@ -193,7 +196,7 @@ if __name__ == "__main__":
     meta_std_term = np.float32(meta_std_term)
     meta_std_crr = np.float32(meta_std_crr)
     meta_std_stir = np.float32(meta_std_stir)
-    meta_std_quantile = np.float32(meta_std_quantile)
+   # meta_std_quantile = np.float32(meta_std_quantile)
     meta_std_ransac = np.float32(meta_std_ransac)
     meta_std_huber = np.float32(meta_std_huber)
     meta_std_erm = np.float32(meta_std_erm)
@@ -207,7 +210,7 @@ if __name__ == "__main__":
     plt.plot(x_,meta_means_erm,color='cyan')
     plt.plot(x_,meta_means_crr,color='blue')
     plt.plot(x_,meta_means_stir,color='teal')
-    plt.plot(x_,meta_means_quantile,color='gray')
+    #plt.plot(x_,meta_means_quantile,color='gray')
     # plt.fill_between(x_,meta_means_subq-meta_std_subq,meta_means_subq+meta_std_subq,color='black',alpha=0.5)
     # plt.fill_between(x_,meta_means_sever-meta_std_sever,meta_means_sever+meta_std_sever,color='green',alpha=0.5)
     # plt.fill_between(x_,meta_means_term-meta_std_term,meta_means_term+meta_std_term,color='red',alpha=0.5)

@@ -51,7 +51,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
-    parser.add_argument('--iters',help='iterations of algorithm',type=int,default=64)
+    parser.add_argument('--num_iters',help='iterations of algorithm',type=int,default=64)
     parser.add_argument('--reg',help='regularizer', type=float,default=2)
     parser.add_argument('--p',help='fraction of outlier to remove (0:1)]', type=float,default=0.01)
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)

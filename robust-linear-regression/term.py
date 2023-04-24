@@ -3,28 +3,28 @@ import cvxpy as cp
 import argparse
 
 #code from https://github.com/litian96/TERM/blob/master/robust_regression/regression.py
-def compute_gradients_tilting(theta, X, y, t):  # our objective
+def compute_gradients_tilting(theta, X, y, t, reg):  # our objective
     loss = (np.dot(X, theta) - y) ** 2
     if t > 0:
         max_l = max(loss)
         loss = loss - max_l
 
-    grad = (np.dot(np.multiply(np.exp(loss * t), (np.dot(X, theta) - y)).T, X) + 2*theta) / y.size
+    grad = (np.dot(np.multiply(np.exp(loss * t), (np.dot(X, theta) - y)).T, X) + reg*theta) / y.size
     ZZ = np.mean(np.exp(t * loss))
     return grad / (ZZ)
 
-def TERM_cp(X, y, t):
+def TERM_cp(X, y, t, reg):
   theta = cp.Variable(len(X[0]))
-  objective = cp.Minimize(cp.sum(cp.exp(t * ((X @ theta - y) ** 2 + 2 * theta))))
+  objective = cp.Minimize(cp.sum(cp.exp(t * ((X @ theta - y) ** 2 + reg * theta))))
   prob = cp.Problem(objective)
   result = prob.solve(verbose=True, max_iters=500)
   print(result)
   return theta.value
 
-def TERM(train_X, train_y, t, alpha, num_iters):
+def TERM(train_X, train_y, t, alpha, num_iters,reg):
     theta = np.zeros(len(train_X[0]))
     for j in range(num_iters):
-        grads_theta = compute_gradients_tilting(theta, train_X, train_y, t)
+        grads_theta = compute_gradients_tilting(theta, train_X, train_y, t,reg)
 
         if np.linalg.norm(grads_theta, ord=2) < 1e-10:
             break
@@ -47,6 +47,7 @@ if __name__ == "__main__":
     parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
     parser.add_argument('--learning_rate',help='learning rate for tilted optimization',type=float,default=0.1)
     parser.add_argument('--t', help='hyperparameter for TERM',type=float,default=-2.0)
+    parser.add_argument('--reg',help="regularization parameter for ridge regression",type=float,default=2)
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
     parser.add_argument('--n', help='samples for synthetic data',type=int,default='2000')
     parser.add_argument('--d', help='dim for synthetic data',type=int,default='200')
@@ -60,6 +61,7 @@ if __name__ == "__main__":
     alpha = parsed['learning_rate']
     t = parsed['t']
     noise = parsed['noise']
+    reg = paresed['reg']
     
     m = None
     b = None
@@ -92,7 +94,7 @@ if __name__ == "__main__":
     for j in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
-        theta = TERM(X_train,y_train_noisy, t, alpha, num_iters)
+        theta = TERM(X_train,y_train_noisy, t, alpha, num_iters, reg)
         loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
         means.append(loss)
         print(f"Loss:\t{loss:.3f}")

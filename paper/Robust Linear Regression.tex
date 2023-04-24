@@ -13,6 +13,10 @@
 \usepackage{geometry}
 
 \usepackage{subcaption}
+\usepackage{pifont}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
 
 \usepackage{bbm}
 
@@ -86,7 +90,7 @@
 \newcolumntype{d}[1]{D{.}{.}{4}}% column type for figures with 4 decimals
 \newcommand{\subhead}[1]{\multicolumn{1}{c}{#1}}% to format sub-headings of d-type columns
 
-\title{Robust Linear Regression by Sub-Quantile Optimization}
+\title{Robust Linear Regression by Subquantile Optimization}
 
 % Authors must not appear in the submitted version. They should be hidden
 % as long as the \iclrfinalcopy macro remains commented out below.
@@ -114,7 +118,7 @@
 	\maketitle
 	
 	\begin{abstract}
-		Robust Linear Regression is the problem of fitting data to a distribution, $P$ when there exists contaminated samples, $Q$. We consider the Huber Contamination modeled as $\hat{P} = (1-\varepsilon)P + \varepsilon Q$ where $\varepsilon \in (0,0.5)$. Traditional Least Squares Methods fit the empirical risk model to all training data in $\displaystyle \hat{P}$. In this paper we show theoretical and experimental results of sub-quantile optimization, where we optimize with respect to the $p$-quantile of the empirical loss. Sub-Quantile Optimization theoretically and empirically works in the case of both oblivious and adversarial outliers. 
+		Robust Linear Regression is the problem of fitting data to a distribution, $P$ when there exists contaminated samples, $Q$. We consider the Huber Contamination modeled as $\hat{P} = (1-\varepsilon)P + \varepsilon Q$ where $\varepsilon \in (0,0.5)$. Traditional Least Squares Methods fit the empirical risk model to all training data in $\displaystyle \hat{P}$. In this paper we show theoretical and experimental results of Subquantile optimization, where we optimize with respect to the $p$-quantile of the empirical loss. Subquantile Optimization theoretically and empirically works in the case of both oblivious and adversarial outliers. 
 	\end{abstract}
 	
 	\section{Introduction}
@@ -126,10 +130,10 @@
 	The quantile is a statistical measure that is distribution-agnostic, this makes it very suitable for robust estimation in the Huber Contamination Model. 
 	
 	\subsection{Contributions}
-	Our goal is to provide a theoretic analysis and convergence conditions for sub-quantile optimization and offer practitioners a method for robust linear regression.
+	Our goal is to provide a theoretic analysis and convergence conditions for Subquantile optimization and offer practitioners a method for robust linear regression.
 	Several popular methods have been utilized due to their simplicity and high effectiveness including quantile regression \cite{quantile-regression}, Theil-Sen Estimator \cite{thiel-sen}, and Huber Regression \cite{Huber2009}. These methods, although rudimentary, serve to show the effectiveness of building resistance against outliers in data. By improving upon existing methods, namely least-squares estimation in these cases, models can be designed to better estimate data sets with considerably corruptive outliers.
 	
-	Sub-Quantile Optimization aims to address the shortcomings of ERM in applications such as noisy/corrupted data (\cite{khetan2018learning},\cite{jiang2018mentornet}), classification with imbalanced classes, (\cite{lin2017dense},\cite{he2009imbalanced}), as well as fair learning (\cite{Corbett2018fairness}).
+	Subquantile Optimization aims to address the shortcomings of ERM in applications such as noisy/corrupted data (\cite{khetan2018learning},\cite{jiang2018mentornet}), classification with imbalanced classes, (\cite{lin2017dense},\cite{he2009imbalanced}), as well as fair learning (\cite{Corbett2018fairness}).
 	
 	\begin{figure}[!t]
 		\begin{tikzpicture}
@@ -137,7 +141,7 @@
 				ymin= -10,ymax=10,
 				xtick={-4,-3,-2,...,4},
 				ytick={-10,-8,-6,...,10},]
-				\nextgroupplot[title=Adversarial Noise,ylabel={$y$},xlabel={$x$}]
+				\nextgroupplot[title=Adaptive Noise,ylabel={$y$},xlabel={$x$}]
 				\coordinate (c1) at (current axis.left of origin);
 				\addplot[mark=*,color=cyan,only marks] coordinates{(0.5454756141119426,4.20207144062236) (2.6952740390873733,8.475671650669172) (-0.1612438784423731,2.688323570846449) (1.9998807196500725,7.011477368661404) (0.6573126643085468,4.432503359641061) (0.822541876079238,4.691099695987436) (-1.665736406528514,-0.2771610262088303) (0.2955820690953599,3.6958661148678047) (4.329988449821567,11.633259356797302) (-4.412313203501535,-5.77063957797815) (3.5629538644332275,10.091868592245838) (-0.6175885445775965,1.7473187369931718) (0.8108793561773843,4.772417668204566) (1.4214273053887914,5.818934958869865) (3.081315566792172,9.08926804908307) (-0.12089034451099817,2.6605946971138144) (0.4628376617792958,3.923002461330265) (0.37617729415550505,3.676581100428469) (0.977114787165429,4.918947422974899) (1.314754156260769,5.688804682122404) (-0.36235424331683597,2.2267827837116263) (-0.8007556950385752,1.4886373858967947) (-0.7015664550907283,1.7651694045148667) (-2.1753647987904734,-1.482231084924366) (-1.495574696589605,0.04857682714064265) (-1.0588112744961395,0.8183551891451499) (-3.827119610541674,-4.796523392389788) (-0.8559789159750391,1.1837704089349095) (-0.11761120022533014,2.7730611413376285) (3.3752350984949295,9.778804511993851) (2.4222770389407957,7.727148811092623) (-1.5410032016624133,-0.2633438113497304) (2.480017633230306,7.979402356067379) (0.5911583134769168,4.283748748593926) (-0.71501674964969,1.6324881095139794) (0.6516043112113717,4.294631666773893) (-3.079711134644328,-3.285226613281087) (-1.5088703031224757,-0.08081402676688078) (0.7827672445662932,4.570750601954812) (1.8939059587103262,6.858172766747038)};
 				\addplot[mark=*,color=orange,only marks] coordinates{(-2.946629011640607,-8.793723527498958) (0.8607384957406246,-1.538989556510056) (-1.1903001477494382,-5.345751610044574) (1.0305878148541996,-0.8812658035679226) (2.7345343942849927,2.5442143953062244) (-1.6113746066635852,-6.284678207630399) (-0.8883952236652384,-4.5410943399901775) (0.8157297797465353,-1.2566730413348421) (0.9642301396642339,-0.9032576567416104) (-0.14448993411816005,-3.334946134068381)};
@@ -161,31 +165,30 @@
 			\node[below] at (c3 |- current bounding box.south)
 				{\pgfplotslegendfromname{IntroLegend}};
 		\end{tikzpicture}
-		\caption{Sub-Quantile Performance on Adapative Outliers}
+		\caption{Oblivious Outliers are generated without knowledge of the clean distribution. Adaptive outliers are generated with knowledge of the clean distribution.}
 		\label{fig:structure-unstructured-noise}
 	\end{figure}
 	
-	As seen in the above comparison, current models fail to estimate data sets corrupted by structured noise, with some models even failing to estimate trends plagued with unstructured noise. Through this, sub-quantile optimization is shown to prevail at overcoming these challenges current models currently face. In Table 
+	As seen in the above comparison, current models fail to estimate data sets corrupted by structured noise, with some models even failing to estimate trends plagued with unstructured noise. Through this, Subquantile optimization is shown to prevail at overcoming these challenges current models currently face. In Table 
 	
 	\begin{table}[!h]
 		\centering
-		\begin{tabular}{lcc}
+		\begin{tabular}{lccc}
 			\toprule 
-			Paper & Adversary & Threshold\\   
+			Paper & Adversary & Threshold & Resampling\\   
 			\midrule                
-			Sever \cite{DiakonikolasKKLSS19} & Adaptive & Gradient of Loss \\
+			Sever \cite{DiakonikolasKKLSS19} & Adaptive & Gradient of Loss & \xmark \\
 			\midrule
-			CRR \cite{bhatia2017} & Oblivious & \\
+			CRR \cite{bhatia2017} & Oblivious & $HT$ operator &\checkmark\\
 			\midrule 
-			This Paper & Adapative & Loss\\
+			This Paper & Adapative & Loss & \cmark\\
 			\bottomrule
 		\end{tabular}
-		\caption{A comparison of different iterative thresholding algorithms for Robust Least Squares Regression}
+		\caption{A comparison of different iterative thresholding algorithms for Robust Least Squares Regression. The $HT$ operator zeros all $(n-k)$ largest entries in the vector $(X^T(X X^T)^{-1}X\vb^{(t)} + (I - X^T(X X^T)^{-1}X)\vy)$ where $\vb^(t)$ represents the prediction of the $k$ corruptions}
 		\label{tab:related-work}
 	\end{table}
 	
 	\section{Related Work}
-	Least Trimmed Squares (LTS) \cite{LTS} is an estimator that relies on minimizing the sum of the smallest $h$ residuals given a $(d-1)$-dimension hyperplane calculated given $n$ data points in $\mathbf{R}^d$ and an integer trimming parameter $h$. Given that the outliers comprise less than half the data, this algorithm is more efficient than the more common LMS estimator. However, this algorithm unfortunately suffers from the curse of dimensionality; the computational cost of the algorithm grows exponentially with increasing dimensions of the data. Thus, the necessity to design a more computationally efficient algorithm is expressed.
 	
 	Tilted Empirical Risk Minimization (TERM) \cite{li2020tilted} is a framework built to similarly handle the shortcomings of emperical risk minimization (ERM) with respect to robustness. The TERM framework instead minimizes the following quantity, where $t$ is a hyperparameter known as tilt
 	\begin{equation}
@@ -206,8 +209,6 @@
 	\end{equation}
 	This method is novel in that it is highly scalable, making it robust against high-dimension data with structured outliers. Similarly, SEVER is easily implemented with standard machine learning libraries and can be applied to many typical learning problems, including classification and regression. Despite this, the algorithm still falls short when features have high covariance or when features have low predictive power of the target. Moreover, SEVER requires approximate learners to be run after every iteration, making SEVER unfeasible for large-scale machine learning tasks. 
 	
-	Quantile Regression \cite{yu_quantile_2003} relies on splitting data into quantiles to better represent data that is not evenly distributed. The paper introduces various estimation methods for quantile regression and apply them to a multitude of datasets. In doing so, they prove quantile regression is suitable at estimating both linear and nonlinear response models.
-	
 	Super-Quantile Optimization \cite{ROCKAFELLAR2014140} aims to solve error minimization problems by building upon the aforementioned quantile regression by centering around a conditional value-at-risk, or a superquantile. For $\alpha \in [0,1)$, the $\alpha$-superquantile for a random variable $Y$ is defined as \begin{equation}
 		\Bar{q}_\alpha (Y) := \frac{1}{1-\alpha} \int_\alpha^1 q_\beta (Y) d\beta
 	\end{equation}
@@ -220,8 +221,8 @@
 	\end{equation}
 	This method is popular as it does not require the removal of corrupted data points and does not rely on a specified corruption fraction.
 		
-	\section{Sub-quantile Optimization}
-	\label{sec:sub-quantile-optimization}
+	\section{Subquantile Optimization}
+	\label{sec:Subquantile-optimization}
 	
 	\begin{definition}
 		Let $F_X$ represent the Cumulative Distribution Function (CDF) of the random variable $X$. The \textbf{$\mathbf{p}$-Quantile} of a Random Variable $X$ is defined as follows \vspace{1em}
@@ -237,11 +238,11 @@
 		\end{equation}
 	\end{definition}
 	The $\mathbf{p}$-\textbf{Quantile} of the Empirical Risk is given
-	\begin{equation}\label{eqn:sub-quantile}
+	\begin{equation}\label{eqn:Subquantile}
 		\mathbb{L}_p(U) = \frac{1}{p}\int_0^p \mathcal{Q}_q(U)\,dq = \mathbb{E}\left[U|U \leq \mathcal{Q}_p(U) \right] = \max_{t\in \mathbb{R}}\left\{t - \frac{1}{p}\mathbb{E}\left[(t-U)^+\right]\right\}
 	\end{equation}
-	In equation \ref{eqn:sub-quantile}, $t$ represents the $p$-quantile of $U$. We also show that we can calculate $t$ by a maximizing optimization function. 
-	The Sub-Quantile Optimization problem is posed as follows
+	In equation \ref{eqn:Subquantile}, $t$ represents the $p$-quantile of $U$. We also show that we can calculate $t$ by a maximizing optimization function. 
+	The Subquantile Optimization problem is posed as follows
 	\begin{equation}
 		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{p}\mathbb{E}(t - \ell(f(\vx;\vtheta),y))^+\right\}
 	\end{equation}
@@ -249,10 +250,15 @@
 	For the linear regression case, this equation becomes 
 	\begin{equation}
 		\label{eqn:theta_sm}
-		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vtheta^T\vx_i - y_i)^2)^+\right\}
+		\vtheta_{SM} = \argmin_{\vtheta \in \mathbb{R}^d} \max_{t \in \mathbb{R}} \left\{t - \frac{1}{np}\sum_{i=1}^n(t-(\vx_i \vtheta - y_i)^2)^+\right\}
+	\end{equation}
+	
+	The objective function we define will be: 
+	\begin{equation}
+		g(t,\vtheta) = t - \frac{1}{np} \sum_{i=1}^n\left(t - (\vx_i \vtheta - y_i)^2\right)^+
 	\end{equation}
 		
-	The two-step optimization for Sub-Quantile optimization is given as follows \vspace{1em}
+	The two-step optimization for Subquantile optimization is given as follows \vspace{1em}
 	\begin{equation}
 		\label{eqn:t-update}
 		t_{k+1} = \argmax_t g(t,\vtheta_k) 
@@ -284,7 +290,7 @@
 			$\displaystyle \vtheta_{(k+1)} \gets \vtheta_k - \alpha_{(k)} \nabla_\vtheta g(t_{(k+1)},\vtheta_{(k)})$
 		}
 		\KwRet{$ \vtheta_T $}
-		\caption{Sub-Quantile Minimization Gradient Descent}
+		\caption{Subquantile Minimization Gradient Descent}
 		\label{alg:sqo1}
 	\end{algorithm}
 	\end{minipage}
@@ -302,51 +308,11 @@
 				$\vtheta_{(k+1)} \gets (S^T S + \lambda I)^{-1}S^T y_S$\\
 			}
 			\KwRet{$ \vtheta_T $}
-			\caption{Sub-Quantile Minimization for Ridge Regression}
+			\caption{Subquantile Minimization for Ridge Regression}
 			\label{alg:sqo-ridge}
 		\end{algorithm}
 	\end{minipage}
-		
-	\subsection{Motivation}
-	\begin{assumption}\label{asm:normal-corruption}
-		To provide theoretical bounds on the effectiveness of Sub-Quantile Minimization, we make the General Linear Model Assumption that
-		\begin{equation}\vspace{1em}
-			\vy_P = P\vbeta_P  + \eps_P
-		\end{equation}
-		and similarly 
-		\begin{equation}
-			\vy_Q = Q \vbeta_Q + \eps_Q
-		\end{equation}
-		where $\vbeta_P$ and $\vbeta_Q$ the \textit{oracle} regressors for $\mathbb{P}$ and $\mathbb{Q}$ and $\eps_P$ and $\eps_Q$ are both Normally Distributed with mean $0$.  
-	\end{assumption}
-	Since we are interested in learning the optimal model for distributions, our goal is to learn the parameters $\vbeta_P$ from the distribution $\hat{P}$. We want to clarify the corruption is not adversarially chosen. \\
-	In this section we quantify the effect of corruption on the desired model. To introduce notation, let $P$ represent the data from distribution $\mathbb{P}$ and let $Q$ represent the training data for $\mathbb{Q}$. Let $\vy_P$ represent the target data for $\mathbb{P}$ and let $\vy_Q$ represent the target data for $\mathbb{Q}$.\\
-	\begin{assumption}\label{asm:p-q-sample}
-		We assume the rows of $P$ and $Q$ are sampled from the same multivariate normal distribution. \vspace{1em}
-		\begin{equation}
-			P_i,Q_j \sim \mathcal{N}_p(\mathbf{0},\Sigma)
-		\end{equation}
-	\end{assumption}
-	
-	We will use our assumptions to quantify the effect of the corrupted data on an optimal least squares regression model. We are interested in $\displaystyle (X^T X)^{-1}X^T y - (P^T P)^{-1}P^T y$.
-	It is know the least squares optimal solution for $X$ is equal to $(X^T X)^{-1}X^T y$\\
-	Note $\displaystyle X = \begin{pmatrix}P \\ Q \end{pmatrix}$ and $\displaystyle y = \begin{pmatrix} \vy_P \\ \vy_Q \end{pmatrix} $so $X^T = \begin{pmatrix}P^T & Q^T \end{pmatrix}$\\
-	
-	\begin{restatable}{thm}{expected-value-corrupted}\label{thm:expected-value-corrupted}
-		The expected optimal parameters of the corrupted model $\hat{\mathbb{P}}$\vspace{1em}
-		\begin{equation}
-			\label{eqn:corrupted-optimal}
-			\mathbb{E}\left[X^{\dagger}y \right] = \vbeta_P + \eps(\vbeta_Q - \vbeta_P)
-		\end{equation}
-	\end{restatable}
-	The proof is reliant on assumption \ref{asm:p-q-sample}, this allows us to utilize the Wishart Distribution, $\mathcal{W}$, and the inverse Wishart Distribution, $\mathcal{W}^{-1}$. Please refer to Appendix \ref{app:expected-value-corrupted}. By Theorem \ref{thm:expected-value-corrupted} we can see the level of corruption is dependent upon $\eps$, which represents the percentage of corrupted samples, and the distance between the optimal parameters for $\mathbb{P}$, which is $\vbeta_P$ and the optimal parameters for $\mathbb{Q}$, which is $\vbeta_Q$. 
-	
-		
-	Here we utilize the idea of \textit{influence} from \cite{McWilliams2014}.
-	
-	Theorem \ref{thm:expected-value-corrupted} finds the optimal model when the corrupted distribution is sampled from the same distribution as the target distribution but has different optimal parameters. We will now look at the case of feature corruption. This is where the optimal parameters of the two distributions are the same but the data from $\mathbb{P}$ and $\mathbb{Q}$ are sampled differently. 
-	
-	In equation \ref{eqn:corrupted-optimal}, note as $\displaystyle \eps \to 0$ we are returned $\vbeta_P$. This is the intuition behind SubQuantile Minimization. By minimizing over the SubQuantile, we seek to reduce $\eps$, and thus our model will return a model which is by expectation closer to $\vbeta_P$. 	
+
 
 	\section{Theory} 
 	
@@ -390,10 +356,10 @@
 			\nabla_{\vtheta}g(t_{k+1},\vtheta_k) = \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^T\vx_i - y_i)
 		\end{equation}
 	\end{restatable}
-	We provide a proof in Appendix \ref{app:gthetaderiv}. However, this result is quite intuitive as it shows we are optimizing over the $p$ Sub-Quantile of the Risk.
+	We provide a proof in Appendix \ref{app:gthetaderiv}. However, this result is quite intuitive as it shows we are optimizing over the $p$ Subquantile of the Risk.
 	\begin{interpretation}
 		\label{int:minimize-small}
-		Sub-Quantile Minimization continously minimizes the risk over the $p$-quantile of the error. In each iteration, this means we reduce the error of the points within the lowest $np$ errors.
+		Subquantile Minimization continously minimizes the risk over the $p$-quantile of the error. In each iteration, this means we reduce the error of the points within the lowest $np$ errors.
 	\end{interpretation}
 
 		
@@ -479,15 +445,6 @@
 	
 
 	\subsection{Converging to $\beta_P$}
-	
-	We will start by defining the two types of noise we are interesting in. 
-	\begin{definition}
-		\textbf{Oblivious Noise} is noise that is not dependent on the input data, i.e., $\displaystyle \mathbb{P}\left[y | X\right] = \mathbb{P}\left[y\right]$
-	\end{definition}
-	\begin{definition}
-		\textbf{Adaptive Noise} is noise that is made from a linear combination of the input data, i.e. $\displaystyle y = \vbeta_QX + \veps$
-	\end{definition}
-	Also note we often consider Gaussian Noise as Oblivious Noise, but it can be modeled as Adaptive Noise where $\vbeta_Q = \vzero$. 
 
 	\begin{restatable}{lemma}{effect-of-projection}
 		\label{lem:effect-of-projection}
@@ -539,8 +496,6 @@
 
 	
 	\section{Empirical Results}\label{sec:numerical-experiments}
-
-	We also present a batch algorithm which improves training speed significantly. In accordance with Minibatch theory, if the subset $I$ of all data is representative of all the data, then this will have similar results to Algorithm \ref{alg:sqo1}.
 
 	\subsection{Synthetic Data}
 	
@@ -798,12 +753,12 @@
 			\node[below] at (c3 |- current bounding box.south)
 			{\pgfplotslegendfromname{CommonLegend}};
 		\end{tikzpicture}
-		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets}
+		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets. Oblivious noise is sampled from $\mathcal{N}(5,5)$, adaptive noise multiplies the labels by $-1$}
 		\label{fig:synthetic-linear-regression}
 	\end{figure}
 	We now demonstrate SubQuantile Regression in the presence of Gaussian Random Noise. 
 		
-	In our first synthetic experiment, we run Algorithm \ref{alg:sqo1} on synthetically generated structured linear regression data, the noise is sampled from a linear distribution that is dependent on the vector of $X$. Our results show the near optimal performance of Sub-Quantile Minimization. The results and comparison with other methods can be seen in Table \ref{tab:quadratic-regression}. We see in Table \ref{tab:quadratic-regression}, Sub-Quantile Minimization produces State of the Art Results in the Quadratic Regression Case. Furthermore, it performs significantly better than baseline methods in the high-noise regimes $(\eps = 0.4)$, this is confirmed in both the small data and large data datasets. Please refer to Appendix \ref{app:experimental-details} for more details on the \texttt{Structured Linear Regression} Dataset. 
+	In our first synthetic experiment, we run Algorithm \ref{alg:sqo1} on synthetically generated structured linear regression data, the noise is sampled from a linear distribution that is dependent on the vector of $X$. Our results show the near optimal performance of Subquantile Minimization. The results and comparison with other methods can be seen in Table \ref{tab:quadratic-regression}. We see in Table \ref{tab:quadratic-regression}, Subquantile Minimization produces State of the Art Results in the Quadratic Regression Case. Furthermore, it performs significantly better than baseline methods in the high-noise regimes $(\eps = 0.4)$, this is confirmed in both the small data and large data datasets. Please refer to Appendix \ref{app:experimental-details} for more details on the \texttt{Structured Linear Regression} Dataset. 
 
 	\subsection{Real Data}
 	
@@ -1065,7 +1020,7 @@
 			\node[below] at (c3 |- current bounding box.south)
 			{\pgfplotslegendfromname{DrugLegend}};
 		\end{tikzpicture}
-		\caption{\texttt{Drug Discovery} Dataset with Normal Noise and Structured Noise}
+		\caption{\texttt{Drug Discovery} Dataset with Normal Noise and Structured Noise. Oblivious noise is sampled from $\mathcal{N}(5,5)$, adaptive noise multiplies the labels by $-1$}
 		\label{fig:drug-discovery}
 	\end{figure}
 
@@ -1088,19 +1043,19 @@
 			Huber \cite{Huber2009} &$1.412_{(0.0474)}$&$1.501_{(0.2918)}$&$2.231_{(0.9054)}$&$2.247_{(1.0399)}$\\
 			RANSAC \cite{RANSAC1981} &$1.238_{(0.0529)}$&$1.643_{(0.1331)}$&$2.092_{(0.1935)}$&$2.679_{(0.1365)}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 1-\eps$) &$\mathbf{0.966_{(0.1119)}}$&$\mathbf{1.002_{(0.1025)}}$&$\mathbf{1.010_{(0.0630)}}$&$\mathbf{1.082_{(0.1066)}}$\\
+			SubQuantile($p = 1-\eps$) &$\mathbf{0.966_{(0.1119)}}$&$\mathbf{1.002_{(0.1025)}}$&$\mathbf{1.010_{(0.0630)}}$&$\mathbf{1.065_{(0.1112)}}$\\
 			\midrule 
 			Genie ERM &$0.960_{(0.0845)}$&$0.982_{(0.0842)}$&$1.006_{(0.0879)}$&$1.030_{(0.0578)}$\\
 			\bottomrule
 		\end{tabular}
-		\caption{\texttt{Drug Discovery} Dataset. Empirical Risk over $P$ with oblivious noise}
+		\caption{\texttt{Drug Discovery} Dataset. Empirical Risk over $P$ with oblivious noise. The Genie has knowledge of where corruptions are so only trains on clean data in training set.}
 		\label{tab:drug-discovery}
 	\end{table}
 	
 	As we can see in Table \ref{tab:drug-discovery}, we obtain state of the art results throughout all noise regimes. This makes our model the strongest among the tested, due to our strength throughout the whole range of noises. This dataset is also 
 	
 	\section{Conclusion}
-	In this work we provide a theoretical analysis for robust linear regression by minimizing the \textit{Sub-Quantile} of the Empirical Risk. Furthermore, we run various numerical experiments and compare against the current State of the Art in Robust Linear Regression. Since minimizing over the subquantile is a general machine learning framework, it is scalable to larger scale machine learning problems. In future work, more real world applications can be explored and the theory can be expanded beyond linear regression. 
+	In this work we provide a theoretical analysis for robust linear regression by minimizing the \textit{Subquantile} of the Empirical Risk. Furthermore, we run various numerical experiments and compare against the current State of the Art in Robust Linear Regression. Since minimizing over the subquantile is a general machine learning framework, it is scalable to larger scale machine learning problems. In future work, more real world applications can be explored and the theory can be expanded beyond linear regression. 
 	
 	\newpage
 
@@ -1171,7 +1126,7 @@
 
 	\newpage
 	
-	\section{Theory for Ridge Regression Algorithm \ref{alg:sqo-ridge}}\label{app:sub-quantile-optimization}
+	\section{Theory for Ridge Regression Algorithm \ref{alg:sqo-ridge}}\label{app:Subquantile-optimization}
 	\subsection{Proof of Theorem~\ref{thm:expected-value-corrupted}}\label{app:expected-value-corrupted}
 	\begin{proof}
 	\begin{assumption}\label{asm:normal-sampling}
@@ -1301,7 +1256,7 @@
 		&= \mathbb{P}\left[Q_n < P_{np - \eta}\right]\prod_{i=1}^{n\epsilon - \eta}\left(1 - \mathbb{P}\left[Q_{n+i} < P_{np - \eta}\right]\right) &&\\
 		&= \mathbb{P}\left[Q_n - P_{np-\eta} < 0\right]\prod_{i=1}^{n\epsilon - \eta} \left(1 - \mathbb{P}\left[Q_{n+i} - P_{np-\eta} < 0\right]\right) &&\\
 	\end{align*}
-	It follows $\eta$ will be lower depending on the difference of $\phi$ and $\psi$. In a further work we will give a tight upper bound on the probability.
+	It follows $\eta$ will be lower depending on the difference of $\phi$ and $\psi$. There is unlikely to be a closed form solution for this integral given the structure of the CDF of the expected value of the order statistic. In a further work we will give a tight upper bound on the probability with a $\mathcal{O}$ approximation.
 
 	
 	\newpage
@@ -1386,7 +1341,7 @@
   	
   	\newpage
 	\section{Theory for Adaptive Linear Corruption}
-	In this section, we provide rigorous theory for why Sub-Quantile Minimization works so well in the case of corruption of the form $\displaystyle \vbeta_Q^T \vmu = y_p + \eps_Q$.
+	In this section, we provide rigorous theory for why Subquantile Minimization works so well in the case of corruption of the form $\displaystyle \vbeta_Q^T \vmu = y_p + \eps_Q$.
 	\begin{assumption}\label{asm:normal-error}
 		The residuals of $\vtheta_k$ are normally distributed with respect to $\mathbb{P}$ and $\mathbb{Q}$. In other words, $\vtheta_k^T \vp - \vy_P$ and $\vtheta_k^T \vq - \vy_Q$ are normally distributed.
 	\end{assumption}
@@ -1554,34 +1509,32 @@
 	\subsection{Expectation of Improvement}
 	We are also interested in expected improvement after the Subquantile matrix update. 
 	\begin{align*}
-		\mathbb{E}&\left[f\left(\vtheta_{(k)}, S^{(k+1)}\right) - f\left(\vtheta_{(k)}, S^{(k)}\right)\right] = \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&\\
-		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]\mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&
+		\mathbb{E}&\left[f\left(\vtheta_{(k)}, S^{(k+1)}\right) - f\left(\vtheta_{(k)}, S^{(k)}\right)\right] = \mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&\\
+		&= \mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)}-\varepsilon^{(t-1)})}\norm{\vtheta_{(k)}^T\vp_i -y_i}_2^2 - \norm{\vtheta_{(k)}^T\vq_i - y_i}_2^2\right] &&
 	\end{align*}
 	We can now use reverse triangle inequality.
 	\begin{align*}
-		&\leq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\vtheta_{(k)}^T\vp_i - \vbeta_P\vp_i - \eps_P - \vtheta^T_{(k)}\vq_i + \vbeta_Q\vq_i + \eps_Q}_2^2 \right] &&\\
-		&= \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right] \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\left(\vtheta^T_{(k)} - \vbeta_P\right)\vp_i + \left(\vbeta_Q - \vtheta^T_{(k)}\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&
+		&\leq  \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\vtheta_{(k)}^T\vp_i - \vbeta_P\vp_i - \eps_P - \vtheta^T_{(k)}\vq_i + \vbeta_Q\vq_i + \eps_Q}_2^2 \right] &&\\
+		&=  \mathbb{E}\left[\sum_{i=1}^{n\left(\varepsilon^{(t)}-\varepsilon^{(t-1)}\right)}\norm{\left(\vtheta^T_{(k)} - \vbeta_P\right)\vp_i + \left(\vbeta_Q - \vtheta^T_{(k)}\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&\\
+		&\leq \mathbb{E}\left[\sum_{i=1}^{n(\varepsilon^{(t)} - \varepsilon^{(t-1)})}\norm{\left(\vtheta_{(k)}^T - \vbeta_P^T\right)\vp_i}_2^2 + \norm{\left(\vtheta_{(k)}^T - \vbeta_Q^T\right)\vq_i}_2^2 + \norm{\eps_P} + \norm{\eps_Q}\right]
 	\end{align*}
-	Now we can use theorem \ref{thm:expected-value-corrupted}. To simplify notation, let $\Xi \triangleq \mathbb{E}\left[\varepsilon^{(t)} - \varepsilon^{(t-1)}\right]$
+	Note that $\mathbb{E}\left[X^2\right] = \mathbb{E}\left[X\right]^2 + \Var(X)$ for a random variable $X$ then:
 	\begin{align*}
-		&= \Xi \mathbb{E}\left[\sum_{i=1}^{n\Xi}\norm{\left((1-\varepsilon^{(t)})\vbeta_P + \varepsilon^{(t)}\vbeta_Q - \vbeta_P\right)\vp_i + \left(\vbeta_Q - (1 - \varepsilon^{(t)})\vbeta_P - \varepsilon^{(t)}\vbeta_Q \right)q_i - \eps_P+ \eps_Q}_2^2 \right] &&\\
-		&= \Xi \mathbb{E}\left[\sum_{i=1}^{n\Xi}\norm{\left(-\varepsilon^{(t)}\vbeta_P + \varepsilon^{(t)}\vbeta_Q\right)\vp_i + \left((1 - \varepsilon^{(t)})\vbeta_Q - (1 - \varepsilon^{(t)})\vbeta_P\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&\\
-		&= \Xi \mathbb{E}\left[\sum_{i=1}^{n\Xi}\norm{\varepsilon^{(t)}\left(\vbeta_Q - \vbeta_P\right)\vp_i + (1 - \varepsilon^{(t)})\left(\vbeta_Q - \vbeta_P\right)\vq_i - \eps_P+ \eps_Q}_2^2 \right] &&
+		&\leq \sum_{i=1}^{n(\varepsilon^{(t)} - \varepsilon^{(t-1)})} \left(\left(\vtheta_{(k)}^T - \vbeta_P^T\right)\mathbb{E}\left[\vp_i\right]\right)^2 + \left(\left(\vtheta_{(k)}^T - \vbeta_Q^T\right)\mathbb{E}\left[\vq_i\right]\right)^2 + \left(\vtheta_{(k)}^T - \vbeta_P^T\right)\Var\left(\vp_i\right)\left(\vtheta_{(k)} - \vbeta_P\right) \notag\\ &\qquad+ \left(\vtheta_{(k)}^T - \vbeta_Q^T\right)\Var(\vq_i)\left(\vtheta_{(k)} - \vbeta_Q\right) &&\\
+		&= \sum_{i=1}^{n(\varepsilon^{(t)} - \varepsilon^{(t-1)})} \left(\left(\vtheta_{(k)}^T - \vbeta_P^T\right)\mathbb{E}\left[\vp_i\right]\right)^2 + \left(\left(\vtheta_{(k)}^T - \vbeta_Q^T\right)\mathbb{E}\left[\vq_i\right]\right)^2 + \left(\vtheta_{(k)}^T - \vbeta_P^T\right)\Sigma_P\left(\vtheta_{(k)} - \vbeta_P\right) \notag\\ &\qquad+ \left(\vtheta_{(k)}^T - \vbeta_Q^T\right)\Sigma_Q\left(\vtheta_{(k)} - \vbeta_Q\right)
 	\end{align*}
-	Here we can use the fact that $\mathbb{E}\left[X^2\right] = \mathbb{E}\left[X\right]^2 + \Var(X)$ for a random variable $X$
-
-	\bigskip
-	Let us define the function $h(\vtheta_k) = f(\vtheta_k,S_{k-1}) - f(\vtheta_k,S_k)$, a strictly non-negative function. From our results above it follows:
-	\begin{align*}
-		\phi(\vtheta_{k+1}) &\leq \phi(\vtheta_k) - \frac{1}{2\ell}\left(\nabla_\vtheta f(\vtheta_k,S_k)\right)^2 &&\\
-		&= f(\vtheta_k, S_{k-1}) - h(\vtheta_k) +  - \frac{\ell}{2}\norm{\vtheta_{k+1} - \vtheta_k}^2_2 \\
-		&= f(\vtheta_k, S_{k-1}) - h(\vtheta_k) - \frac{\ell}{2}\norm{\vtheta_{k+1} - \frac{1}{\ell} \nabla_\vtheta f(\vtheta_k,S_k) - \vtheta_k}_2^2 &&\\
-		&= f(\vtheta_k, S_{k-1}) - h(\vtheta_k) - \frac{\ell}{2}\left(\norm{\vtheta_{k+1}-\vtheta_k}_2^2 + \frac{2}{\ell}\norm{\vtheta_{k+1}-\vtheta_k}\nabla_\vtheta f(\vtheta_k,S_k) + \frac{1}{\ell^2}\nabla_\vtheta f(\vtheta_k,S_k)\right)
-	\end{align*}
+	If we assume the data is centered around $\vzero$, then it simplifies to the following:
+	\begin{equation}
+		= n\left(\varepsilon^{(t)} - \varepsilon^{(t-1)}\right) \left(\left(\vtheta_{(k)}^T - \vbeta_P^T\right)\Sigma_P\left(\vtheta_{(k)} - \vbeta_P\right) + \left(\vtheta_{(k)}^T - \vbeta_Q^T\right)\Sigma_Q\left(\vtheta_{(k)} - \vbeta_Q\right)\right)
+	\end{equation}
+	Furthermore, since we typically assume linear independence in the data, let $\Sigma_P = \xi_P I$ and $\Sigma_Q = \xi_Q I$ where $\xi_P$ and $\xi_Q$ are constants greater than $0$.
+	\begin{equation}
+		= n\left(\varepsilon^{(t)} - \varepsilon^{(t-1)}\right) \left(\xi_P\norm{\vtheta_{(k)}^T - \vbeta_P^T}^2_2 + \xi_Q\norm{\vtheta_{(k)}^T - \vbeta_Q^T}^2_2\right)
+	\end{equation}
 	\newpage
 	
-	\section{Stochastic Sub-Quantile Optimization}
-	In the age of big data, stochastic methods are necessary for fast training of models to handle large amounts of data. In this section we provide an algorithm for Stochastic Sub-Quantile Optimization.
+	\section{Stochastic Subquantile Optimization}
+	In the age of big data, stochastic methods are necessary for fast training of models to handle large amounts of data. In this section we provide an algorithm for Stochastic Subquantile Optimization.
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
 		
@@ -1599,7 +1552,7 @@
 			$\displaystyle \vtheta_{k+1} = \vtheta_k - \alpha \nabla_{\vtheta_k}g(t_{k+1},\vtheta_k)$
 		}
 		\KwRet{$\vtheta_T$}
-		\caption{Stochastic Sub-Quantile Minimization Optimization Algorithm}
+		\caption{Stochastic Subquantile Minimization Optimization Algorithm}
 		\label{alg:sqo-stochastic}
 	\end{algorithm}
 	
