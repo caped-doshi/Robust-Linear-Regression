@@ -5,7 +5,7 @@ A python implementation of Subquantile Minimization for Robust Linear Regression
 ## robust-linear-regression directory files
 The following are the different baselines and our proposed method for robust-linear regression
 - `SubQuantile.py`: This is our proposed method
-- `smart.py`: [NeurIPS 2022] Semi-Supervised Active Linear Regression.
+- `smart.py`: [NeurIPS 2022] Trimmed Maximum Likelihood Estimation for Robust Learning in Generalized Linear Models.
 - `term.py`: [ICLR 2021] Tilted Empirical risk minization to solve ridge regression.
 - `RRM.py`: [IEEE 2020] Robust Risk Minization for Statistical Learning.
 - `sever.py`: [ICML 2019] A robust meta-algorithm for stochastic optimization used in ridge regression.
