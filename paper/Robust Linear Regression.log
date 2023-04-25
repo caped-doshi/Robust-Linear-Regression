@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  24 APR 2023 22:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  24 APR 2023 22:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1349,7 +1349,7 @@ LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
 
 {C:/Users/Arvind Rathnashyam/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 
-Overfull \hbox (3.27118pt too wide) in paragraph at lines 176--185
+Overfull \hbox (8.34164pt too wide) in paragraph at lines 176--185
  [][] 
  []
 
@@ -1487,6 +1487,11 @@ log. on input line 613.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
 
+Overfull \hbox (5.00131pt too wide) in paragraph at lines 731--732
+ [][] 
+ []
+
+
 Overfull \hbox (5.00131pt too wide) in paragraph at lines 998--999
  [][] 
  []
@@ -1499,9 +1504,13 @@ Overfull \hbox (2.59569pt too wide) in paragraph at lines 1005--1027
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[8] [9] (Robust Linear Regression.bbl [10]) [11]
+
+Underfull \vbox (badness 2197) has occurred while \output is active []
+
+ [8]
+[9] [10] (Robust Linear Regression.bbl [11]) [12]
 \c@ttl@toc@sections=\count368
- (Robust Linear Regression.ptc) [12]
+ (Robust Linear Regression.ptc) [13]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
 * paper: <default>
@@ -1536,37 +1545,37 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 Package hyperref Info: bookmark level for unknown fact defaults to 0 on input l
 ine 1053.
- [13
+ [14
 
 ]
 Underfull \vbox (badness 1097) has occurred while \output is active []
 
- [14]
-[15] [16]
+ [15]
+[16] [17]
 Package hyperref Info: bookmark level for unknown assumption defaults to 0 on i
 nput line 1186.
  (residual0.tikz) (residual2.tikz) (residual4.tikz) (residual6.tikz)
 
-LaTeX Warning: Reference `asm:normal-corruption' on page 17 undefined on input 
+LaTeX Warning: Reference `asm:normal-corruption' on page 18 undefined on input 
 line 1236.
 
 
-LaTeX Warning: Reference `asm:normal-corruption' on page 17 undefined on input 
+LaTeX Warning: Reference `asm:normal-corruption' on page 18 undefined on input 
 line 1236.
 
 
 Underfull \vbox (badness 1320) has occurred while \output is active []
 
- [17]
+ [18]
 Overfull \hbox (5.61519pt too wide) detected at line 1257
 []
  []
 
-[18]
+[19]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19]
-[20]
+ [20]
+[21]
 Overfull \hbox (53.20686pt too wide) detected at line 1390
 []
  []
@@ -1576,23 +1585,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 1392--1394
 
  []
 
-[21]
+[22]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [22]
-[23]
+ [23]
+[24]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[24]
+[25]
 Underfull \vbox (badness 3557) has occurred while \output is active []
 
- [25]
+ [26]
 \tf@ptc=\write5
 \openout5 = `"Robust Linear Regression.ptc"'.
 
 
-[26] (Robust Linear Regression.aux)
+[27] (Robust Linear Regression.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1601,9 +1610,9 @@ ged.
 (rerunfilecheck)             Checksum: 4ECB695E63A89885DBFEA431B72E6E99;6276.
  ) 
 Here is how much of TeX's memory you used:
- 42339 strings out of 478338
- 1009113 string characters out of 2830528
- 1497568 words of memory out of 3000000
+ 42340 strings out of 478338
+ 1009120 string characters out of 2830528
+ 1497752 words of memory out of 3000000
  59796 multiletter control sequences out of 15000+600000
  503451 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1640,9 +1649,9 @@ Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/
 Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/ut
 mri8a.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type
 1/urw/zapfding/uzdr.pfb>
-Output written on "Robust Linear Regression.pdf" (26 pages, 520008 bytes).
+Output written on "Robust Linear Regression.pdf" (27 pages, 520841 bytes).
 PDF statistics:
- 843 PDF objects out of 1000 (max. 8388607)
- 254 named destinations out of 1000 (max. 500000)
+ 847 PDF objects out of 1000 (max. 8388607)
+ 255 named destinations out of 1000 (max. 500000)
  317 words of extra memory for PDF output out of 10000 (max. 10000000)
 

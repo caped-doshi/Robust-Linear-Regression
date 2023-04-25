@@ -131,7 +131,7 @@
 	
 	\subsection{Contributions}
 	Our goal is to provide a theoretic analysis and convergence conditions for Subquantile optimization and offer practitioners a method for robust linear regression.
-	Several popular methods have been utilized due to their simplicity and high effectiveness including quantile regression \cite{quantile-regression}, Theil-Sen Estimator \cite{thiel-sen}, and Huber Regression \cite{Huber2009}. These methods, although rudimentary, serve to show the effectiveness of building resistance against outliers in data. By improving upon existing methods, namely least-squares estimation in these cases, models can be designed to better estimate data sets with considerably corruptive outliers.
+	SEVERal popular methods have been utilized due to their simplicity and high effectiveness including quantile regression \cite{quantile-regression}, Theil-Sen Estimator \cite{thiel-sen}, and Huber Regression \cite{Huber2009}. These methods, although rudimentary, serve to show the effectiveness of building resistance against outliers in data. By improving upon existing methods, namely least-squares estimation in these cases, models can be designed to better estimate data sets with considerably corruptive outliers.
 	
 	Subquantile Optimization aims to address the shortcomings of ERM in applications such as noisy/corrupted data (\cite{khetan2018learning},\cite{jiang2018mentornet}), classification with imbalanced classes, (\cite{lin2017dense},\cite{he2009imbalanced}), as well as fair learning (\cite{Corbett2018fairness}).
 	
@@ -155,7 +155,7 @@
 				\addplot[domain=-5:5,samples=120,color=red,very thick] {0.000166177232*x-1.89493121} ;
 				\addlegendentry{TERM}
 				\addplot[domain=-5:5,samples=120,color=green,very thick] {1.90359844*x+2.82276139} ;
-				\addlegendentry{Sever}
+				\addlegendentry{SEVER}
 				\addplot[mark=*,color=cyan,only marks] coordinates{(0.788762485297498,4.619409754983769) (-1.8444557076323929,-0.5824544981134812) (-3.8667186653234786,-4.754991283615981) (-1.0770702633013416,0.7722164021812354) (-0.35460032498749144,2.2768627851664966) (-6.0822151692288084,-9.06286764938399) (-1.3972518211012221,0.1885381821988659) (2.9097896507970673,8.788974171667162) (-0.3463437020806441,2.420626808504963) (-2.1062359514012012,-1.2085000641078332) (4.336773668705573,11.632780878244247) (-0.6106102670869219,1.8184898177512854) (2.964822961712252,8.905021515559394) (-1.5637145371389622,-0.07761865537709459) (1.0345144344033383,5.0204590940620575) (2.056356483528722,7.198480210723839) (-0.7446791767339869,1.5853174482562558) (0.9631985535487033,4.9300987804715914) (0.8591431516732644,4.6302171243067765) (2.136527593488855,7.225942702339085) (-0.22230647531299189,2.5877920816746207) (1.4255477338524918,5.833868092502212) (-1.4608390115429133,0.12305693654859831) (0.8455335501589681,4.769483861326801) (-2.1885026970448886,-1.4714423105566306) (0.31837311592194245,3.604291796660203) (-2.5244214783210617,-2.0353095069267404) (0.9463907944621844,4.957203119009067) (0.8146787696108556,4.669681514124957) (0.7171745412553174,4.525279797042462)};
 				\addlegendentry{clean}
 				\addplot[mark=*,color=orange,only marks] coordinates{(-3.2474795820658593,6.450035960386647) (1.8753826722797218,-0.41858598306318395) (1.4931353198669002,-1.2946095099790276) (-6.390816833283051,0.40645831126308823) (0.39048632994899735,2.323962397589362) (-0.08068388106259215,2.8091622671588747) (1.3134080902531131,-3.6866845075408796) (-0.5728261692279717,-1.6637925896534693) (-3.795620644314326,3.901941933326407) (-2.2805802625691634,2.1567188534369586) (-1.1331317978018236,-1.0620378556289347) (-4.057270733769615,6.22788036393642) (3.580927646622491,1.4134339560728868) (1.1473909216831844,0.7892374536150136) (4.60155271303633,1.1396713973323012) (0.777450139132804,-2.5904275309220073) (1.2193257645912936,0.9783812850138183) (-2.0137550195781966,0.08990758847097716) (-3.0052924293950043,0.9558207339897568) (-1.6843214424199917,3.0989236738078767)};
@@ -177,12 +177,12 @@
 			\toprule 
 			Paper & Adversary & Threshold & Resampling & Iteration Complexity\\   
 			\midrule                
-			Sever \cite{DiakonikolasKKLSS19} & Adaptive & Gradient of Loss & \xmark & $\mathcal{O}(nd^2)$\\
+			SEVER \cite{DiakonikolasKKLSS19} & Adaptive & Gradient of Loss & \xmark & $\mathcal{O}(nd^2)$\\
 			\midrule 
 			Subquantile Minimization (Ours) & Adaptive & Loss & \cmark & $\mathcal{O}(n)$\\
 			\bottomrule
 		\end{tabular}
-		\caption{A comparison between Subquantile Minimization and the most similar work, Sever. }
+		\caption{A comparison between Subquantile Minimization and the most similar work, SEVER. Note this is the complexity of the thresholding procedure after running a base solver.}
 		\label{tab:related-work}
 	\end{table}
 	
@@ -639,7 +639,7 @@
 				0.34 0.0827301070094109
 				0.37 0.0734678506851196
 				0.4 0.0611478313803673
-			};\addlegendentry{Sever}
+			};\addlegendentry{SEVER}
 			\addplot [very thick, red,mark=square*]
 			table {%
 				0.1 80.537727355957
@@ -729,7 +729,7 @@
 			\node[below] at (c3 |- current bounding box.south)
 			{\pgfplotslegendfromname{CommonLegend}};
 		\end{tikzpicture}
-		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets. Oblivious noise is sampled from $\mathcal{N}(5,5)$, adaptive noise multiplies the labels by $-1$}
+		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets. Oblivious noise is sampled from $\mathcal{N}(5,5)$, adaptive noise multiplies the labels by $-1$. TERM was ran with open source code, we are unsure why it performed poorly in the synthetic case.}
 		\label{fig:synthetic-linear-regression}
 	\end{figure}
 	We now demonstrate SubQuantile Regression in the presence of Gaussian Random Noise. 
