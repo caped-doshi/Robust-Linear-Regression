@@ -12,3 +12,5 @@ The following are the different baselines and our proposed method for robust-lin
 - `Stir.py`: [AISTATS 2019] Reweighted Least Squares for Robust Regression.
 - `CRR.py`: [NeurIPS 2017] Consistent Robust Regression used to solve the Robust Least Squares Problem.
 - `sklearn_methods.py`: Various sklearn methods such as Huber, RANSAC, and Ridge. 
+- `data_loader.py`: Contains the methods to load the datasets for the methods above. 
+- `noise.py`: Contains the methods to add different types of noise to the features and/or labels.

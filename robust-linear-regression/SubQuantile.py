@@ -44,6 +44,7 @@ def SubQ2(X, y, T, p, reg=2):
     n = X.shape[0]
     X_np = X[np.random.permutation(n)[:int(n*p)]]
     y_np = y[np.random.permutation(n)[:int(n*p)]]
+    #start with the reg-norm regularizer
     if reg > 0:
         ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
         ridge.fit(X[:, :-1], y)
@@ -55,10 +56,13 @@ def SubQ2(X, y, T, p, reg=2):
     t = 0
     iter_diff = 1
     while iter_diff > 1e-16:
+        #calculate the lowest error over the quantile with 
+        #lowest error and compute the numerical solution at each step
         theta_prev = theta.copy()
         pred = np.matmul(X,theta)
         v = (pred - y)**2
         partition_number = int(n*p)
+        #linear time function to find the quantile with the lowest error
         v_arg_hat = np.argpartition(v, partition_number)
         X_np = X[v_arg_hat[:int(n*p)]]
         y_np = y[v_arg_hat[:int(n*p)]]
