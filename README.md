@@ -14,3 +14,9 @@ The following are the different baselines and our proposed method for robust-lin
 - `sklearn_methods.py`: Various sklearn methods such as Huber, RANSAC, and Ridge. 
 - `data_loader.py`: Contains the methods to load the datasets for the methods above. 
 - `noise.py`: Contains the methods to add different types of noise to the features and/or labels.
+
+## paper directory
+Contains latex for the final report
+
+## talk directory
+Contains latex for the slides
