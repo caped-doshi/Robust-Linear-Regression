@@ -55,7 +55,8 @@ def SubQ2(X, y, T, p, reg=2):
         theta = np.append(linear.coef_,[linear.intercept_])
     t = 0
     iter_diff = 1
-    while iter_diff > 1e-16:
+    #while iter_diff > 1e-16:
+    for _ in range(32):
         #calculate the lowest error over the quantile with 
         #lowest error and compute the numerical solution at each step
         theta_prev = theta.copy()

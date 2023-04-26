@@ -47,7 +47,7 @@ if __name__ == "__main__":
     meta_std_huber = []
     meta_std_erm = []
     meta_std_stir = []
-    x_ = np.linspace(0.37,0.4,2)
+    x_ = np.linspace(0.1,0.4,11)
     for eps in x_:
         means_sever = []
         means_term = []
@@ -62,8 +62,8 @@ if __name__ == "__main__":
         for j in range(4):
             m = None
             b = None
-            #X,y,m,b = gaussian(n,d)
-            X,y = data_loader_drug()
+            X,y,m,b = gaussian(n,d)
+            #X,y = data_loader_drug()
             
             X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
@@ -72,10 +72,10 @@ if __name__ == "__main__":
             # mod = sm.QuantReg(y_train_noisy,X_train)
             # q = mod.fit(q=1-eps-0.1,max_iter=500)
             # theta_quantile = q.params
-            theta_sever = SEVER(X_train, y_train_noisy,iter=64,reg=2)
-            theta_term = TERM(X_train, y_train_noisy, -2, 0.1, 10000,reg=2)
+            theta_sever = SEVER(X_train, y_train_noisy,iter=64,reg=0)
+            theta_term = TERM(X_train, y_train_noisy, -2, 0.1, 10000,reg=0)
             theta_erm = LM(X_train, y_train_noisy)
-            theta_subq = SubQ2(X_train,y_train_noisy, 64, 1-eps,2)
+            theta_subq = SubQ2(X_train,y_train_noisy, 64, 1-eps,0)
             theta_huber = HuberRegressor(max_iter=1500).fit(X_train,y_train_noisy).coef_
             theta_genie = LM(X_train[:int(y_train.shape[0] * (1-eps))], y_train[:int(y_train.shape[0] * (1-eps))])
             base_model = Ridge()
@@ -177,7 +177,7 @@ if __name__ == "__main__":
         mean_genie = np.mean(np.float32(means_genie))
         std_genie = np.std(np.float32(means_genie))
         meta_means_genie.append(mean_genie)
-        meta_std_subq.append(std_genie)
+        meta_std_genie.append(std_genie)
         print(f"Genie:\t{mean_genie:.3f}_{{({std_genie:.4f})}}")
 
     meta_means_subq = np.float32(meta_means_subq)
@@ -202,21 +202,21 @@ if __name__ == "__main__":
     meta_std_erm = np.float32(meta_std_erm)
     meta_std_genie = np.float32(meta_std_genie)
 
-    plt.plot(x_,meta_means_subq, color='black')
-    plt.plot(x_,meta_means_sever,color='green')
-    plt.plot(x_,meta_means_term,color='red')
-    plt.plot(x_,meta_means_ransac,color='orange')
-    plt.plot(x_,meta_means_huber,color='purple')
-    plt.plot(x_,meta_means_erm,color='cyan')
-    plt.plot(x_,meta_means_crr,color='blue')
-    plt.plot(x_,meta_means_stir,color='teal')
+    plt.plot(x_,meta_means_subq, color='black',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_sever,color='green',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_term,color='red',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_ransac,color='orange',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_huber,color='purple',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_erm,color='cyan',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_crr,color='blue',marker="s",linewidth=3)
+    plt.plot(x_,meta_means_stir,color='teal',marker="s",linewidth=3)
     #plt.plot(x_,meta_means_quantile,color='gray')
-    # plt.fill_between(x_,meta_means_subq-meta_std_subq,meta_means_subq+meta_std_subq,color='black',alpha=0.5)
-    # plt.fill_between(x_,meta_means_sever-meta_std_sever,meta_means_sever+meta_std_sever,color='green',alpha=0.5)
-    # plt.fill_between(x_,meta_means_term-meta_std_term,meta_means_term+meta_std_term,color='red',alpha=0.5)
-    # plt.fill_between(x_,meta_means_ransac-meta_std_ransac,meta_means_ransac+meta_std_ransac,color='orange',alpha=0.5)
-    # plt.fill_between(x_,meta_means_huber-meta_std_huber,meta_means_huber+meta_std_huber,color='purple',alpha=0.5)
-    # plt.fill_between(x_,meta_means_erm-meta_std_erm,meta_means_erm+meta_std_erm,color='cyan',alpha=0.5)
+    plt.fill_between(x_,meta_means_subq-meta_std_subq,meta_means_subq+meta_std_subq,color='black',alpha=0.3)
+    plt.fill_between(x_,meta_means_sever-meta_std_sever,meta_means_sever+meta_std_sever,color='green',alpha=0.3)
+    plt.fill_between(x_,meta_means_term-meta_std_term,meta_means_term+meta_std_term,color='red',alpha=0.3)
+    plt.fill_between(x_,meta_means_ransac-meta_std_ransac,meta_means_ransac+meta_std_ransac,color='orange',alpha=0.3)
+    plt.fill_between(x_,meta_means_huber-meta_std_huber,meta_means_huber+meta_std_huber,color='purple',alpha=0.3)
+    plt.fill_between(x_,meta_means_erm-meta_std_erm,meta_means_erm+meta_std_erm,color='cyan',alpha=0.3)
     plt.ylim([0, 3])
     tikzplotlib.save("fig-synthetic.tex")
     plt.show()

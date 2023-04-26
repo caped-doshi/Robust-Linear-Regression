@@ -5,11 +5,14 @@ import argparse
 def SEVER(x_train, y_train, reg=4, p=0.01, iter=64):
     for _ in range(iter):
 
-        ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
-
-        ridge.fit(x_train[:,:-1], y_train)
-
-        w = np.append(ridge.coef_, [ridge.intercept_])
+        if reg > 0:
+            ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
+            ridge.fit(x_train[:, :-1], y_train)
+            w = np.append(ridge.coef_, [ridge.intercept_])
+        else:
+            linear = LinearRegression(fit_intercept=True)
+            linear.fit(x_train[:,:-1],y_train)
+            w = np.append(linear.coef_,[linear.intercept_])
         #w = np.matmul(np.linalg.pinv(x_train),y_train)
 
         #extract gradients for each point
@@ -62,7 +65,7 @@ if __name__ == "__main__":
 
     parsed = vars(parser.parse_args())
     num_trials = parsed['num_trials']
-    iters = parsed['iters']
+    iters = parsed['num_iters']
     reg = parsed['reg']
     p = parsed['p']
     noise = parsed['noise']

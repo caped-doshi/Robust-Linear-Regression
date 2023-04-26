@@ -11,9 +11,10 @@ def addFeatureNoise(X,y,noise:float,m=None,b=None):
 def addAdaptiveNoise(X, y, noise: float,m=None, b=None): 
     noisyY = np.copy(y)
     d = X.shape[1]
-    b_ = 10
+    m = np.random.normal(0,1,d)
+    b_ = 0
     for i in range(int(len(y) * (1-noise)), len(y)):
-        noisyY[i] = noisyY[i] + b_
+        noisyY[i] = np.dot(X[i,:], m)
     return X, noisyY
 
 def addObliviousNoise(X, y, noise: float,m=None,b=None): 

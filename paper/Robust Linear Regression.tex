@@ -1,6 +1,21 @@
 
 \documentclass{article} % For LaTeX2e
-\usepackage{iclr2023_conference,times}
+%\usepackage{iclr2023_conference,times}
+%\usepackage{times}
+\usepackage{eso-pic} % used by \AddToShipoutPicture
+\RequirePackage{fancyhdr}
+\RequirePackage{natbib}
+\usepackage[verbose=true,letterpaper]{geometry}
+\AtBeginDocument{
+	\newgeometry{
+		textheight=9in,
+		textwidth=6.5in,
+		top=1in,
+		headheight=14pt,
+		headsep=25pt,
+		footskip=30pt
+	}
+}
 
 % Optional math commands from https://github.com/goodfeli/dlbook_notation.
 \input{math_commands.tex}
@@ -112,7 +127,7 @@
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
 \begin{document}
 	
 	\maketitle
@@ -135,9 +150,9 @@
 	
 	Subquantile Optimization aims to address the shortcomings of ERM in applications such as noisy/corrupted data (\cite{khetan2018learning},\cite{jiang2018mentornet}), classification with imbalanced classes, (\cite{lin2017dense},\cite{he2009imbalanced}), as well as fair learning (\cite{Corbett2018fairness}).
 	
-	\begin{figure}[!t]
+	\begin{figure}[!t]\centering
 		\begin{tikzpicture}
-			\begin{groupplot}[group style={group size= 2 by 4},height=5cm,width=6.4cm,xmax=4,xmin=-4,
+			\begin{groupplot}[group style={group size= 2 by 4},height=0.3\textheight,width=0.5\textwidth,xmax=4,xmin=-4,
 				ymin= -10,ymax=10,
 				xtick={-4,-3,-2,...,4},
 				ytick={-10,-8,-6,...,10},]
@@ -480,7 +495,7 @@
 		\begin{tikzpicture}
 			\begin{groupplot}[group style={
 					group name=myplot,
-					group size= 2 by 1},height=6cm,width=0.5\linewidth,
+					group size= 2 by 1},height=0.3\textheight,width=0.5\linewidth,
 					tick align=outside,
 					tick pos=left,
 					legend pos=outer north east,
@@ -610,7 +625,7 @@
 				0.37 1.6569504737854
 				0.4 1.84088504314423
 			};
-			\nextgroupplot[legend to name={CommonLegend},legend style={legend columns=8},title=\texttt{Oblivious Linear Regression}]
+			\nextgroupplot[legend to name={CommonLegend},legend style={legend columns=8},title=\texttt{Oblivious Linear Regression},xlabel={$\varepsilon^{(0)}$}]
 			\coordinate (c2) at (current axis.right of origin);
 			\addplot [very thick, black,mark=square*]
 			table {%
@@ -729,7 +744,7 @@
 			\node[below] at (c3 |- current bounding box.south)
 			{\pgfplotslegendfromname{CommonLegend}};
 		\end{tikzpicture}
-		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets. Oblivious noise is sampled from $\mathcal{N}(5,5)$, adaptive noise multiplies the labels by $-1$. TERM was ran with open source code, we are unsure why it performed poorly in the synthetic case.}
+		\caption{\texttt{Structured Linear Regression} \& \texttt{Noisy Linear Regression} Datasets. Data is sampled from $\mathcal{N}_{200}(0, I_{200})$. Oblivious noise is sampled from $\mathcal{N}(5,5)$, adaptive noise multiplies the labels by $-1$. TERM was ran with open source code, we are unsure why it performed poorly in the synthetic case.}
 		\label{fig:synthetic-linear-regression}
 	\end{figure}
 	We now demonstrate SubQuantile Regression in the presence of Gaussian Random Noise. 
@@ -746,7 +761,7 @@
 		\begin{tikzpicture}
 			\begin{groupplot}[group style={
 					group name=myplot,
-					group size= 2 by 1},height=6cm,width=0.5\linewidth,
+					group size= 2 by 1},height=0.3\textheight,width=0.5\linewidth,
 				tick align=outside,
 				tick pos=left,
 				legend pos=outer north east,
@@ -754,16 +769,17 @@
 				xmin=0.1, xmax=0.4,
 				xtick style={color=darkgray176},
 				y grid style={darkgray176},
-				ymin=0.8, ymax=4,
+				ymin=0.8, ymax=3,
 				ytick style={color=darkgray176},
 				%ytick={0.1,1,6},
 				ymajorgrids=true,
 				grid style=dashed,
-				ymode=log,
-				log basis y={2},
-				log ticks with fixed point,
+				%ymode=log,
+				%	log basis y={2},
+				%log ticks with fixed point,
+				ytick distance=0.3
 				]
-				\nextgroupplot[ylabel=Test RMSE,title=Oblivious Noise]
+				\nextgroupplot[ylabel=Test RMSE,title=Oblivious Noise,xlabel={$\varepsilon^{(0)}$}]
 				\coordinate (c1) at (current axis.left of origin);
 				\addplot [very thick, black,mark=square*]
 				table {%
@@ -877,119 +893,119 @@
 					0.37 1.58278977870941
 					0.4 1.74616122245789
 				};
-				\nextgroupplot[legend to name={DrugLegend},legend style={legend columns=8},title=Adaptive Noise]
+				\nextgroupplot[legend to name={DrugLegend},legend style={legend columns=8},title=Adaptive Noise,xlabel={$\varepsilon^{(0)}$}]
 				\coordinate (c2) at (current axis.right of origin);% I moved this to the upper right corner
 				\addplot [very thick, black,mark=square*]
 				table {%
-					0.1 0.919014692306519
-					0.13 1.03824925422668
-					0.16 1.02291512489319
-					0.19 0.97149395942688
-					0.22 1.06282556056976
-					0.25 1.09392309188843
-					0.28 1.13588070869446
-					0.31 1.13273966312408
-					0.34 1.09808433055878
-					0.37 1.37765526771545
-					0.4 1.60075807571411
+					0.1 1.04266095161438
+					0.13 1.00431430339813
+					0.16 0.987790524959564
+					0.19 1.0716381072998
+					0.22 1.12236297130585
+					0.25 1.0930163860321
+					0.28 1.07854914665222
+					0.31 1.05946612358093
+					0.34 1.03664100170135
+					0.37 1.13451027870178
+					0.4 1.23898386955261
 				};\addlegendentry{SubQuantile}
 				\addplot [very thick, green,mark=square*]
 				table {%
-					0.1 0.97418487071991
-					0.13 1.08860313892365
-					0.16 1.05181241035461
-					0.19 1.00930380821228
-					0.22 1.08544754981995
-					0.25 1.1134250164032
-					0.28 1.07825410366058
-					0.31 1.08377873897552
-					0.34 1.10134482383728
-					0.37 1.47154355049133
-					0.4 1.8292989730835
+					0.1 1.07590305805206
+					0.13 1.03336763381958
+					0.16 1.01988816261292
+					0.19 1.08937513828278
+					0.22 1.1459059715271
+					0.25 1.09592318534851
+					0.28 1.08547782897949
+					0.31 1.05062973499298
+					0.34 1.03637742996216
+					0.37 1.11150372028351
+					0.4 1.23701286315918
 				};\addlegendentry{SEVER}
 				\addplot [very thick, red,mark=square*]
 				table {%
-					0.1 1.02624189853668
-					0.13 1.12964737415314
-					0.16 1.10623836517334
-					0.19 1.08269572257996
-					0.22 1.145876288414
-					0.25 1.16499924659729
-					0.28 1.14380311965942
-					0.31 1.11899161338806
-					0.34 1.05105876922607
-					0.37 1.08660757541656
-					0.4 1.12682223320007
+					0.1 1.11575746536255
+					0.13 1.09899640083313
+					0.16 1.08607697486877
+					0.19 1.15801119804382
+					0.22 1.20831036567688
+					0.25 1.16891241073608
+					0.28 1.12426352500916
+					0.31 1.15677762031555
+					0.34 1.10219264030457
+					0.37 1.1465961933136
+					0.4 1.17199730873108
 				};\addlegendentry{TERM}
 				\addplot [very thick, orange,mark=square*]
 				table {%
-					0.1 1.15098297595978
-					0.13 1.3056538105011
-					0.16 1.39799237251282
-					0.19 1.47036576271057
-					0.22 1.73723542690277
-					0.25 1.85315310955048
-					0.28 2.06100988388062
-					0.31 2.26056098937988
-					0.34 2.41652727127075
-					0.37 2.49730658531189
-					0.4 2.8336808681488
+					0.1 1.1948184967041
+					0.13 1.25175404548645
+					0.16 1.39796054363251
+					0.19 1.50851356983185
+					0.22 2.02489614486694
+					0.25 1.57467532157898
+					0.28 1.78998124599457
+					0.31 2.06240844726562
+					0.34 2.74211001396179
+					0.37 2.16686248779297
+					0.4 2.19366788864136
 				};\addlegendentry{Ransac}
 				\addplot [very thick, purple,mark=square*]
 				table {%
-					0.1 1.42236399650574
-					0.13 1.44193506240845
-					0.16 1.59146368503571
-					0.19 1.41443765163422
-					0.22 1.76296734809875
-					0.25 1.65182590484619
-					0.28 2.12984800338745
-					0.31 2.21157455444336
-					0.34 2.27279591560364
-					0.37 2.51102018356323
-					0.4 2.22447919845581
+					0.1 1.33658623695374
+					0.13 1.25312173366547
+					0.16 1.24744260311127
+					0.19 1.43654656410217
+					0.22 1.34521245956421
+					0.25 1.45959317684174
+					0.28 1.71752715110779
+					0.31 1.44591951370239
+					0.34 1.80576372146606
+					0.37 2.24509716033936
+					0.4 2.02601432800293
 				};\addlegendentry{Huber}
 				\addplot [very thick, cyan,mark=square*]
 				table {%
-					0.1 1.1504899263382
-					0.13 1.30415141582489
-					0.16 1.40286934375763
-					0.19 1.46106946468353
-					0.22 1.67240214347839
-					0.25 1.80807554721832
-					0.28 1.90281105041504
-					0.31 2.0385856628418
-					0.34 2.09466600418091
-					0.37 2.21419143676758
-					0.4 2.34415864944458
+					0.1 1.27868807315826
+					0.13 1.42780756950378
+					0.16 1.58839821815491
+					0.19 1.59277307987213
+					0.22 2.18014144897461
+					0.25 1.64592504501343
+					0.28 2.04517650604248
+					0.31 2.09450626373291
+					0.34 2.68377304077148
+					0.37 2.36381673812866
+					0.4 2.33520555496216
 				};\addlegendentry{ERM}
 				\addplot [very thick, blue,mark=square*]
 				table { 
-					0.1 0.988592743873596
-					0.13 1.07592439651489
-					0.16 1.11025428771973
-					0.19 1.15290307998657
-					0.22 1.44147706031799
-					0.25 1.60702550411224
-					0.28 1.67903292179108
-					0.31 1.8964900970459
-					0.34 1.91637253761292
-					0.37 2.25444078445435
-					0.4 2.34002900123596
+					0.1 1.16272437572479
+					0.13 1.08389461040497
+					0.16 1.08747029304504
+					0.19 1.20625638961792
+					0.22 1.33022212982178
+					0.25 1.26544165611267
+					0.28 1.30433332920074
+					0.31 1.43911480903625
+					0.34 1.99635434150696
+					0.37 1.77191853523254
+					0.4 2.37824058532715
 				};\addlegendentry{CRR}
 				\addplot [very thick, teal,mark=square*]
 				table { 
-					0.1 0.992274522781372
-					0.13 1.11690032482147
-					0.16 1.17126822471619
-					0.19 1.13344883918762
-					0.22 1.32121670246124
-					0.25 1.39682495594025
-					0.28 1.50348544120789
-					0.31 1.638547539711
-					0.34 1.64548587799072
-					0.37 1.95285272598267
-					0.4 2.04142189025879
+					0.1 1.08476305007935
+					0.13 1.06075251102448
+					0.16 1.0686469078064
+					0.19 1.16898334026337
+					0.22 1.27208828926086
+					0.25 1.25934648513794
+					0.28 1.42118215560913
+					0.31 1.30895829200745
+					0.34 1.4916957616806
+					0.37 1.73328733444214
+					0.4 1.79917883872986
 				};\addlegendentry{STIR}
 			\end{groupplot}
 			\coordinate (c3) at ($(c1)!.5!(c2)$);
@@ -1014,17 +1030,17 @@
 			Robust Risk \cite{RRM} &$1.176_{(0.1110)}
 			$&$1.336_{(0.1882)}$&$1.437_{(0.1723)}$&$1.800_{(0.0820)}$\\
 			SMART \cite{https://doi.org/10.48550/arxiv.2206.04777} &$1.094_{(0.1065)}$&$1.323_{(0.0758)}$&$1.578_{(0.0799)}$&$1.984_{(0.2020)}$\\
-			TERM \cite{li2020tilted} &$\mathbf{1.029_{(0.0707)}}$&$1.126_{(0.0776)}$&$1.191_{(0.1091)}$&$1.201_{(0.1409)}$\\
-			SEVER \cite{DiakonikolasKKLSS19} &$1.043_{(0.0970)}$&$\mathbf{1.067_{(0.0457)}}$&$\mathbf{1.071_{(0.0807)}}$&$\mathbf{1.138_{(0.1162)}}$\\
+			TERM \cite{li2020tilted} &$1.100_{(0.0948)}$&$1.126_{(0.1181)}$&$1.143_{(0.1058)}$&$1.160_{(0.0799)}$\\
+			SEVER \cite{DiakonikolasKKLSS19} &$\mathbf{1.066_{(0.0907)}}$&$\mathbf{1.042_{(0.0659)}}$&$\mathbf{1.058_{(0.0950)}}$&$\mathbf{1.052_{(0.1201)}}$\\
 			Huber \cite{Huber2009} &$1.412_{(0.0474)}$&$1.501_{(0.2918)}$&$2.231_{(0.9054)}$&$2.247_{(1.0399)}$\\
 			RANSAC \cite{RANSAC1981} &$1.238_{(0.0529)}$&$1.643_{(0.1331)}$&$2.092_{(0.1935)}$&$2.679_{(0.1365)}$\\
 			\rowcolor{LightCyan}
-			SubQuantile($p = 1-\eps$) &$\mathbf{0.966_{(0.1119)}}$&$\mathbf{1.002_{(0.1025)}}$&$\mathbf{1.010_{(0.0630)}}$&$\mathbf{1.065_{(0.1112)}}$\\
+			SubQuantile(ours) &$\mathbf{0.994_{(0.1024)}}$&$\mathbf{1.014_{(0.0937)}}$&$\mathbf{1.012_{(0.1029)}}$&$\mathbf{1.034_{(0.1116)}}$\\
 			\midrule 
-			Genie ERM &$0.960_{(0.0845)}$&$0.982_{(0.0842)}$&$1.006_{(0.0879)}$&$1.030_{(0.0578)}$\\
+			Genie ERM &$0.960_{(0.0845)}$&$0.982_{(0.0842)}$&$1.006_{(0.0879)}$&$1.017_{(0.1100)}$\\
 			\bottomrule
 		\end{tabular}
-		\caption{\texttt{Drug Discovery} Dataset. Empirical Risk over $P$ with oblivious noise. The Genie has knowledge of where corruptions are so only trains on clean data in training set.}
+		\caption{\texttt{Drug Discovery} Dataset. Empirical Risk over $P$ with oblivious noise. The Genie has knowledge of where corruptions are so only trains on clean data in training set. We use $\reg = 6$ for all methods capable of ridge regression. For subquantile, we use $p = 0.9$ for $\eps = 0.1$, $p=0.85$ for $\eps=0.2$, $p = 0.75$ for $\eps = 0.3$, and $p = 0.65$ for $\eps = 0.4$}
 		\label{tab:drug-discovery}
 	\end{table}
 	
@@ -1045,8 +1061,6 @@
 	\startcontents[sections]
 	\printcontents[sections]{l}{1}{\setcounter{tocdepth}{2}}
 	\newpage
-	
-	\newgeometry{left=2cm,right=2cm,bottom=2cm}
 	
 	\section{Linear Algebra and Probability Theory Preliminaries}
 	
@@ -1098,6 +1112,21 @@
 		\begin{equation}
 			F_{(k,n)} = \mathbb{P}\left[X_{(k)}\leq x \right] = \sum_{j=k}^n \begin{pmatrix} n \\ j\end{pmatrix} \left(1 - F(x)\right)^{n-j} F(x)^j
 		\end{equation}
+	\end{fact}
+
+	\begin{fact}
+		\textbf{Hoeffding bound}. Suppose the variables $X_i$, $i = 1,\dots,n$ are i.i.d. with mean $\mu_i$ and sub-Gaussian parameter $\sigma_i$. Then for all $t \geq 0$, it follows:
+		\begin{equation}
+			\mathbb{P}\left[\sum_{i=1}^n\left(X_i - \mu\right) \geq t\right] \leq \exp \left\{-\frac{t^2}{2\sum_{i=1}^n\sigma_i^2}\right\}
+		\end{equation}
+	\end{fact}
+	
+	\begin{fact}
+		A random variable $X$ with mean $\mu = \mathbb{E}\left[X\right]$ is \textbf{sub-gaussian} if there exists $\sigma$ such that:
+		\begin{equation}
+			\mathbb{E}\left[e^{\lambda(X - \mu)}\right] \leq e^{\sigma^2\lambda^2/2} \, \forall \lambda \in \mathbb{R}
+		\end{equation}
+		$\sigma$ is denoted as the sub-gaussian parameter of $X$
 	\end{fact}
 
 	\newpage
