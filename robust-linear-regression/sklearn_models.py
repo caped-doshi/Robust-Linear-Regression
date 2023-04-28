@@ -22,8 +22,8 @@ def quantile(X,y,noise,iters):
   return q.params
 
 def genie(X,y, noise, iters):
-  X_g = X[:int(y_train.shape[0] * (1-noise))]
-  y_g = y[:int(y_train.shape[0] * (1-noise))]
+  X_g = X[:int(y.shape[0] * (1-noise))]
+  y_g = y[:int(y.shape[0] * (1-noise))]
   ridge = Ridge(2, fit_intercept=True, solver='cholesky')
   ridge.fit(X_g[:, :-1], y_g)
   theta = np.append(ridge.coef_, [ridge.intercept_])

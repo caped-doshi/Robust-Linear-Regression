@@ -91,6 +91,7 @@ def SubQ2(X, y, T, p, reg=2):
         linear = LinearRegression(fit_intercept=True)
         linear.fit(X_np[:,:-1],y_np)
         theta = np.append(linear.coef_,[linear.intercept_])
+
     return theta
 
 if __name__ == "__main__":
