@@ -15,7 +15,7 @@ def SEVER(x_train, y_train, reg=4, p=0.01, iter=64):
         # grads = 2 * np.diag(losses) @ x_train + (reg * w)[None, :]
         pred = x_train @ w
         s = 1 / (1 + np.exp(-1*pred))
-        losses = -y_train * np.log(s) - (1 - y_train) * np.log(s)
+        losses = -y_train * np.log(s+1e-10) - (1 - y_train) * np.log(1 - s+1e-10)
         grads = np.diag(s - y_train) @ x_train
 
         #center gradients
@@ -96,10 +96,10 @@ if __name__ == "__main__":
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
 
         theta = SEVER(X_train,y_train_noisy,4,p,num_iters)
-        pred = np.dot(X_test, theta)
-        s = 1 / (1 + np.exp(-1*pred))
-        v = -y_test*np.log(s) - (1-y_test)*np.log(s)
-        loss = np.sqrt(np.mean(v) ** 2)
-        means.append(loss)
-        print(f"Loss:\t{loss:.3f}")
+        pred = 1/(1 + np.exp(-1*np.dot(X_test, theta)))
+        pred[pred > 0.5] = 1
+        pred[pred <= 0.5] = 0
+        accuracy = (len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
+        means.append(accuracy)
+        print(f"accuracy:\t{accuracy:.3f}")
     print(f"SEVER:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")

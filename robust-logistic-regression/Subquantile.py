@@ -7,7 +7,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 
-def SubQ(X, y, T, p, reg=2):
+def SubQ(X, y, T, p, reg):
     n = X.shape[0]
     partition_number = int(n*p)
     X_np = X[np.random.permutation(n)[:int(n*p)]]
@@ -23,27 +23,30 @@ def SubQ(X, y, T, p, reg=2):
         #calculate the lowest error over the quantile with 
         #lowest error and compute the numerical solution at each step
         theta_prev = theta.copy()
-        pred = X @ theta
-        s = 1 / (1 + np.exp(-1*pred))
-        v = -y*np.log(s) - (1-y)*np.log(s)
+        z = X @ theta
+        h = 1 / (1 + np.exp(-z))
+        v = np.log(1+np.exp(-z)) + np.multiply(1-y, z)
         #linear time function to find the quantile with the lowest error
-        v_arg_hat = np.argpartition(v, partition_number)
+        v_hat = sorted(v)
+        #v_arg_hat = np.argpartition(v, partition_number)
+        v_arg_hat = np.argsort(v)
         X_np = X[v_arg_hat[:int(n*p)]]
         y_np = y[v_arg_hat[:int(n*p)]]
         t = np.max(v[v_arg_hat[:int(n*p)]])
         P_num = np.count_nonzero(v_arg_hat[:int(n*p)] < int(n*p))
         Q_num = np.count_nonzero(v_arg_hat[:int(n*p)] > int(n*p))
         #print(f"P-num:\t{P_num}\tQ-num:\t{Q_num}")
+        print(f"t:\t{t:.4f}")
 
         logistic = LogisticRegression(fit_intercept=True)
         logistic.fit(X_np[:,:-1],y_np)
         theta = np.append(logistic.coef_,[logistic.intercept_])
-    
+
         iter_diff = np.linalg.norm(theta-theta_prev,2)
-        print(iter_diff)
-    logistic = LogisticRegression(fit_intercept=True)
-    logistic.fit(X_np[:,:-1],y_np)
-    theta = np.append(logistic.coef_,[logistic.intercept_])
+        #print(f"iter_diff:\t{iter_diff}")
+    # logistic = LogisticRegression(fit_intercept=True)
+    # logistic.fit(X_np[:,:-1],y_np)
+    # theta = np.append(logistic.coef_,[logistic.intercept_])
     return theta
 
 if __name__ == "__main__":
@@ -89,11 +92,19 @@ if __name__ == "__main__":
 
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
 
-        theta = SubQ(X_train,y_train_noisy,num_iters,p, 2)
-        pred = np.dot(X_test, theta)
-        s = 1 / (1 + np.exp(-1*pred))
-        v = -y_test*np.log(s) - (1-y_test)*np.log(s)
-        loss = np.sqrt(np.mean(v) ** 2)
-        means.append(loss)
-        print(f"Loss:\t{loss:.3f}")
+        # logistic = LogisticRegression(fit_intercept=True,solver='newton-cg')
+        # logistic.fit(X_train[:,:-1],y_train_noisy)
+        # erm = np.append(logistic.coef_,[logistic.intercept_])
+        # pred = 1/(1 + np.exp(-1*np.dot(X_test, erm)))
+        # pred[pred > 0.5] = 1
+        # pred[pred <= 0.5] = -1
+        # accuracy = 100*(len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
+        # print(f"ERM Acc:\t{accuracy:.2f}")
+
+        theta = SubQ(X_train,np.int32(y_train_noisy),num_iters,p, 0)
+        pred = 1/(1 + np.exp(-1*np.dot(X_test, theta)))
+        pred = pred.round()
+        accuracy = 100*(len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
+        print(f"SubQ Acc:\t{accuracy:.2f}\n")
+        means.append(accuracy)
     print(f"SubQuantile:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")

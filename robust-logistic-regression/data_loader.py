@@ -11,8 +11,9 @@ def gaussian(n, d):
     b = np.random.normal(0,1)
 
     for i in range(n):
-        t = np.sign(np.random.normal(np.dot(np.transpose(w),x[i,0:d]) + b,0.01))
-        t = max(0,t)
+        t = np.int32(np.sign(np.random.normal(np.dot(np.transpose(w),x[i,0:d]) + b,0.01)))
+        if t == -1:
+            t = 0
         y[i] = t
     return x, y, w, b
 

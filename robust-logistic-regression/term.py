@@ -6,15 +6,15 @@ import argparse
 #code from https://github.com/litian96/TERM/blob/master/robust_regression/regression.py
 def compute_gradients_tilting(theta, X, y, t, reg):  # our objective
     #loss = (np.dot(X, theta) - y) ** 2
-    pred = X @ theta
-    s = 1 / (1 + np.exp(-1*pred))
-    loss = -y * np.log(s) - (1 - y) * np.log(s)
+    z = X @ theta
+    h = 1 / (1 + np.exp(-z))
+    loss = np.log(1+np.exp(-z)) + np.multiply(1-y, z)
     if t > 0:
         max_l = max(loss)
         loss = loss - max_l
 
-    grad = np.dot(np.multiply(np.exp(loss * t), (s-y)), X) / y.size
-    ZZ = np.mean(np.exp(t * loss))
+    grad = np.dot(X.T, np.multiply(np.exp(loss), h - y)) / y.size
+    ZZ = np.mean(np.exp(loss))
     return grad / (ZZ)
 
 #cvxpy is mostly not supported as the expression is not convex. 
@@ -100,8 +100,13 @@ if __name__ == "__main__":
     for j in range(num_trials):
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
+
         theta = TERM(X_train,y_train_noisy, t, alpha, num_iters, reg)
-        loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
-        means.append(loss)
-        print(f"Loss:\t{loss:.3f}")
+
+        pred = 1/(1 + np.exp(-1*np.dot(X_test, theta)))
+        pred = pred.round()
+        accuracy = (len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
+
+        print(f"Accuracy:\t{accuracy:.3f}")
+        means.append(accuracy)
     print(f"TERM:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")
