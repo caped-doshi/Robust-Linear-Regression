@@ -7,6 +7,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 import cvxpy as cp
+import tikzplotlib
 
 def SubQ(X, y, T, p, reg, X_test, y_test):
     n = X.shape[0]
@@ -118,13 +119,13 @@ if __name__ == "__main__":
         theta = SubQ(X_train,np.int32(y_train_noisy),num_iters,p, 0, X_test, y_test)
 
         x = np.linspace(-10,10,100)
-        ys = (theta[1]/theta[0])*x + theta[2]/theta[0]
+        ys = (-theta[2] - theta[0]*x)/theta[1]
         plt.plot(x,ys, 'k-', label='Decision boundary')
-        plt.legend(['clean positive', 'clean negative', 'noisy positive', 'noisy negative','theta'])
+        #plt.legend(['clean positive', 'clean negative', 'noisy positive', 'noisy negative','theta'])
         plt.xlim([-10,10])
         plt.ylim([-10,10])
-        # plt.show()
-        # plt.clf()
+        tikzplotlib.save("logistic.tex")
+        plt.show()
         pred = np.sign((X_test @ theta))
         #pred = 1/(1 + np.exp(-1*np.dot(X_test, theta)))
 #        pred[pred == 0] = -1

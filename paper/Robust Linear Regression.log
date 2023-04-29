@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  25 APR 2023 22:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  29 APR 2023 01:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1471,6 +1471,9 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [25] [26]
 \tf@ptc=\write5
 \openout5 = `"Robust Linear Regression.ptc"'.
@@ -1484,13 +1487,13 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 4ECB695E63A89885DBFEA431B72E6E99;6276.
+(rerunfilecheck)             Checksum: 50D0FFF5CDC19A0608A247F1CD917E98;6433.
  ) 
 Here is how much of TeX's memory you used:
- 42212 strings out of 478338
- 1006394 string characters out of 2830528
- 1496681 words of memory out of 3000000
- 59677 multiletter control sequences out of 15000+600000
+ 42229 strings out of 478338
+ 1006731 string characters out of 2830528
+ 1800635 words of memory out of 3000000
+ 59695 multiletter control sequences out of 15000+600000
  488509 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  100i,19n,104p,12773b,2540s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -1538,9 +1541,9 @@ ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/A
 rvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sym
 bols/msbm7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
 /type1/urw/zapfding/uzdr.pfb>
-Output written on "Robust Linear Regression.pdf" (27 pages, 646647 bytes).
+Output written on "Robust Linear Regression.pdf" (27 pages, 714530 bytes).
 PDF statistics:
  901 PDF objects out of 1000 (max. 8388607)
- 261 named destinations out of 1000 (max. 500000)
- 317 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 260 named destinations out of 1000 (max. 500000)
+ 325 words of extra memory for PDF output out of 10000 (max. 10000000)
 

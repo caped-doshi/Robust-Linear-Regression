@@ -31,10 +31,11 @@
 \contentsline {subsection}{\numberline {F.1}\texttt {Quadratic Regression}}{25}{subsection.F.1}%
 \contentsline {subsection}{\numberline {F.2}\texttt {Abalone}}{25}{subsection.F.2}%
 \contentsline {subsection}{\numberline {F.3}\texttt {Cal-Housing}}{25}{subsection.F.3}%
-\contentsline {section}{\numberline {G}Experimental Details}{26}{appendix.G}%
-\contentsline {subsection}{\numberline {G.1}\texttt {Adaptive Linear Regression} Dataset}{26}{subsection.G.1}%
-\contentsline {subsection}{\numberline {G.2}\texttt {Oblivious Linear Regression} Dataset}{26}{subsection.G.2}%
-\contentsline {subsection}{\numberline {G.3}\texttt {Quadratic Regression} Dataset}{26}{subsection.G.3}%
+\contentsline {subsection}{\numberline {F.4}\texttt {Logistic Regression}}{26}{subsection.F.4}%
+\contentsline {section}{\numberline {G}Experimental Details}{27}{appendix.G}%
+\contentsline {subsection}{\numberline {G.1}\texttt {Adaptive Linear Regression} Dataset}{27}{subsection.G.1}%
+\contentsline {subsection}{\numberline {G.2}\texttt {Oblivious Linear Regression} Dataset}{27}{subsection.G.2}%
+\contentsline {subsection}{\numberline {G.3}\texttt {Quadratic Regression} Dataset}{27}{subsection.G.3}%
 \contentsline {subsection}{\numberline {G.4}\texttt {Drug Discovery} Dataset}{27}{subsection.G.4}%
 \contentsline {subsection}{\numberline {G.5}Feature Noise}{27}{subsection.G.5}%
 \contentsfinish 
