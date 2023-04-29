@@ -7,13 +7,13 @@ import argparse
 def compute_gradients_tilting(theta, X, y, t, reg):  # our objective
     #loss = (np.dot(X, theta) - y) ** 2
     z = X @ theta
-    h = 1 / (1 + np.exp(-z))
-    loss = np.log(1+np.exp(-z)) + np.multiply(1-y, z)
+    h = 1 + np.exp(-y*z)
+    loss = np.log(h)
     if t > 0:
         max_l = max(loss)
         loss = loss - max_l
 
-    grad = np.dot(X.T, np.multiply(np.exp(loss), h - y)) / y.size
+    grad = np.dot(X.T, np.divide(-y, h)) / y.size
     ZZ = np.mean(np.exp(loss))
     return grad / (ZZ)
 
@@ -103,8 +103,7 @@ if __name__ == "__main__":
 
         theta = TERM(X_train,y_train_noisy, t, alpha, num_iters, reg)
 
-        pred = 1/(1 + np.exp(-1*np.dot(X_test, theta)))
-        pred = pred.round()
+        pred = np.sign((X_test @ theta))
         accuracy = (len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
 
         print(f"Accuracy:\t{accuracy:.3f}")

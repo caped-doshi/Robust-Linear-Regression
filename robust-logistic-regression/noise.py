@@ -12,8 +12,8 @@ def addAdaptiveNoise(X, y, noise: float,w=None, b=None):
     noisyY = np.copy(y)
     d = X.shape[1]
     for i in range(int(len(y) * (1-noise)), len(y)):
-        X[i,0:d] = np.random.uniform(-10,10,d)
-        noisyY[i] = np.sign(-1 * X[i,0:d-1] @ w - b)
+        X[i,0:d-1] = np.random.uniform(-10,10,d-1)
+        noisyY[i] = -1*np.sign(X[i,0:d-1] @ w + b)
         if noisyY[i] == 0:
           noisyY[i] = -1
     return X, noisyY

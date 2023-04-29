@@ -2,21 +2,23 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 import argparse
+import cvxpy as cp
 
 def SEVER(x_train, y_train, reg=4, p=0.01, iter=64):
     for _ in range(iter):
-
-        logistic = LogisticRegression(fit_intercept=True)
-        logistic.fit(x_train[:,:-1],y_train)
-        w = np.append(logistic.coef_,[logistic.intercept_])
+        
+        w = cp.Variable(x_train.shape[1])
+        obj = cp.Minimize(cp.sum(cp.logistic(-cp.multiply(y_train,x_train@w))))
+        prob = cp.Problem(obj).solve(solver=cp.ECOS)
+        w = w.value
 
         #extract gradients for each point
-        # losses = y_train - x_train @ w
-        # grads = 2 * np.diag(losses) @ x_train + (reg * w)[None, :]
-        pred = x_train @ w
-        s = 1 / (1 + np.exp(-1*pred))
-        losses = -y_train * np.log(s+1e-10) - (1 - y_train) * np.log(1 - s+1e-10)
-        grads = np.diag(s - y_train) @ x_train
+        z = 1 + np.exp(-y_train * (x_train @ w))
+        losses = np.log(z)
+        inner = -y_train / z
+        grads = x_train.copy()
+        for i in range(len(y_train)):
+            grads[i] = grads[i] * inner[i]
 
         #center gradients
         grad_avg = np.mean(grads, axis=0)
@@ -55,7 +57,7 @@ if __name__ == "__main__":
     parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
     parser.add_argument('--num_iters',help='iterations of algorithm',type=int,default=4)
     parser.add_argument('--reg',help='regularizer', type=float,default=2)
-    parser.add_argument('--p',help='fraction of outlier to remove (0:1)]', type=float,default=0.3)
+    parser.add_argument('--p',help='fraction of outlier to remove (0:1)]', type=float,default=0.01)
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
     parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='adaptive')
     parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='synthetic')
@@ -96,9 +98,7 @@ if __name__ == "__main__":
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
 
         theta = SEVER(X_train,y_train_noisy,4,p,num_iters)
-        pred = 1/(1 + np.exp(-1*np.dot(X_test, theta)))
-        pred[pred > 0.5] = 1
-        pred[pred <= 0.5] = 0
+        pred = np.sign((X_test @ theta))
         accuracy = (len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
         means.append(accuracy)
         print(f"accuracy:\t{accuracy:.3f}")

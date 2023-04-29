@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  29 APR 2023 01:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  29 APR 2023 16:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1472,13 +1472,19 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 1584--2639
+
+ []
+
+[25]
+
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[25] [26]
+[26] [27]
 \tf@ptc=\write5
 \openout5 = `"Robust Linear Regression.ptc"'.
 
- [27] (Robust Linear Regression.aux)
+ [28] (Robust Linear Regression.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1490,13 +1496,13 @@ ged.
 (rerunfilecheck)             Checksum: 50D0FFF5CDC19A0608A247F1CD917E98;6433.
  ) 
 Here is how much of TeX's memory you used:
- 42229 strings out of 478338
- 1006731 string characters out of 2830528
- 1800635 words of memory out of 3000000
- 59695 multiletter control sequences out of 15000+600000
+ 42235 strings out of 478338
+ 1006854 string characters out of 2830528
+ 1743001 words of memory out of 3000000
+ 59699 multiletter control sequences out of 15000+600000
  488509 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 100i,19n,104p,12773b,2540s stack positions out of 10000i,1000n,20000p,200000b,80000s
+ 100i,20n,104p,12773b,2540s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\Arvind Rathnashyam\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/e
 c/dpi600\tcrm0600.pk> <C:\Users\Arvind Rathnashyam\AppData\Local\MiKTeX\fonts/p
 k/ljfour/jknappen/ec/dpi600\tcrm0800.pk><C:/Users/Arvind Rathnashyam/AppData/Lo
@@ -1541,9 +1547,9 @@ ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/A
 rvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sym
 bols/msbm7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
 /type1/urw/zapfding/uzdr.pfb>
-Output written on "Robust Linear Regression.pdf" (27 pages, 714530 bytes).
+Output written on "Robust Linear Regression.pdf" (28 pages, 715881 bytes).
 PDF statistics:
- 901 PDF objects out of 1000 (max. 8388607)
- 260 named destinations out of 1000 (max. 500000)
+ 910 PDF objects out of 1000 (max. 8388607)
+ 262 named destinations out of 1000 (max. 500000)
  325 words of extra memory for PDF output out of 10000 (max. 10000000)
 
