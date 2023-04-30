@@ -1,4 +1,4 @@
-# Robust-Linear-Regression
+# Subquantile-Minimization
 
 A python implementation of Subquantile Minimization for Robust Linear Regression.
 
