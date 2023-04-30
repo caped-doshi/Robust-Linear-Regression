@@ -1,16 +1,19 @@
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn import svm
 import argparse
 import cvxpy as cp
+from sklearn.utils._testing import ignore_warnings
+from sklearn.exceptions import ConvergenceWarning
 
+@ignore_warnings(category=ConvergenceWarning)
 def SEVER(x_train, y_train, reg=4, p=0.01, iter=64):
     for _ in range(iter):
         
-        w = cp.Variable(x_train.shape[1])
-        obj = cp.Minimize(cp.sum(cp.pos(1-cp.multiply(y_train,x_train@w))))
-        prob = cp.Problem(obj).solve(solver=cp.ECOS)
-        w = w.value
+        svc = svm.LinearSVC(loss="hinge",fit_intercept=True)
+        svc.fit(x_train[:,:-1],y_train)
+        w = np.append(svc.coef_,[svc.intercept_])
 
         #extract gradients for each point
         z = 1 + np.exp(-y_train * (x_train @ w))
@@ -55,12 +58,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
-    parser.add_argument('--num_iters',help='iterations of algorithm',type=int,default=4)
+    parser.add_argument('--num_iters',help='iterations of algorithm',type=int,default=64)
     parser.add_argument('--reg',help='regularizer', type=float,default=2)
     parser.add_argument('--p',help='fraction of outlier to remove (0:1)]', type=float,default=0.01)
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
-    parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='adaptive')
-    parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='synthetic')
+    parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
+    parser.add_argument('--dataset', help='dataset; salary, enron, or synthetic',type=str,default='synthetic')
     parser.add_argument('--n', help='samples for synthetic data',type=int,default='2000')
     parser.add_argument('--d', help='dim for synthetic data',type=int,default='200')
 
@@ -72,16 +75,24 @@ if __name__ == "__main__":
     noise = parsed['noise']
     noise_type = parsed['noise_type']
     dataset = parsed['dataset']
+    n = parsed['n']
+    d = parsed['d']
 
     maxLen = max([len(ii) for ii in parsed.keys()])
     fmtString = '\t%' + str(maxLen) + 's : %s'
     print('Arguments:')
     for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
 
+    m = None
+    b = None
     if dataset == 'synthetic':
         n = parsed['n']
         d = parsed['d']
         X, y, m, b = gaussian(n, d) 
+    elif dataset == 'enron':
+        X, y = enron()
+    elif dataset == 'salary':
+        X, y = salary()
 
     if noise_type == "oblivious":
         noise_fn = addObliviousNoise
@@ -93,7 +104,6 @@ if __name__ == "__main__":
     print(f"Epsilon:\t{noise}")
     means = []
     for _ in range(num_trials):
-        X, y, m, b = gaussian(n, d) 
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)

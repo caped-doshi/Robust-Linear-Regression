@@ -4,18 +4,17 @@ from sklearn.model_selection import train_test_split
 import argparse
 
 #code from https://github.com/litian96/TERM/blob/master/robust_regression/regression.py
-def compute_gradients_tilting(theta, X, y, t, reg):  # our objective
-    #loss = (np.dot(X, theta) - y) ** 2
-    z = X @ theta
-    h = 1 + np.exp(-y*z)
-    loss = np.log(h)
-    if t > 0:
-        max_l = max(loss)
-        loss = loss - max_l
+def compute_gradients_tilting(theta, X, y, t):  # TERM
+    h = predict_prob(theta, X)
+    gradient = np.dot(X.T, h - y)
+    l = np.mean(loss(h, y))
+    gradient = np.exp((l_1-l_max) * t) * gradient1 + np.exp((l_2-l_max) * t) * gradient2
+    ZZ = len(y_1) * np.exp(t * (l_1-l_max)) + len(y_2) * np.exp(t * (l_2-l_max))
+    return gradient / ZZ
 
-    grad = np.dot(X.T, np.divide(-y, h)) / y.size
-    ZZ = np.mean(np.exp(loss))
-    return grad / (ZZ)
+
+def predict_prob(theta, X):
+    return sigmoid(np.dot(X, theta))
 
 #cvxpy is mostly not supported as the expression is not convex. 
 def TERM_cp(X, y, t, reg):

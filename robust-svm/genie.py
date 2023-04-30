@@ -6,7 +6,7 @@ import cvxpy as cp
 from sklearn import svm
 
 def ERM(X, y):
-    svc = svm.LinearSVC(loss="hinge",fit_intercept=True,max_iter=4000)
+    svc = svm.LinearSVC(loss="hinge",fit_intercept=True,max_iter=10000)
     svc.fit(X[:,:-1],y)
     theta = np.append(svc.coef_,[svc.intercept_]) 
     return theta
@@ -20,8 +20,8 @@ if __name__ == "__main__":
     parser.add_argument('--num_iters',help='iterations of algorithm',type=int,default=4)
     parser.add_argument('--reg',help='regularizer', type=float,default=2)
     parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
-    parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='adaptive')
-    parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='synthetic')
+    parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
+    parser.add_argument('--dataset', help='dataset; synthetic, enron, or salary',type=str,default='salary')
     parser.add_argument('--n', help='samples for synthetic data',type=int,default='2000')
     parser.add_argument('--d', help='dim for synthetic data',type=int,default='200')
 
@@ -43,8 +43,6 @@ if __name__ == "__main__":
     m = None
     b = None
     if dataset == 'synthetic':
-        n = parsed['n']
-        d = parsed['d']
         X, y, m, b = gaussian(n, d) 
     elif dataset == 'enron':
         X, y = enron()
@@ -64,8 +62,10 @@ if __name__ == "__main__":
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
+        n = X_train.shape[0]
+        partition_number = int(n*(1 - noise))
 
-        theta = ERM(X_train,y_train_noisy)
+        theta = ERM(X_train,y_train)
         pred = np.sign((X_test @ theta))
         accuracy = (len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
         means.append(accuracy)

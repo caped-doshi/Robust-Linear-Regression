@@ -4,7 +4,7 @@ def addFeatureNoise(X,y,noise:float,m=None,b=None):
   noisyY = np.copy(y)
   noisyX = np.copy(X)
   for i in range(int(len(y) * (1-noise)), len(y)):
-    noisyY[i] = 10000*y[i]
+    noisyY[i] = -1*y[i]
     noisyX[i,:] = 100*X[i,:]
   return noisyX, noisyY
 
