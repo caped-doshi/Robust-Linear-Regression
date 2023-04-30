@@ -7,45 +7,49 @@ Reallocating 'name_of_file' (item size: 1) to 20 items.
 Database file #1: iclr2023_conference.bib
 Warning--entry type for "Razaviyayn" isn't style-file defined
 --line 110 of file iclr2023_conference.bib
-You've used 22 entries,
+Repeated entry---line 442 of file iclr2023_conference.bib
+ : @article{Laguel2021
+ :                    ,
+I'm skipping whatever remains of this entry
+You've used 20 entries,
             2773 wiz_defined-function locations,
-            768 strings with 10173 characters,
-and the built_in function-call counts, 11241 in all, are:
-= -- 998
-> -- 725
-< -- 14
-+ -- 241
-- -- 219
-* -- 960
-:= -- 1738
-add.period$ -- 89
-call.type$ -- 22
-change.case$ -- 135
-chr.to.int$ -- 22
-cite$ -- 44
-duplicate$ -- 480
-empty$ -- 867
-format.name$ -- 257
-if$ -- 2378
+            749 strings with 9656 characters,
+and the built_in function-call counts, 10390 in all, are:
+= -- 911
+> -- 703
+< -- 12
++ -- 233
+- -- 213
+* -- 891
+:= -- 1608
+add.period$ -- 79
+call.type$ -- 20
+change.case$ -- 127
+chr.to.int$ -- 20
+cite$ -- 40
+duplicate$ -- 440
+empty$ -- 785
+format.name$ -- 247
+if$ -- 2193
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 20
-newline$ -- 136
-num.names$ -- 92
-pop$ -- 255
+missing$ -- 18
+newline$ -- 122
+num.names$ -- 84
+pop$ -- 247
 preamble$ -- 1
-purify$ -- 114
+purify$ -- 108
 quote$ -- 0
-skip$ -- 393
+skip$ -- 365
 stack$ -- 0
-substring$ -- 321
-swap$ -- 66
+substring$ -- 269
+swap$ -- 64
 text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 232
+type$ -- 210
 warning$ -- 0
-while$ -- 84
+while$ -- 76
 width$ -- 0
-write$ -- 331
-(There was 1 warning)
+write$ -- 297
+(There was 1 error message)

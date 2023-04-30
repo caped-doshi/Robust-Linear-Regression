@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{20}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -90,13 +90,16 @@ Ashish Khetan, Zachary~C. Lipton, and Anima Anandkumar.
 \newblock In \emph{International Conference on Learning Representations}, 2018.
 \newblock URL \url{https://openreview.net/forum?id=H1sUHgb0Z}.
 
-\bibitem[Koenker \& Hallock(2001)Koenker and Hallock]{quantile-regression}
-Roger Koenker and Kevin~F. Hallock.
-\newblock Quantile regression.
-\newblock \emph{Journal of Economic Perspectives}, 15\penalty0 (4):\penalty0
-  143--156, December 2001.
-\newblock \doi{10.1257/jep.15.4.143}.
-\newblock URL \url{https://www.aeaweb.org/articles?id=10.1257/jep.15.4.143}.
+\bibitem[Laguel et~al.(2021)Laguel, Pillutla, Malick, and
+  Harchaoui]{Laguel2021}
+Yassine Laguel, Krishna Pillutla, J{\'e}r{\^o}me Malick, and Zaid Harchaoui.
+\newblock Superquantiles at work: Machine learning applications and efficient
+  subgradient computation.
+\newblock \emph{Set-Valued and Variational Analysis}, 29\penalty0 (4):\penalty0
+  967--996, Dec 2021.
+\newblock ISSN 1877-0541.
+\newblock \doi{10.1007/s11228-021-00609-w}.
+\newblock URL \url{https://doi.org/10.1007/s11228-021-00609-w}.
 
 \bibitem[Li et~al.(2020)Li, Beirami, Sanjabi, and Smith]{li2020tilted}
 Tian Li, Ahmad Beirami, Maziar Sanjabi, and Virginia Smith.
@@ -144,27 +147,6 @@ Meisam Razaviyayn, Tianjian Huang, Songtao Lu, Maher Nouiehed, Maziar Sanjabi,
   and Mingyi Hong.
 \newblock Non-convex min-max optimization: Applications, challenges, and recent
   theoretical advances, 06 2020.
-
-\bibitem[Rockafellar et~al.(2014)Rockafellar, Royset, and
-  Miranda]{ROCKAFELLAR2014140}
-R.T. Rockafellar, J.O. Royset, and S.I. Miranda.
-\newblock Superquantile regression with applications to buffered reliability,
-  uncertainty quantification, and conditional value-at-risk.
-\newblock \emph{European Journal of Operational Research}, 234\penalty0
-  (1):\penalty0 140--154, 2014.
-\newblock ISSN 0377-2217.
-\newblock \doi{https://doi.org/10.1016/j.ejor.2013.10.046}.
-\newblock URL
-  \url{https://www.sciencedirect.com/science/article/pii/S0377221713008692}.
-
-\bibitem[Sen(1968)]{thiel-sen}
-Pranab~Kumar Sen.
-\newblock Estimates of the regression coefficient based on kendall's tau.
-\newblock \emph{Journal of the American Statistical Association}, 63\penalty0
-  (324):\penalty0 1379--1389, 1968.
-\newblock \doi{10.1080/01621459.1968.10480934}.
-\newblock URL
-  \url{https://www.tandfonline.com/doi/abs/10.1080/01621459.1968.10480934}.
 
 \bibitem[Wackerly et~al.(2008)Wackerly, Mendenhall, and
   Scheaffer]{Wackerly2008}

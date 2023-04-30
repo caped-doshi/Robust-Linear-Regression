@@ -1,62 +1,56 @@
 import numpy as np
 from matplotlib import pyplot as plt
-from sklearn.linear_model import Ridge, LinearRegression
 from noise import *
 from data_loader import *
 import cvxpy as cp
 import argparse
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+import cvxpy as cp
+import tikzplotlib
 
-def SubQ(X, y, T, p, reg=2):
+def SubQ(X, y, T, p, reg):
     n = X.shape[0]
-    X_np = X[np.random.permutation(n)[:int(n*p)]]
-    y_np = y[np.random.permutation(n)[:int(n*p)]]
-    #start with the reg-norm regularizer
-    if reg > 0:
-        ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
-        ridge.fit(X[:, :-1], y)
-        theta = np.append(ridge.coef_, [ridge.intercept_])
-    else:
-        linear = LinearRegression(fit_intercept=True)
-        linear.fit(X[:,:-1],y)
-        theta = np.append(linear.coef_,[linear.intercept_])
+    d = X.shape[1]
+    partition_number = int(n*p)
+
+    theta = cp.Variable(d)
+    obj = cp.Minimize(cp.sum(cp.pos(1 - cp.multiply(y,X @ theta))))
+    prob = cp.Problem(obj).solve(solver=cp.ECOS)
+    theta = theta.value
+
     t = 0
     iter_diff = 1
-    #while iter_diff > 1e-16:
-    for _ in range(32):
+    iter = 0
+    while iter_diff > 1e-16:
+    #for _ in range(32):
         #calculate the lowest error over the quantile with 
         #lowest error and compute the numerical solution at each step
         theta_prev = theta.copy()
-        pred = np.matmul(X,theta)
-        v = (pred - y)**2
-        partition_number = int(n*p)
+        v = np.log(1 + np.exp(-y * (X @ theta)))
         #linear time function to find the quantile with the lowest error
-        v_arg_hat = np.argpartition(v, partition_number)
-        X_np = X[v_arg_hat[:int(n*p)]]
-        y_np = y[v_arg_hat[:int(n*p)]]
-        t = np.max(v[v_arg_hat[:int(n*p)]])
-        P_num = np.count_nonzero(v_arg_hat[:int(n*p)] < int(n*p))
-        Q_num = np.count_nonzero(v_arg_hat[:int(n*p)] > int(n*p))
+        v_hat = sorted(v)
+        #v_arg_hat = np.argpartition(v, partition_number)
+        v_arg_hat = np.argsort(v)[:partition_number]
+        X_np = X[v_arg_hat[:partition_number]]
+        y_np = y[v_arg_hat[:partition_number]]
+        t = np.max(v[v_arg_hat[:partition_number]])
+        P_num = np.count_nonzero(v_arg_hat[:partition_number] < partition_number)
+        Q_num = np.count_nonzero(v_arg_hat[:partition_number] > partition_number)
         #print(f"P-num:\t{P_num}\tQ-num:\t{Q_num}")
+        #print(f"t:\t{t:.4f}")
 
-        if reg > 0:
-            ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
-            ridge.fit(X_np[:, :-1], y_np)
-            theta = np.append(ridge.coef_, [ridge.intercept_])
-        else:
-            linear = LinearRegression(fit_intercept=True)
-            linear.fit(X_np[:,:-1],y_np)
-            theta = np.append(linear.coef_,[linear.intercept_])
+        lambd = cp.Parameter(nonneg=True)
+        theta = cp.Variable(d)
+        obj = cp.Minimize(cp.sum(cp.pos(1 - cp.multiply(y_np,X_np @ theta))))
+        prob = cp.Problem(obj).solve(solver=cp.ECOS, abstol=1e-8)
+        theta = theta.value
 
         iter_diff = np.linalg.norm(theta-theta_prev,2)
-        #print(iter_diff)
-    if reg > 0:
-        ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
-        ridge.fit(X_np[:, :-1], y_np)
-        theta = np.append(ridge.coef_, [ridge.intercept_])
-    else:
-        linear = LinearRegression(fit_intercept=True)
-        linear.fit(X_np[:,:-1],y_np)
-        theta = np.append(linear.coef_,[linear.intercept_])
+        #print(f"iter_diff:\t{iter_diff}")
+        if iter > T:
+            break
+        iter += 1
 
     return theta
 
@@ -64,14 +58,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--num_trials',help='run how many times',type=int,default=5)
-    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=64)
-    parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.1)
-    parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='oblivious')
-    parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='drug')
-    parser.add_argument('--reg',help="regularizatio constatn for ridge regression", type=int,default=2)
-    parser.add_argument('--quantile',help='what quantile level to minimize over', type=float,default=0.9)
-    parser.add_argument('--n', help='samples for synthetic data',type=int,default='2000')
-    parser.add_argument('--d', help='dim for synthetic data',type=int,default='200')
+    parser.add_argument('--num_iters',help='how many iterations of algorithm',type=int,default=32)
+    parser.add_argument('--noise', help='noise ratio in range (0, 1)',type=float,default=0.4)
+    parser.add_argument('--noise_type',help="oblivious, adaptive, or feature",type=str,default='adaptive')
+    parser.add_argument('--dataset', help='dataset; drug, cal_housing, abalone, or synthetic',type=str,default='synthetic')
+    parser.add_argument('--quantile',help='what quantile level to minimize over', type=float,default=0.6)
+    parser.add_argument('--n', help='samples for synthetic data',type=int,default=1000)
+    parser.add_argument('--d', help='dim for synthetic data',type=int,default=2)
 
     parsed = vars(parser.parse_args())
     num_trials = parsed['num_trials']
@@ -80,22 +73,12 @@ if __name__ == "__main__":
     noise_type = parsed['noise_type']
     p = parsed['quantile']
     dataset = parsed['dataset']
-    reg = parsed['reg']
-
     maxLen = max([len(ii) for ii in parsed.keys()])
     fmtString = '\t%' + str(maxLen) + 's : %s'
     print('Arguments:')
     for keyPair in sorted(parsed.items()): print(fmtString % keyPair)
-
-    m = None
-    b = None
-    if dataset == 'cal_housing':
-        X, y = data_loader_cal_housing()
-    elif dataset == 'abalone':
-        X, y = data_loader_abalone()
-    elif dataset == 'drug':
-        X, y = data_loader_drug()     
-    elif dataset == 'synthetic':
+   
+    if dataset == 'synthetic':
         n = parsed['n']
         d = parsed['d']
         X, y, m, b = gaussian(n, d) 
@@ -110,12 +93,16 @@ if __name__ == "__main__":
     print(f"Epsilon:\t{noise}")
     means = []
     for _ in range(num_trials):
+        X, y, m, b = gaussian(n, d) 
         X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.8)
 
         X_train, y_train_noisy = noise_fn(X_train, y_train, noise, m, b)
 
-        theta = SubQ2(X_train,y_train_noisy,num_iters,p, reg)
-        loss = np.sqrt(np.mean((np.dot(X_test, theta) - y_test) ** 2))
-        means.append(loss)
-        print(f"Loss:\t{loss:.3f}")
+        theta = SubQ(X_train,np.int32(y_train_noisy),num_iters,p, 0)
+
+        pred = np.sign((X_test @ theta))
+        accuracy = (len(y_test)-np.count_nonzero(pred - y_test)) / len(y_test)
+        print(f"SubQ Acc:\t{accuracy:.3f}")
+        means.append(accuracy)
+
     print(f"SubQuantile:\t{np.mean(np.float32(means)):.3f}_{{({np.std(np.float32(means)):.4f})}}")

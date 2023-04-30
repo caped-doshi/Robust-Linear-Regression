@@ -5,9 +5,9 @@
 \contentsline {section}{\numberline {3}Subquantile Optimization}{3}{section.3}%
 \contentsline {section}{\numberline {4}Theory}{4}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Analysis of $g(t,\theta )$}{4}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Optimization}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Optimization}{5}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Convergence of Algorithm\nobreakspace {}\ref {alg:sqo1}}{6}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Convergence of Algorithm\nobreakspace {}\ref {alg:sqo-ridge}}{7}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.4}Convergence of Algorithm\nobreakspace {}\ref {alg:sqo-ridge}}{6}{subsection.4.4}%
 \contentsline {section}{\numberline {5}Empirical Results}{7}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Synthetic Data}{7}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Real Data}{8}{subsection.5.2}%
@@ -32,10 +32,11 @@
 \contentsline {subsection}{\numberline {F.2}\texttt {Abalone}}{25}{subsection.F.2}%
 \contentsline {subsection}{\numberline {F.3}\texttt {Cal-Housing}}{25}{subsection.F.3}%
 \contentsline {subsection}{\numberline {F.4}\texttt {Logistic Regression}}{26}{subsection.F.4}%
-\contentsline {section}{\numberline {G}Experimental Details}{27}{appendix.G}%
-\contentsline {subsection}{\numberline {G.1}\texttt {Adaptive Linear Regression} Dataset}{27}{subsection.G.1}%
-\contentsline {subsection}{\numberline {G.2}\texttt {Oblivious Linear Regression} Dataset}{27}{subsection.G.2}%
-\contentsline {subsection}{\numberline {G.3}\texttt {Quadratic Regression} Dataset}{27}{subsection.G.3}%
+\contentsline {subsection}{\numberline {F.5}Support Vector Machine (SVM)}{27}{subsection.F.5}%
+\contentsline {section}{\numberline {G}Experimental Details}{28}{appendix.G}%
+\contentsline {subsection}{\numberline {G.1}\texttt {Adaptive Linear Regression} Dataset}{28}{subsection.G.1}%
+\contentsline {subsection}{\numberline {G.2}\texttt {Oblivious Linear Regression} Dataset}{28}{subsection.G.2}%
+\contentsline {subsection}{\numberline {G.3}\texttt {Quadratic Regression} Dataset}{28}{subsection.G.3}%
 \contentsline {subsection}{\numberline {G.4}\texttt {Drug Discovery} Dataset}{28}{subsection.G.4}%
 \contentsline {subsection}{\numberline {G.5}Feature Noise}{28}{subsection.G.5}%
 \contentsfinish 
