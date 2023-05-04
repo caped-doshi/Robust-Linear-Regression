@@ -55,8 +55,13 @@ def SubQ2(X, y, T, p, reg=2):
         theta = np.append(linear.coef_,[linear.intercept_])
     t = 0
     iter_diff = 1
+
+    delta = 10
+    res_prev = 10
+    res = 1000
     #while iter_diff > 1e-16:
-    for _ in range(32):
+    #for _ in range(32):
+    while delta > 1e-16:
         #calculate the lowest error over the quantile with 
         #lowest error and compute the numerical solution at each step
         theta_prev = theta.copy()
@@ -80,9 +85,12 @@ def SubQ2(X, y, T, p, reg=2):
             linear = LinearRegression(fit_intercept=True)
             linear.fit(X_np[:,:-1],y_np)
             theta = np.append(linear.coef_,[linear.intercept_])
+        
+        res_prev = res
+        res = np.linalg.norm( ((X_np @ theta) - y_np)**2, 2)
+        delta = res_prev - res
+        print(f"delta:\t{delta}")
 
-        iter_diff = np.linalg.norm(theta-theta_prev,2)
-        #print(iter_diff)
     if reg > 0:
         ridge = Ridge(reg, fit_intercept=True, solver='cholesky')
         ridge.fit(X_np[:, :-1], y_np)

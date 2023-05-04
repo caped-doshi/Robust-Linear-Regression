@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  30 APR 2023 17:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2023.1.11)  3 MAY 2023 22:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1390,15 +1390,15 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
 line 330.
+
+LaTeX Warning: Reference `eqn:theta_sm' on page 4 undefined on input line 360.
+
 [4]
-
-LaTeX Warning: Reference `eqn:theta_sm' on page 5 undefined on input line 360.
-
 Package hyperref Info: bookmark level for unknown interpretation defaults to 0 
 on input line 363.
 Package hyperref Info: bookmark level for unknown thm defaults to 0 on input li
 ne 406.
-[5] [6]
+ [5] [6]
 
 Package pgfplots Warning: Ignoring illegal input argument ymin=0: cannot apply 
 log. on input line 507.
@@ -1409,18 +1409,11 @@ Package pgfplots Warning: Ignoring illegal input argument ymin=0: cannot apply
 log. on input line 621.
 
  [warning /pgfplots/warning/illegal user argument in log axis]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[7]
+[7] [8]
 Underfull \hbox (badness 10000) in paragraph at lines 1044--2100
 
  []
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[8]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -1438,71 +1431,76 @@ Underfull \hbox (badness 1102) in paragraph at lines 16--23
 
 [11]) [12]
 \c@ttl@toc@sections=\count368
- (Robust Linear Regression.ptc) [13]
+ (Robust Linear Regression.ptc
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
+(Font)              using `OT1/cmr/bx/n' instead on input line 26.
+
+) [13]
 Package hyperref Info: bookmark level for unknown fact defaults to 0 on input l
 ine 2174.
- [14] [15] [16] [17]
+ [14] [15]
 Package hyperref Info: bookmark level for unknown assumption defaults to 0 on i
-nput line 2322.
+nput line 2280.
+ (residual0.tikz) (residual2.tikz) (residual4.tikz)
+(residual6.tikz)
 
-(residual0.tikz) (residual2.tikz) (residual4.tikz) (residual6.tikz)
-
-LaTeX Warning: Reference `asm:normal-corruption' on page 18 undefined on input 
-line 2372.
+LaTeX Warning: Reference `asm:normal-corruption' on page 16 undefined on input 
+line 2330.
 
 
-LaTeX Warning: Reference `asm:normal-corruption' on page 18 undefined on input 
-line 2372.
+LaTeX Warning: Reference `asm:normal-corruption' on page 16 undefined on input 
+line 2330.
 
-[18]
-Overfull \hbox (25.95705pt too wide) detected at line 2385
+[16]
+Overfull \hbox (25.95705pt too wide) detected at line 2343
 []
  []
 
 
-Overfull \hbox (35.79326pt too wide) detected at line 2393
+Overfull \hbox (35.79326pt too wide) detected at line 2351
 []
  []
 
-[19] [20] [21]
-Overfull \hbox (87.42172pt too wide) detected at line 2526
+[17] [18] [19]
+Overfull \hbox (87.42172pt too wide) detected at line 2484
 []
  []
 
-[22]
-Underfull \hbox (badness 10000) in paragraph at lines 2528--2530
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 2486--2488
 
  []
 
 
-Overfull \hbox (18.70604pt too wide) in paragraph at lines 2542--2544
+Overfull \hbox (18.70604pt too wide) in paragraph at lines 2500--2502
 []\OT1/cmr/m/n/10 Let us de-note $\OML/cmm/m/it/10 P[] < P[] < [] < P[]$ \OT1/c
 mr/m/n/10 as the or-der statis-tics of the ran-dom vari-able $\OML/cmm/m/it/10 
 P \OMS/cmsy/m/n/10 ^^X [][]$
  []
 
-[23] [24] [25]
+[21] [22] [23]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <12> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 2606.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 2564.
 
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2692--2696
+Underfull \hbox (badness 10000) in paragraph at lines 2650--2654
 
  []
 
-[26]
+[24]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[27] [28]
+[25] [26]
 \tf@ptc=\write5
 \openout5 = `"Robust Linear Regression.ptc"'.
 
- [29] (Robust Linear Regression.aux)
+ [27] (Robust Linear Regression.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1511,13 +1509,13 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `"Robust Linear Regression".out' has not chan
 ged.
-(rerunfilecheck)             Checksum: 3266187B22DAAEF4BA2DB0B675EEC7DC;6891.
+(rerunfilecheck)             Checksum: 1138DCC0A73512455AC206B3EB53A48D;6459.
  ) 
 Here is how much of TeX's memory you used:
- 42255 strings out of 478338
- 1007220 string characters out of 2830528
- 1802892 words of memory out of 3000000
- 59719 multiletter control sequences out of 15000+600000
+ 42233 strings out of 478338
+ 1006927 string characters out of 2830528
+ 1737924 words of memory out of 3000000
+ 59718 multiletter control sequences out of 15000+600000
  488509 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  100i,20n,104p,12773b,2540s stack positions out of 10000i,1000n,20000p,200000b,80000s
@@ -1565,9 +1563,9 @@ ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/A
 rvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/sym
 bols/msbm7.pfb><C:/Users/Arvind Rathnashyam/AppData/Local/Programs/MiKTeX/fonts
 /type1/urw/zapfding/uzdr.pfb>
-Output written on "Robust Linear Regression.pdf" (29 pages, 720900 bytes).
+Output written on "Robust Linear Regression.pdf" (27 pages, 711358 bytes).
 PDF statistics:
- 932 PDF objects out of 1000 (max. 8388607)
- 262 named destinations out of 1000 (max. 500000)
- 341 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 890 PDF objects out of 1000 (max. 8388607)
+ 241 named destinations out of 1000 (max. 500000)
+ 325 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -194,7 +194,7 @@
 			\midrule                
 			SEVER \cite{DiakonikolasKKLSS19} & Adaptive & Gradient of Loss & \xmark & $\mathcal{O}(nd^2)$\\
 			\midrule
-			TMLE \cite{https://doi.org/10.48550/arxiv.2206.04777} & Adaptive & Likelihood & \xmark & $\mathcal{O}(n)$\\
+			TMLE \cite{https://doi.org/10.48550/arxiv.2206.04777} & Adaptive & Likelihood & \cmark & $\mathcal{O}(n)$\\
 			\midrule 
 			Subquantile Minimization (Ours) & Adaptive & Loss & \cmark & $\mathcal{O}(n)$\\
 			\bottomrule
@@ -277,43 +277,43 @@
 		
 		\KwInput{Epochs: $T$, Batch Size: $|B| = j$, Quantile $p$, Data Matrix: $\mX, (n \times d), n \gg d$, Learning schedule: $\alpha_1,\cdots,\alpha_T$}
 		\KwOutput{Trained Parameters, $\displaystyle \vtheta_{(T)}$}
-		$\vtheta_{(0)} \gets (\mX^\top\mX)^{-1}\mX^\top \vy$\\
+		$\vtheta_{(0)} \gets \mathcal{N}_{d}(0,\sigma)$\\
 		\For{$k \in 1,2,\ldots,T$}
 		{
-			$S_{(k)} \gets \textsc{Subquantile}(\vtheta_{(k)},X)$\\
+			$\mS_{(k)} \gets \textsc{Subquantile}(\vtheta_{(k)},X)$\\
 			\For{$B \in \mathcal{B}$}{
-				$\displaystyle L_{(b)} \gets \frac{1}{|\mathcal{B}|}\sum_{b \in B}\nabla f(\vx_b;\vtheta,y_b)$
-				$\displaystyle \vtheta_{(k+1)} \gets \vtheta_k - \alpha_{(k)} L_{(b)}$
+				$\displaystyle L_{(b)} \gets \frac{1}{|\mathcal{B}|}\sum_{b \in B}\nabla f(\vx_b;\vtheta_{(k)},y_b)$
+				$\displaystyle \vtheta_{(k+1)} \gets \vtheta_{(k)} - \alpha_{(k)} L_{(b)}$
 			}
 		}
 		\KwRet{$ \vtheta_{(T)} $}
-		\caption{Subquantile Minimization Mini-Batch Gradient Descent}
+		\caption{\textsc{Subq-Gradient}}
 		\label{alg:sqo1}
 	\end{algorithm}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.48\textwidth}
 		\begin{algorithm}[H]
-			\KwInput{Training Epochs $T$,Quantile $p$}
+			\KwInput{Training Epochs $T$,Quantile $p$, Base Learner $\mathcal{L}$}
 			\KwOutput{Trained Parameters, $\vtheta_{(T)}$}
-			$\vtheta_{(0)} \gets (X^\top X + \lambda I)^{-1}X^\top \vy$\\
+			$\vtheta_{(0)} \gets \mathcal{L}(\mX,\vy)$\\
 			\For{$k \in \left\{1,2,\dots,T\right\}$}
 			{
-				$S_{(k)} \gets \textsc{Subquantile}(\vtheta_{(k)},X)$\\
-				$\vtheta_{(k+1)} \gets (S_{(k)}^\top S_{(k)} + \lambda I)^{-1}S_{(k)}^\top \vy_S$\\
+				$\mS_{(k)} \gets \textsc{Subquantile}(\vtheta_{(k)},\mX)$\\
+				$\vtheta_{(k+1)} \gets \mathcal{L}(\mS_{(k)}, \vy_S)$\\
 			}
 			\KwRet{$ \vtheta_{(T)} $}
-			\caption{Subquantile Minimization for Ridge Regression}
+			\caption{\textsc{Subq-Base}}
 			\label{alg:sqo-ridge}
 		\end{algorithm}
 		\begin{algorithm}[H]
-			\KwInput{Parameters $\vtheta$, Data Matrix: $X, (n \times d)$}
+			\KwInput{Parameters $\vtheta$, Data Matrix: $\mX, (n \times d)$, Convex Loss Function $f$}
 			\KwOutput{Subquantile Matrix $S$}
-			$\hat{\vnu} \gets \sorted(X \vtheta_{(k)} - \vy)^2$\\
+			$\hat{\vnu}_i \gets f(\vx_i;\vtheta,y_i)$ s.t. $\hat{\vnu}_{i-1} \leq \hat{\vnu}_i \leq \hat{\vnu}_{i+1}$\\
 			$t \gets \hat{\vnu}_{np}$\\
-			Let $\vx_1,...,\vx_{np}$ be $np$ points such that $\left(\vx_i^\top \vtheta - y_i\right)^2 \leq t$\\
-			$S \gets \begin{pmatrix} \vx_1^\top & \dots & \vx_{np}^\top\end{pmatrix}^\top$\\
-			\KwRet{$ S $}
+			Let $\vx_1,...,\vx_{np}$ be $np$ points such that $f(\vx_i;\vtheta,y_i) \leq t$\\
+			$\mS \gets \begin{pmatrix} \vx_1^\top & \dots & \vx_{np}^\top\end{pmatrix}^\top$\\
+			\KwRet{$ \mS $}
 			\caption{\textsc{Subquantile}}
 		\end{algorithm}
 	\end{minipage}
@@ -2241,11 +2241,9 @@
 	\subsection{Derivation of Lemma~\ref{lem:gfermat}}
 	\label{app:gfermat}
 	Since $\displaystyle g(t,\vtheta)$ is a concave function. Maximizing $g(t,\vtheta)$ is equivalent to minimizing $-g(t,\vtheta)$. We will find fermat's optimality condition for the function $\displaystyle -g(t,\vtheta)$, which is convex. 
-	Let $\displaystyle \hat{\vnu} = \sorted\left((\vtheta^\top X - y)^2\right)$ and note $\displaystyle 0 < p < 1$
+	Let $\vx_1,\vx_2,\cdots,\vx_n$ be ordered such that $f(\vx_1;\vtheta,y_1) \leq f(\vx_2;\vtheta,y_2) \leq \cdots \leq f(\vx_n;\vtheta,y_n)$. To simplify notation, we will denote $\hat{\vnu}$ as the vector of the losses such that $\hat{\vnu_1} = f(\vx_1;\vtheta,y_1)$.
 	\begin{align}
 		\partial{\displaystyle (-g(t,\boldsymbol{\theta}})) &= \partial{\left(-t + \frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)} &&\\
-		&= \partial{(-t)} + \partial{\left(\frac{1}{np}\sum_{i=1}^{n}(t-\hat{\vnu}_i)^+\right)}&&\\
-		&= -1 + \frac{1}{np}\sum_{i=1}^{n}\partial{(t-\hat{\vnu}_i)^+} &&\\
 		&= -1 + \frac{1}{np}\sum_{i=1}^{n}
 		\left\{
 		\begin{array}{lr}
@@ -2256,66 +2254,26 @@
 		\right\}&&\\
 		&= 0 \text{ when }\displaystyle t = \hat{\vnu}_{np}&&
 	\end{align}
-	This is the $p$-quantile of $\displaystyle \vnu$. Assuming no two points are equal in the dataset, this means the minimizing value for $t$ has a range of values, $\hat{\vnu}_{np} \leq t < \hat{\vnu}_{np+1}$. This means $g(t,\vtheta)$ is not strongly convex with respect to $t$. 
+	This is the $p$-quantile of the loss. Assuming no two points have equivalent losses, this means the minimizing value for $t$ has a range of values, $\hat{\vnu}_{np} \leq t < \hat{\vnu}_{np+1}$. This means $g(t,\vtheta)$ is not strongly convex with respect to $t$. 
+	
 	\subsection{Derivation of Lemma~\ref{lem:gthetaderiv}}
 	\label{app:gthetaderiv}
-		Note that $t_k = \vnu_{np}$ which is equivalent to $(\vtheta_k^\top\vx_{np} - y_{np})^2$
+		Let $f$ be a convex loss function. We choose $t_{(k+1)}$ as defined in lemma \ref{lem:gfermat} such that $\hat{\vnu}_{np} \leq t_{(k+1)} \leq \hat{\vnu}_{np+1}$, where $\hat{\vnu}_1 \leq \hat{\vnu}_2 \leq \cdots \leq \hat{\vnu}_n$ and $\vnu_i = f(\vx_i;\vtheta, y_i)$ for $ i = 1,\dots,n$. Now we can calculate the derivative:
 		\begin{align*}
-			\nabla_{\vtheta_k} g(t_{k+1},\vtheta_k) &= \nabla_{\vtheta_k}\left(\vnu_{np} - \frac{1}{np}\sum_{i=1}^n(\vnu_{np} - (\vtheta_k^\top\vx_i - y_i)^2)^+\right) &&\\
-			&= \nabla_{\vtheta_k}\left((\vtheta_k^\top\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\left((\vtheta_k^\top\vx_{np} - y_{np})^2 - (\vtheta_k^\top\vx_i - y_i)^2\right)^+\right) &&\\
-			&= \nabla_{\vtheta_k}(\vtheta_k^\top\vx_{np}-y_{np})^2 - \frac{1}{np}\sum_{i=1}^n\nabla_{\vtheta_k}\left((\vtheta_k^\top\vx_{np} - y_{np})^2 - (\vtheta_k^\top\vx_i - y_i)^2\right)^+ &&\\				
-			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{n}2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) \notag\\ &\qquad-2\vx_i(\vtheta_k^\top\vx_i - y_i) \left\{
+			\nabla_{\vtheta} g(t_{(k+1)},\vtheta_k) &= \nabla_\vtheta \left(t_{(k+1)} - \frac{1}{np}\sum_{i=1}^n\left(\vnu_{np} - f(\vx_i;\vtheta_{(k)},y_i)\right)^+\right) &&\\
+			&= - \frac{1}{np}\sum_{i=1}^n\nabla_{\vtheta_k}\left(t_{(k+1)} - f(\vx_i;\vtheta_{(k)},y_i)\right)^+ &&\\				
+			&= \frac{1}{np}\sum_{i=1}^{n}\nabla_\vtheta f(\vx_i;\vtheta_{(k)},y_i) \left\{
 			\begin{array}{lr}
-				1, & \text{if } t > v_i\\
-				0, & \text{if } t < v_i \\
-				\left[0,1\right], & \text{if } t = v_i \\
-			\end{array} \right\} &&\\
-			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -\frac{1}{np}\sum_{i=1}^{np}2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) -2\vx_i(\vtheta_k^\top\vx_i - y_i) &&\\	
-			&= 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) - 2\vx_{np}(\vtheta_k^\top\vx_{np} - y_{np}) + \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i) &&\\
-			&= \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top\vx_i - y_i)&&
+				1, & \text{if } t > \vnu_i\\
+				0, & \text{if } t < \vnu_i \\
+				\left[0,1\right], & \text{if } t = \vnu_i \\
+			\end{array} \right\} &&
 		\end{align*}
-		This is the derivative of the $np$ samples with lowest error with respect to $\vtheta$.
+		Now we can note $\vnu_{np} \leq t_{(k+1)} \leq \vnu_{np+1}$.
+		\begin{equation}
+			\nabla_\vtheta g(t_{(k+1)},\vtheta_{(k)}) = \frac{1}{np}\sum_{i=1}^{np}\nabla_\vtheta f(\vx_i;\vtheta_{(k)},y_i)
+		\end{equation}
 
-	\subsection{Derivation of Lemma~\ref{lem:g-lsmooth}}
-	The objective function 
-	$\displaystyle g(\vtheta,t)$ is $L$-smooth w.r.t $\vtheta$ iff
-	\begin{equation}
-		||  \nabla_\vtheta g(\vtheta',t) - \nabla_\vtheta g(\vtheta,t) || \leq L|| \vtheta' - \vtheta || 
-	\end{equation}
-	\begin{align}
-		\norm{ \nabla_{\vtheta} g(\vtheta^{'},t) - \nabla_{\vtheta} g(\vtheta,t) } = &\norm{ \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top} \vx_i - y_i) - \frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^\top \vx_i - y_i) } &&\\
-		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i(\vtheta_k^{'\top}\vx_i - \vtheta_k^\top\vx_i)}&&\\
-		= &\norm{\frac{1}{np}\sum_{i=1}^{np}2\vx_i\vx_i^\top(\vtheta_k^{'\top} - \vtheta_k^\top)} &&\\
-		\overset{\mathrm{Cauchy-Schwarz}}{\leq} &\norm{\frac{2}{np}\sum_{i=1}^{np}\vx_i\vx_i^\top}\norm{\vtheta_k^{'\top} - \vtheta_k^\top} &&\\
-		= &L\norm{\vtheta_k^{'\top} - \vtheta_k^\top} &&
-	\end{align}
-	where $\displaystyle L = \norm{\frac{2}{np}X^\top X}$\\
-	This concludes the derivation.
-	\subsection{Proof of Lemma~\ref{lem:g-change-wrt-t}}
-	\label{app:g-change-wrt-t}
-	\begin{proof}
-		We will investigate the two cases $t_{k+1} \leq t$ and $t_{k+1} > t_k$.\\
-		\textbf{Case (i)} $t_{k+1} \leq t_k$\\
-		Let us first expand out $g(t_k,\vtheta_k)$ with the knowledge that $t_k \geq \hat{\vnu_{k}}$
-		\begin{align}
-			g(t_k, \vtheta_k) &= t_k - \frac{1}{np}\sum_{i=1}^{n}(t_k-\vnu_i)^+ &&\\
-			&= t_k - \frac{1}{np}(np)t_k + \frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+ &&\\
-			&= \frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+ &&\\
-			g(t_{k+1},\vtheta_k) - g(t_k,\vtheta_k) &=  \frac{1}{np}\sum_{i=1}^{np}\vnu_i - \left(\frac{1}{np}\sum_{i=1}^{np}\vnu_i + \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+\right) &&\\
-			&= - \frac{1}{np}\sum_{i=np}^{n}(t_k - \vnu_i)^+ &&
-		\end{align}
-		\textbf{Case (ii)} $t_{k+1} > t_k$\\
-		Since we know $t_k$ is less than $\vnu_{np}$, WLOG we will say $t_k$ is greater than the lowest $n(p-\delta)$ elements, where $\delta \in (0,p)$. 
-		\begin{align}
-			g(t_k,\vtheta_k) &= t_k - \frac{1}{np}\sum_{i=1}^n(t_k - \vnu_i)^+ &&\\
-			&= t_k - \frac{1}{np}\sum_{i=1}^{n(p-\delta)}(t_k - \vnu_i)^+ &&\\
-			&= t_k - \frac{1}{np}(n(p-\delta))t_k + \frac{1}{np}\sum_{i=1}^{n(p-\delta)}\vnu_i &&\\
-			g(t_k,\vtheta_{k+1}) - g(t_k,\vtheta_k) &= \frac{1}{np}\sum_{i=1}^{np}\vnu_i - \left(\delta t_k + \frac{1}{np}\sum_{i=1}^{n(p-\delta)}\vnu_i\right) &&\\
-			&= \left(\frac{1}{np}\sum_{i=n(p-\delta)}^n\vnu_i\right) - \delta t_k &&
-		\end{align}
-		This concludes the proof.
-	\end{proof}
-  	
   	\newpage
 	\section{Theory for Adaptive Linear Corruption}
 	In this section, we provide the conditions for Subquantile Minimization to improve in the case of corruption of the form $\displaystyle \vbeta_Q^\top \vmu = y_p + \eps_Q$.
@@ -2459,7 +2417,7 @@
 	\end{proof}
 	\newpage
 	
-	\section{Theory for Ridge Regression Algorithm \ref{alg:sqo-ridge}}\label{app:Subquantile-optimization}
+	\section{Theory for \textsc{Subq-Base} \ref{alg:sqo-ridge}}\label{app:Subquantile-optimization}
 	\subsection{Proof of Theorem~\ref{thm:bounded-from-optimal}}\label{app:expected-value-corrupted}
 	\begin{proof}
 		\begin{assumption}\label{asm:normal-sampling}
